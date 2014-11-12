@@ -8,9 +8,10 @@ public class Playerbeginsel extends MonoBehaviour {
   private var speed : float; //snelheid door het spel heen
   public var dt : float; //stapgrootte
   public var ds : float; //stapgroote van snelheid
+  public var dzr : float; //stapgroote van rotatie
   public var start : Vector3; //startpositie
   public var startAngle : Vector3; //Beginhoeken
-  private var yrotation: float;
+  private var zrotation: float;
  
 
   function Start () {
@@ -34,6 +35,10 @@ public class Playerbeginsel extends MonoBehaviour {
 	    transform.position = new Vector3 (transform.position.x + speed*dt, transform.position.y, transform.position.z);
 	  }
 	  else if(Input.GetKey(KeyCode.LeftArrow)){
+	    if(zrotation + dzr>=360){ zrotation = zrotation + dzr;   }
+	    else{ zrotation = zrotation + dzr -360;}
+	    transform.eulerAngles = new Vector3 (transform.eulerAngles.x, zrotation, transform.eulerAngles.y);
+	    //http://unity3d.com/learn/tutorials/modules/beginner/scripting/translate-and-rotate
 	  
 	  }
 	  else if(Input.GetKey(KeyCode.RightArrow)){}
