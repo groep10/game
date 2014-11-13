@@ -6,49 +6,60 @@
 
 public class Playerbeginsel extends MonoBehaviour {
   private var speed : float; //snelheid door het spel heen
-  public var dt : float; //stapgrootte
+  public var dt : float; //stapgrootte Dit kan ook opgevangen worden met Time.deltaTime
   public var ds : float; //stapgroote van snelheid
-  public var dzr : float; //stapgroote van rotatie
   public var start : Vector3; //startpositie
   public var startAngle : Vector3; //Beginhoeken
-  private var zrotation: float;
+  public var rotationspeed : float; //stapgrootte bij draaing
  
 
   function Start () {
-    speed = 0.0;
-    transform.position = start;
-    transform.eulerAngles = startAngle;
-
+    speed = 0.0; //beginwaarde snelheid
+    transform.position = start; //Hier kunnen we beginpositie mee invoeren
+    transform.eulerAngles = startAngle; //Hier kunnen we beginpositie mee invoeren
+    
   }
 
   function Update () {
     //Beweging player
     //if (pause == false) { Als we een pauze ingesteld hebben
       if (Input.GetKey(KeyCode.UpArrow)) {
-          speed = speed + ds;  //snelheid vergroten
-          transform.position = new Vector3 (transform.position.x + speed*dt, transform.position.y, transform.position.z);
-		  print(transform.position.x);
-	  }
-	 	
-	  else if(Input.GetKey(KeyCode.DownArrow)){
-	    speed = speed - ds;
-	    transform.position = new Vector3 (transform.position.x + speed*dt, transform.position.y, transform.position.z);
+          if(-30<speed && speed<30) {speed = speed + ds;}  //snelheid vergroten, maar wel binnen bepaalde limieten
+          transform.Translate(Vector3.forward * speed*dt); 
+      }
+	  else if(Input.GetKey(KeyCode.DownArrow)){ //zelfde manier als uparrow
+	    if(-30<speed && speed<30) {speed = speed - ds;}
+	    transform.Translate(Vector3.forward * speed*dt);
 	  }
 	  else if(Input.GetKey(KeyCode.LeftArrow)){
-	    if(zrotation + dzr>=360){ zrotation = zrotation + dzr;   }
-	    else{ zrotation = zrotation + dzr -360;}
-	    transform.eulerAngles = new Vector3 (transform.eulerAngles.x, zrotation, transform.eulerAngles.y);
-	    //http://unity3d.com/learn/tutorials/modules/beginner/scripting/translate-and-rotate
-	  
+	    transform.Rotate(Vector3.up, -rotationspeed*dt); //draait met een vaste grootte
+	    transform.Translate(Vector3.forward * speed*dt); //zorgt dat autootje voortbeweegt tijdens draaiing
 	  }
-	  else if(Input.GetKey(KeyCode.RightArrow)){}
+	  else if(Input.GetKey(KeyCode.RightArrow)){ // zelfde manier als leftarrow
+	    transform.Rotate(Vector3.up, rotationspeed*dt);
+	    transform.Translate(Vector3.forward * speed*dt);
+	  }
 	  else{
-	    transform.position = new Vector3 (transform.position.x + speed*dt, transform.position.y, transform.position.z);
-	  }
+	   transform.Translate(Vector3.forward * speed*dt); //zorgt dat gasknop niet ingedrukt hoeft te blijven.
+	   }
 	}
 	
   //}
   
+  
+  	/*function OnTriggerEnter (other : Collider) {
+
+	  if (other.gameObject.tag == "schans") {
+	    //transform.position = (transform.position.x, other.transform.position.y, transform.position.z);
+			
+
+		}
+   }*/
+   function OnTriggerStay (other : Collider) {
+		if (other.attachedRigidbody) {
+			other.attachedRigidbody.AddForce(Vector3.up * 10);
+		}
+	}
 
 }
 
