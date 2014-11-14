@@ -4,7 +4,7 @@
 //using UnityEngine.UI;
 //using System.Collections;
 
-public class Movement extends MonoBehaviour {
+public class Playerbeginsel extends MonoBehaviour {
   private var speed : float; //snelheid door het spel heen
   public var dt : float; //stapgrootte Dit kan ook opgevangen worden met Time.deltaTime
   public var ds : float; //stapgroote van snelheid
@@ -21,7 +21,15 @@ public class Movement extends MonoBehaviour {
     
   }
 
-  function Update () {
+  function FixedUpdate () {
+    rigidbody.AddForce (Vector3.up * speed); 
+    rigidbody.AddTorque (Vector3.up * 10);
+   
+		
+	}
+	
+	
+  /*function Update () {
     //Beweging player
     //if (pause == false) { Als we een pauze ingesteld hebben
       if (Input.GetKey(KeyCode.UpArrow)) {
@@ -52,7 +60,7 @@ public class Movement extends MonoBehaviour {
   //}
   
   
-  	/*function OnTriggerEnter (other : Collider) {
+  	function OnTriggerEnter (other : Collider) {
 
 	  if (other.gameObject.tag == "schans") {
 	    //transform.position = (transform.position.x, other.transform.position.y, transform.position.z);

@@ -15,7 +15,7 @@ public class FollowPlayer extends MonoBehaviour{
   
   function Update () {
     //transform.position = transform.position + (baseCameraPosition + (auto.transform.position - basePlayerPosition) - transform.position); //* 0.1f;
-    transform.position = auto.transform.position;
+    transform.position = new Vector3(auto.transform.position.x,auto.transform.position.y+20,auto.transform.position.z);
   }
 
 }
