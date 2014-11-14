@@ -4,7 +4,7 @@
 //using UnityEngine.UI;
 //using System.Collections;
 
-public class Movement extends MonoBehaviour {
+public class Playerbeginsel extends MonoBehaviour {
   private var speed : float; //snelheid door het spel heen
   public var dt : float; //stapgrootte Dit kan ook opgevangen worden met Time.deltaTime
   public var ds : float; //stapgroote van snelheid

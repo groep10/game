@@ -4,75 +4,28 @@
 //using UnityEngine.UI;
 //using System.Collections;
 
-public class Playerbeginsel extends MonoBehaviour {
-  private var speed : float; //snelheid door het spel heen
-  public var dt : float; //stapgrootte Dit kan ook opgevangen worden met Time.deltaTime
-  public var ds : float; //stapgroote van snelheid
-  public var start : Vector3; //startpositie
-  public var startAngle : Vector3; //Beginhoeken
-  public var rotationspeed : float; //stapgrootte bij draaing
-  public var df : float;
- 
+public class Movement extends MonoBehaviour {
+  public var torque: float;
+  public var speed: float;
+  public var amount : float = 50f;
 
   function Start () {
-    speed = 0.0; //beginwaarde snelheid
-    transform.position = start; //Hier kunnen we beginpositie mee invoeren
-    transform.eulerAngles = startAngle; //Hier kunnen we beginpositie mee invoeren
-    
   }
 
   function FixedUpdate () {
-    rigidbody.AddForce (Vector3.up * speed); 
-    rigidbody.AddTorque (Vector3.up * 10);
+  if (Input.GetKey(KeyCode.UpArrow)) { rigidbody.AddForce (Vector3.forward * speed); }
+  if (Input.GetKey(KeyCode.DownArrow)) { rigidbody.AddForce (Vector3.forward * -speed); }
+  //if (Input.GetKey(KeyCode.LeftArrow)) { rigidbody.AddTorque (transform.up * torque); }
+  //if (Input.GetKey(KeyCode.RightArrow)) { rigidbody.AddTorque (transform.up * -torque); }
+  var h : float = Input.GetAxis("Horizontal") * amount * Time.deltaTime;
+  rigidbody.AddTorque(0, 10 * h,0);
+     
    
 		
 	}
 	
 	
-  /*function Update () {
-    //Beweging player
-    //if (pause == false) { Als we een pauze ingesteld hebben
-      if (Input.GetKey(KeyCode.UpArrow)) {
-          if(-30<speed && speed<30) {speed = speed + ds;}  //snelheid vergroten, maar wel binnen bepaalde limieten
-          transform.Translate(Vector3.forward * speed*dt); 
-      }
-	  else if(Input.GetKey(KeyCode.DownArrow)){ //zelfde manier als uparrow
-	    if(-30<speed && speed<30) {speed = speed - ds;}
-	    transform.Translate(Vector3.forward * speed*dt);
-	  }
-	  else if(Input.GetKey(KeyCode.LeftArrow)){
-	    transform.Rotate(Vector3.up, -rotationspeed*dt); //draait met een vaste grootte
-	    transform.Translate(Vector3.forward * speed*dt); //zorgt dat autootje voortbeweegt tijdens draaiing
-	  }
-	  else if(Input.GetKey(KeyCode.RightArrow)){ // zelfde manier als leftarrow
-	    transform.Rotate(Vector3.up, rotationspeed*dt);
-	    transform.Translate(Vector3.forward * speed*dt);
-	  }
-	  else{
-	   if(speed>0){ speed = speed - df;}
-	   else if(speed<0){ speed = speed + df;}
-	   transform.Translate(Vector3.forward * speed*dt); //zorgt dat gasknop niet ingedrukt hoeft te blijven.
-	   }
-	}
-	
-	
-	
-  //}
   
-  
-  	function OnTriggerEnter (other : Collider) {
-
-	  if (other.gameObject.tag == "schans") {
-	    //transform.position = (transform.position.x, other.transform.position.y, transform.position.z);
-		print("schans");	
-
-		}
-   }
-   function OnTriggerStay (other : Collider) {
-		if (other.attachedRigidbody) {
-			other.attachedRigidbody.AddForce(Vector3.up * 10);
-		}
-	}*/
 
 }
 
