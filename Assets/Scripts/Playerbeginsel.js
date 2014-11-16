@@ -11,6 +11,7 @@ public class Playerbeginsel extends MonoBehaviour {
   public var start : Vector3; //startpositie
   public var startAngle : Vector3; //Beginhoeken
   public var rotationspeed : float; //stapgrootte bij draaing
+  public var df : float;
  
 
   function Start () {
@@ -40,9 +41,13 @@ public class Playerbeginsel extends MonoBehaviour {
 	    transform.Translate(Vector3.forward * speed*dt);
 	  }
 	  else{
+	   if(speed>0){ speed = speed - df;}
+	   else if(speed<0){ speed = speed + df;}
 	   transform.Translate(Vector3.forward * speed*dt); //zorgt dat gasknop niet ingedrukt hoeft te blijven.
 	   }
 	}
+	
+	
 	
   //}
   
@@ -51,15 +56,15 @@ public class Playerbeginsel extends MonoBehaviour {
 
 	  if (other.gameObject.tag == "schans") {
 	    //transform.position = (transform.position.x, other.transform.position.y, transform.position.z);
-			
+		print("schans");	
 
 		}
-   }*/
+   }
    function OnTriggerStay (other : Collider) {
 		if (other.attachedRigidbody) {
 			other.attachedRigidbody.AddForce(Vector3.up * 10);
 		}
-	}
+	}*/
 
 }
 
