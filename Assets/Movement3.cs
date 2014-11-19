@@ -27,13 +27,17 @@ public class Movement3 : MonoBehaviour {
 			rigidbody.AddForce (transform.forward * -speed); 
 		} 
 		else if(Input.GetKey(KeyCode.RightArrow)){ //roteren naar richting je wilt rijden 
-			curSpeed = rigidbody.velocity.magnitude;
+			curSpeed = transform.InverseTransformPoint(rigidbody.velocity);
+			//curSpeed = rigidbody.velocity.magnitude;
 			rigidbody.AddTorque(Vector3.up*torque);
 			rigidbody.AddForce (transform.right * curSpeed);
 
 		} 
 		else if(Input.GetKey(KeyCode.LeftArrow)){
-			curSpeed = rigidbody.velocity.magnitude;
+			//Nog zorgen dat curspeed goede richting geeft
+
+			curSpeed = transform.InverseTransformDirection(transform.forward);
+			//curSpeed = rigidbody.velocity.magnitude;
 			rigidbody.AddTorque(Vector3.up*-torque); 
 			rigidbody.AddForce (transform.right * -curSpeed);
 		}
