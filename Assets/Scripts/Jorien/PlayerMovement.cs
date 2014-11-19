@@ -23,14 +23,16 @@ public class PlayerMovement : MonoBehaviour {
 		left = false;
 		right = false;
 
+		rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
 	}
 		
 	// Update is called once per frame
 	void FixedUpdate () {
-		if(Input.GetKey(KeyCode.UpArrow)) { up=true;	} 
-		else if(Input.GetKey(KeyCode.DownArrow)) { down = true;		} 
-		else if(Input.GetKey(KeyCode.RightArrow)){ right = true; }
-		else if(Input.GetKey(KeyCode.LeftArrow)){ left = true; 	}
+		if(Input.GetKey(KeyCode.UpArrow)){up=true;}  //Hier nagaan welke keys ingedrukt worden
+		if(Input.GetKey(KeyCode.DownArrow)){down = true;} 
+		if(Input.GetKey(KeyCode.RightArrow)){right = true;}
+		if(Input.GetKey(KeyCode.LeftArrow)){left = true;}
 
 		if (up && right) { //Voort- en rechtsbewegen
 						blaSpeed = transform.InverseTransformDirection (rigidbody.velocity);
@@ -76,8 +78,8 @@ public class PlayerMovement : MonoBehaviour {
 						}
 						rigidbody.AddForce (transform.forward * -speed);
 		}
-		else if ( down && up) {}
-		else if ( left && right) {}
+		else if ( down && up) {} //eruitvangen
+		else if ( left && right) {} //eruitvangen
 		else if (up){ //voortbewegen
 						rigidbody.AddForce (transform.forward * speed);
 		}
