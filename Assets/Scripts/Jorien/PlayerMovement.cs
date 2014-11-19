@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Movement3 : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
 
-	public float torque = 1000f;
+	public float torque = 100f;
 	public float speed = 50f;
-	public float amount = 50f;
 	public float maxSpeed = 200f;
 	private float curSpeed;
+	private Vector3 blaSpeed;
 	 
 
 
@@ -15,9 +15,7 @@ public class Movement3 : MonoBehaviour {
 	void Start () {
 
 	}
-
 		
-	
 	// Update is called once per frame
 	void FixedUpdate () {
 		if(Input.GetKey(KeyCode.UpArrow)) { //Voortbewegen
@@ -27,19 +25,26 @@ public class Movement3 : MonoBehaviour {
 			rigidbody.AddForce (transform.forward * -speed); 
 		} 
 		else if(Input.GetKey(KeyCode.RightArrow)){ //roteren naar richting je wilt rijden 
-			curSpeed = transform.InverseTransformPoint(rigidbody.velocity);
-			//curSpeed = rigidbody.velocity.magnitude;
+			blaSpeed = transform.InverseTransformDirection(rigidbody.velocity);
+			curSpeed = rigidbody.velocity.magnitude;
 			rigidbody.AddTorque(Vector3.up*torque);
-			rigidbody.AddForce (transform.right * curSpeed);
-
+			if(blaSpeed.z>=0){
+				rigidbody.AddForce (transform.right * curSpeed);
+			}
+			else{
+				rigidbody.AddForce (transform.right * -curSpeed);
+			}
 		} 
 		else if(Input.GetKey(KeyCode.LeftArrow)){
-			//Nog zorgen dat curspeed goede richting geeft
-
-			curSpeed = transform.InverseTransformDirection(transform.forward);
-			//curSpeed = rigidbody.velocity.magnitude;
+			blaSpeed = transform.InverseTransformDirection(rigidbody.velocity);
+			curSpeed = rigidbody.velocity.magnitude;
 			rigidbody.AddTorque(Vector3.up*-torque); 
-			rigidbody.AddForce (transform.right * -curSpeed);
+			if(blaSpeed.z>=0){
+				rigidbody.AddForce (-transform.right * curSpeed);
+			}
+			else{
+				rigidbody.AddForce (-transform.right * -curSpeed);
+			}
 		}
 	    if(rigidbody.velocity.magnitude > maxSpeed){
 		    rigidbody.velocity = rigidbody.velocity.normalized * maxSpeed;
