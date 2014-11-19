@@ -284,12 +284,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 984018588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8dd22cd6ac44c54e8a2df7c4b1dafe2, type: 3}
+  m_Script: {fileID: 11500000, guid: 6df82b2a8d8294747abec4d44c3e4bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torque: 10
-  speed: 100
-  amount: 50
+  torque: 1000
+  speed: 500
+  maxSpeed: 5000
 --- !u!54 &984018590
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -297,13 +297,13 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 984018588}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 16
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!23 &984018591
 Renderer:
@@ -486,7 +486,7 @@ Transform:
   m_GameObject: {fileID: 1847724881}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15.2019997, y: -14.658, z: -28.7460003}
-  m_LocalScale: {x: 51.9247856, y: 1, z: 21.7340221}
+  m_LocalScale: {x: 316.252411, y: 1, z: 111.151062}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
