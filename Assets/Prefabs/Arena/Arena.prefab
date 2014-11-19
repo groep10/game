@@ -197,7 +197,6 @@ MonoBehaviour:
   m_LightmapIndex: -1
   m_LightmapSize: 1024
   m_DrawTreesAndFoliage: 1
-  m_CollectDetailPatches: 1
   m_MaterialTemplate: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
@@ -213,7 +212,9 @@ MonoBehaviour:
   Arena: {fileID: 11400000}
   xResolution: 0
   zResolution: 0
-  x: 0
+  makeLarger: 0
+  terrainRadius: 200
+  checkpoint: {fileID: 100000, guid: 5435d8bd932f9d3458350e2225e33d05, type: 2}
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
