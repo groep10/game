@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class CustomSer : MonoBehaviour {
-	public GameObject shotPrefab;
-	public Transform shotSpawn;
 	public GameObject enemy;
 	public Transform enemySpawn;
 
@@ -32,7 +30,7 @@ public class CustomSer : MonoBehaviour {
 			
 			// shoot 
 			if (Input.GetKeyDown(KeyCode.Space)){
-				Network.Instantiate(shotPrefab, shotSpawn.position, Quaternion.identity,0);
+				networkView.RPC("Shoot",RPCMode.All);
 			}
 		}
 		//Lerp (interpolation) other player positions for smooth gameplay
@@ -62,6 +60,24 @@ public class CustomSer : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
 			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
+		}
+	}
+	
+	// RPC calls
+	[RPC]
+	void Shoot(){
+		if(Network.isServer){
+			RaycastHit hit;
+			Ray shotRay = new Ray (transform.position, Vector3.forward);
+			
+			if(Physics.Raycast(shotRay, out hit)){
+				if(hit.transform.tag == "Enemy"){
+					hit.transform.transform.networkView.RPC("Damage",RPCMode.All,5);
+				}
+				else if(hit.transform.tag == "Player"){
+					//Do stuff
+				}
+			}
 		}
 	}
 }

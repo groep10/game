@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
-	
+
+	public int health;
 	public float speed;
 	public float maxspeed;
 	private Vector3 left = new Vector3(-1,0,0);
@@ -14,6 +15,11 @@ public class Enemy : MonoBehaviour {
 	private Vector3 Rvelo;
 	private Vector3 Evelo;
 
+	void Update(){
+		if(health <= 0 && Network.isServer){
+			Network.Destroy(this.gameObject);
+		}
+	}
 	
 	void FixedUpdate()
 	{
@@ -56,4 +62,12 @@ public class Enemy : MonoBehaviour {
 			Rvelo = Evelo;
 		}
 	}
+
+	//RPC calls
+	[RPC]
+	void Damage(int dam){
+		health -= dam;
+		Debug.Log("health: "+health);
+	}
+
 }
