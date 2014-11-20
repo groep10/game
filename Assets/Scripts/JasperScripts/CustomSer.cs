@@ -4,6 +4,8 @@ using System.Collections;
 public class CustomSer : MonoBehaviour {
 	public GameObject shotPrefab;
 	public Transform shotSpawn;
+	public GameObject enemy;
+	public Transform enemySpawn;
 
 	private float moveH;
 	private float moveV;
@@ -16,8 +18,8 @@ public class CustomSer : MonoBehaviour {
 	private Vector3 velo;
 	private Vector3 realvelo;
 
-	// Update is called once per frame
 	void FixedUpdate () {
+		//check if you are controller the object
 		if(networkView.isMine){		
 			var playercam = transform.Find("Camera1").gameObject;
 			playercam.SetActive(true);
@@ -40,14 +42,6 @@ public class CustomSer : MonoBehaviour {
 		}
 	}
 
-	//register player collisions
-	void OnCollisionEnter(Collision collision){
-		if(collision.gameObject.tag == "Player"){
-			Debug.Log("Collision detected");
-
-		}
-	}
-
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
 		//write your movements
 		if (stream.isWriting) {
@@ -64,7 +58,14 @@ public class CustomSer : MonoBehaviour {
 			realvelo = velo;
 		}
 	}
+	
+	void OnTriggerEnter(Collider other){
+		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
+			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
+		}
+	}
 }
+
 
 
 

@@ -32,16 +32,23 @@ public class NetworkManager : MonoBehaviour {
 		Network.Instantiate(player2, spawnObject.position, Quaternion.identity, 0);
 	}
 	
-
 	//Spawn players on initialization and connection
 	void OnServerInitialized(){
-		Debug.Log("Server initialized");
 		spawnPlayer1();
 	}
 
 	void OnConnectedToServer(){
 		spawnPlayer2();
 	}
+
+	void OnPlayerDisconnected(NetworkPlayer player) {
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+	}
+
+
+
+
 	
 	//GUI
 	void OnGUI(){
