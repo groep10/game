@@ -412,6 +412,75 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 493759843}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &932474597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 932474601}
+  - 33: {fileID: 932474600}
+  - 65: {fileID: 932474599}
+  - 23: {fileID: 932474598}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &932474598
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 932474597}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &932474599
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 932474597}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &932474600
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 932474597}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &932474601
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 932474597}
+  m_LocalRotation: {x: -.424331129, y: -.676694989, z: .331583232, w: .502075255}
+  m_LocalPosition: {x: -69.6289978, y: -12.7259998, z: 46.2970009}
+  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
 --- !u!1 &1065757166
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,8 +693,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.41600132, z: 1}
-  m_Center: {x: 0, y: -.20800066, z: 0}
+  m_Size: {x: 1, y: .98482132, z: 1}
+  m_Center: {x: 0, y: .00758934021, z: 0}
 --- !u!33 &1813201877
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -657,15 +726,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 1813201873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5682e0fd63f47cd4791eaf7df9655aa1, type: 3}
+  m_Script: {fileID: 11500000, guid: dcaa8a2daf4efd44e950c06bbd9f2176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wheels: []
-  enginePower: 150
-  power: 0
-  brake: 0
-  steer: 0
-  maxSteer: 25
+  checkForActive: {fileID: 1813201873}
+  wheelFR: {fileID: 493759844}
+  wheelFL: {fileID: 1065757167}
+  wheelBR: {fileID: 307840636}
+  wheelBL: {fileID: 1925229194}
+  suspensionDistance: .200000003
+  springs: 1000
+  dampers: 2
+  wheelRadius: .25
+  torque: 100
+  brakeTorque: 2000
+  wheelWeight: 3
+  shiftCentre: {x: 0, y: -.25, z: 0}
+  maxSteerAngle: 30
+  wheelDrive: 0
+  shiftDownRPM: 1500
+  shiftUpRPM: 2500
+  idleRPM: 500
+  fwdStiffness: .100000001
+  swyStiffness: .100000001
+  gears:
+  - -10
+  - 9
+  - 6
+  - 4.5
+  - 3
+  - 2.5
+  automatic: 1
+  killEngineSoundTimeout: 3
 --- !u!1 &1925229190
 GameObject:
   m_ObjectHideFlags: 0
