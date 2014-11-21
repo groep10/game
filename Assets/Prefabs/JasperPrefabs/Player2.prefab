@@ -166,7 +166,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -177,7 +177,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.10000002, y: 1, z: 1.10000002}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &8100000
 AudioListener:
@@ -204,8 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7091cfd914c95fe4ca1eaf6418f1909e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shotPrefab: {fileID: 100000, guid: 963ffb18c8ec3e54fa9b51002f0238c7, type: 2}
-  shotSpawn: {fileID: 400002}
+  enemy: {fileID: 100000, guid: e3b5e3380414a424593ae3f05bc95f12, type: 2}
+  enemySpawn: {fileID: 400000, guid: 76815c50a9276094ba2ca8bfbc3371c2, type: 2}
   speed: 20
 --- !u!124 &12400000
 Behaviour:
