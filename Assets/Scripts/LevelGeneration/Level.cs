@@ -10,7 +10,7 @@ public class Level : MonoBehaviour {
 	public float terrainRadius = 200;
 	public GameObject checkpoint;
 
-	private float checkpointTimer = 5;
+	private float checkpointTimer = 60;
 
 	void Start(){
 		// creates an arena terrain with radius 200

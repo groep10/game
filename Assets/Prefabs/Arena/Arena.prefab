@@ -214,7 +214,7 @@ MonoBehaviour:
   zResolution: 0
   makeLarger: 0
   terrainRadius: 200
-  checkpoint: {fileID: 100000, guid: 5435d8bd932f9d3458350e2225e33d05, type: 2}
+  checkpoint: {fileID: 100002, guid: 5435d8bd932f9d3458350e2225e33d05, type: 2}
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
