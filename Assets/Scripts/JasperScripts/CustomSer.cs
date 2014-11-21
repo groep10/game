@@ -30,7 +30,7 @@ public class CustomSer : MonoBehaviour {
 			
 			// shoot 
 			if (Input.GetKeyDown(KeyCode.Space)){
-				networkView.RPC("Shoot",RPCMode.All);
+				Shoot ();
 			}
 		}
 		//Lerp (interpolation) other player positions for smooth gameplay
@@ -39,7 +39,7 @@ public class CustomSer : MonoBehaviour {
 				+ realvelo * Time.deltaTime;
 		}
 	}
-
+	//Write and read variables
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
 		//write your movements
 		if (stream.isWriting) {
@@ -56,29 +56,26 @@ public class CustomSer : MonoBehaviour {
 			realvelo = velo;
 		}
 	}
-	
+	//When someone enters the trigger spawn an enemy (their can only be one)
 	void OnTriggerEnter(Collider other){
 		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
 			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
 		}
 	}
-	
-	// RPC calls
-	[RPC]
+	//Shoot
 	void Shoot(){
-		if(Network.isServer){
 			RaycastHit hit;
 			Ray shotRay = new Ray (transform.position, Vector3.forward);
 			
 			if(Physics.Raycast(shotRay, out hit)){
 				if(hit.transform.tag == "Enemy"){
-					hit.transform.transform.networkView.RPC("Damage",RPCMode.All,5);
+					//Let other players know you hit an enemy and dealt damage
+					hit.transform.transform.networkView.RPC("Damage",RPCMode.All,5,this.name);
 				}
 				else if(hit.transform.tag == "Player"){
 					//Do stuff
 				}
 			}
-		}
 	}
 }
 

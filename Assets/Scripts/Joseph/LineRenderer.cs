@@ -28,7 +28,7 @@ public class LineRenderer : MonoBehaviour {
         Vector3 cur = target.transform.position;
         float diff = Vector3.Distance(start, target.transform.position);
 
-        if (diff < 0.01)
+        if (diff < 0.05)
         {
             return;
         }
@@ -42,12 +42,16 @@ public class LineRenderer : MonoBehaviour {
 	int[] triangels;
 
 	void updateMesh() {
-		vertices = new Vector3[spots.Count * 8];
-		triangels = new int[spots.Count * 12 * 3];
-
-        for (int i = 0; i < (spots.Count - 1); i += 1)
+        if (spots.Count < 3)
         {
-            calculateLine(i * 8, spots[i], spots[i + 1]);
+            return;
+        }
+		vertices = new Vector3[(spots.Count - 1) * 8];
+        triangels = new int[(spots.Count - 1) * 12 * 3];
+
+        for (int i = 0; i < (spots.Count - 2); i += 1)
+        {
+            calculateLine(i * 8, spots[i], spots[i + 1], spots[i + 2]);
         }
 		mesh.vertices = vertices;
 		mesh.triangles = triangels;
@@ -59,20 +63,21 @@ public class LineRenderer : MonoBehaviour {
 
     float lineHeight = 0.5f;
     float lineWidth = 0.25f;
-    void calculateLine(int index, Vector3 begin_fl, Vector3 end_fl) {
-        Vector3 ba = end_fl - begin_fl;
+    void calculateLine(int index, Vector3 a, Vector3 b, Vector3 c) {
+        Vector3 ba = b - a;
+        Vector3 cb = c - b;
         Vector3 up = Vector3.up * lineHeight;
-        vertices[index] = begin_fl;
-        vertices[index + 1] = begin_fl + up;
+        vertices[index] = a;
+        vertices[index + 1] = a + up;
         
-        vertices[index + 3] = Vector3.Cross(up, ba).normalized * lineWidth + begin_fl;
+        vertices[index + 3] = Vector3.Cross(up, ba).normalized * lineWidth + a;
         vertices[index + 2] = vertices[index + 3] + up;
         
-        vertices[index + 4] = end_fl;
-        vertices[index + 5] = end_fl + up;
+        vertices[index + 4] = b;
+        vertices[index + 5] = b + up;
 
-        vertices[index + 6] = vertices[index + 2] + ba;
-        vertices[index + 7] = vertices[index + 3] + ba;
+        vertices[index + 7] = Vector3.Cross(up, cb).normalized * lineWidth + b;
+        vertices[index + 6] = vertices[index + 7] + up;
 
         //Debug.DrawLine(vertices[index + 0], vertices[index + 1], Color.red, 300);
         //Debug.DrawLine(vertices[index + 1], vertices[index + 2], Color.red, 300);

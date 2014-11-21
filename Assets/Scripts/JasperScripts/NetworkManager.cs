@@ -22,32 +22,27 @@ public class NetworkManager : MonoBehaviour {
 		btnW = Screen.width * 0.1f;
 		btnH = Screen.width * 0.05f;
 	}
-
-	//Instantiate players
+	//Instantiate player1 on network
 	void spawnPlayer1(){
 		Network.Instantiate(player1, spawnObject.position, Quaternion.identity, 0);
 	}
-
+	//Instantiate player2 on network
 	void spawnPlayer2(){
 		Network.Instantiate(player2, spawnObject.position, Quaternion.identity, 0);
 	}
-	
-	//Spawn players on initialization and connection
+	//Spawn host
 	void OnServerInitialized(){
 		spawnPlayer1();
 	}
-
+	//Spawn client
 	void OnConnectedToServer(){
 		spawnPlayer2();
 	}
-
+	//Remove player on disconnect
 	void OnPlayerDisconnected(NetworkPlayer player) {
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
 	}
-
-
-
 
 	
 	//GUI

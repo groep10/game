@@ -3,14 +3,13 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
+	private GameObject closest;
+	private GameObject[] playerlist;
 	public int health;
 	public float speed;
 	public float maxspeed;
-	private Vector3 left = new Vector3(-1,0,0);
-	private Vector3 right = new Vector3(1,0,0);
-	private bool moveR = true;
 
-	private Vector3 Rpos;
+	private Vector3 Rpos = new Vector3(0,1,30); // start positie voor client
 	private Vector3 Epos;
 	private Vector3 Rvelo;
 	private Vector3 Evelo;
@@ -24,28 +23,18 @@ public class Enemy : MonoBehaviour {
 	void FixedUpdate()
 	{
 		if(Network.isServer && networkView.isMine){
-			// move enemy between x position -6 and 6 
-			if (rigidbody.position.x < -6){
-				moveR = true;
-			}
-			if (rigidbody.position.x > 6){
-				moveR = false;
-			}
 			if(rigidbody.velocity.magnitude < maxspeed){
-				if(moveR){
-					rigidbody.AddForce(right*speed);
-				}
-				else{
-					rigidbody.AddForce(left*speed);
-				}
+				Vector3 PlayerDir = closestPlayer().transform.position - transform.position;
+				rigidbody.AddForce(PlayerDir*speed);
 			}
 		}
 		else {
+			//Client use lerp for smooth enemy position
 			transform.position = Vector3.Lerp(transform.position, Rpos, 0.25f)
 				+ Rvelo * Time.deltaTime;
 		}
 	}
-
+	//Write and read variables
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
 		//write your movements
 		if (stream.isWriting) {
@@ -63,11 +52,27 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
-	//RPC calls
-	[RPC]
-	void Damage(int dam){
-		health -= dam;
-		Debug.Log("health: "+health);
+	GameObject closestPlayer(){
+		playerlist = GameObject.FindGameObjectsWithTag("Player");
+		float closestDistance = Mathf.Infinity;
+		foreach (GameObject player in playerlist) {
+			float distance = Vector3.Distance(transform.position,player.transform.position);
+			if (distance < closestDistance) {
+				closest = player;
+				closestDistance = distance;
+			}
+		}
+		return closest;
 	}
 
+	//RPC calls
+	[RPC]
+	void Damage(int dam, string shooter){
+		health -= dam;
+		Debug.Log("health: "+health);
+		Debug.Log("shooter: "+shooter);
+		if(health <= 0){
+			Debug.Log("killed by: "+shooter);
+		}
+	}
 }
