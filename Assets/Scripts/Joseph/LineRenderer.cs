@@ -7,22 +7,30 @@ public class LineRenderer : MonoBehaviour {
 	List<Vector3> spots = new List<Vector3> ();
 
 	Mesh mesh;
+    MeshCollider collider;
+    MeshFilter filter;
 
 	public GameObject target;
 
 	// Use this for initialization
 	void Start () {
-		mesh = new Mesh ();
 		previous = start = target.transform.position;
-		GetComponent<MeshFilter> ().mesh = mesh;
-		GetComponent<MeshCollider> ().sharedMesh = mesh;
+		
+        mesh = new Mesh ();
+        mesh.MarkDynamic();
+
+        filter = GetComponent<MeshFilter>();
+        filter.mesh = mesh;
+		collider = GetComponent<MeshCollider> ();
+        //gameObject.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		spots.Add (start);
-
-        //spots.Add(mod(start, 3f, 0f, 0f));
-
-        //updateMesh();
 	}
-	
+
+    void OnCollisionEnter()
+    {
+        print("Collision");
+    }
+
 	// Update is called once per frame
 	void Update () {
         Vector3 cur = target.transform.position;
@@ -38,130 +46,139 @@ public class LineRenderer : MonoBehaviour {
         updateMesh();
 	}
 
-	Vector3[] vertices;
-	int[] triangels;
+	Vector3[] vertices, normals;
+	int[] triangles;
+
+    static float minDistance = 2;
 
 	void updateMesh() {
-        if (spots.Count < 3)
-        {
+        if (spots.Count <= 2) {
             return;
         }
-		vertices = new Vector3[(spots.Count - 1) * 8];
-        triangels = new int[(spots.Count - 1) * 12 * 3];
-
-        for (int i = 0; i < (spots.Count - 2); i += 1)
+        int offset = 2;
+        for (int i = spots.Count - offset; i > 0; i -= 1)
         {
-            calculateLine(i * 8, spots[i], spots[i + 1], spots[i + 2]);
+            if (Vector3.Distance(spots[i], target.transform.position) > minDistance)
+            {
+                offset = spots.Count - i;
+                break;
+            }
+            if (i == 0)
+            {
+                return;
+            }
         }
-		mesh.vertices = vertices;
-		mesh.triangles = triangels;
+        
+        vertices = new Vector3[(spots.Count - offset + 1) * 4];
+        triangles = new int[(spots.Count - offset) * 8 * 3 + (3 * 2)];
 
-        //mesh.RecalculateNormals();
-        //mesh.RecalculateBounds();
-        //mesh.Optimize();
-	}
+        for (int i = 0; i < (spots.Count - offset + 1); i += 1) {
+            calculateVertice(i * 4, spots[i], spots[i + 1]);
+        }
+
+        for (int i = 0; i < (spots.Count - offset); i += 1) {
+            calculateTriangle(i * 4);
+            //calculateNormal(i * 4);
+        }
+        
+        // last
+        int idx = (spots.Count - offset) * 8 * 3;
+        triangles[idx] = vertices.Length - 4;
+        triangles[idx + 1] = vertices.Length - 2;
+        triangles[idx + 2] = vertices.Length - 3;
+
+        triangles[idx + 3] = vertices.Length - 4;
+        triangles[idx + 4] = vertices.Length - 1;
+        triangles[idx + 5] = vertices.Length - 2;    
+
+        mesh.Clear();
+		mesh.vertices = vertices;
+		mesh.triangles = triangles;
+
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
+        mesh.Optimize();
+
+        collider.sharedMesh = null;
+        collider.sharedMesh = mesh;
+    }
 
     float lineHeight = 0.5f;
     float lineWidth = 0.25f;
-    void calculateLine(int index, Vector3 a, Vector3 b, Vector3 c) {
+
+    void calculateVertice(int index, Vector3 a, Vector3 b) {
         Vector3 ba = b - a;
-        Vector3 cb = c - b;
         Vector3 up = Vector3.up * lineHeight;
         vertices[index] = a;
         vertices[index + 1] = a + up;
-        
+
         vertices[index + 3] = Vector3.Cross(up, ba).normalized * lineWidth + a;
         vertices[index + 2] = vertices[index + 3] + up;
-        
-        vertices[index + 4] = b;
-        vertices[index + 5] = b + up;
+    }
 
-        vertices[index + 7] = Vector3.Cross(up, cb).normalized * lineWidth + b;
-        vertices[index + 6] = vertices[index + 7] + up;
-
-        //Debug.DrawLine(vertices[index + 0], vertices[index + 1], Color.red, 300);
-        //Debug.DrawLine(vertices[index + 1], vertices[index + 2], Color.red, 300);
-        //Debug.DrawLine(vertices[index + 2], vertices[index + 3], Color.red, 300);
-        //Debug.DrawLine(vertices[index + 3], vertices[index + 0], Color.red, 300);
-
-        //Debug.DrawLine(vertices[index + 4], vertices[index + 5], Color.red, 300);
-        //Debug.DrawLine(vertices[index + 5], vertices[index + 6], Color.red, 300);
-        //Debug.DrawLine(vertices[index + 6], vertices[index + 7], Color.red, 300);
-        //Debug.DrawLine(vertices[index + 7], vertices[index + 4], Color.red, 300);
-        //for (int i = 0; i < 7; i += 1)
-        //{
-        //    Debug.DrawLine(vertices[index + i + 0], vertices[index + i + 1], Color.red, 300);
-        //}
-
-
+    void calculateTriangle(int index) {
         // front
-        int i3 = index * 3;
-        triangels[i3] = index;
-        triangels[i3 + 1] = index + 4;
-        triangels[i3 + 2] = index + 5;
+        int i3 = index * 2 * 3;
+        triangles[i3] = index;
+        triangles[i3 + 1] = index + 4;
+        triangles[i3 + 2] = index + 5;
 
         i3 += 3;
-        triangels[i3] = index;
-        triangels[i3 + 1] = index + 5;
-        triangels[i3 + 2] = index + 1;
-
-        // left
-        i3 += 3;
-        triangels[i3] = index + 0;
-        triangels[i3 + 1] = index + 1;
-        triangels[i3 + 2] = index + 2;
-
-        i3 += 3;
-        triangels[i3] = index + 0;
-        triangels[i3 + 1] = index + 2;
-        triangels[i3 + 2] = index + 3;
+        triangles[i3] = index;
+        triangles[i3 + 1] = index + 5;
+        triangles[i3 + 2] = index + 1;
 
         // top
         i3 += 3;
-        triangels[i3] = index + 1;
-        triangels[i3 + 1] = index + 5;
-        triangels[i3 + 2] = index + 6;
+        triangles[i3] = index + 1;
+        triangles[i3 + 1] = index + 5;
+        triangles[i3 + 2] = index + 6;
 
         i3 += 3;
-        triangels[i3] = index + 1;
-        triangels[i3 + 1] = index + 6;
-        triangels[i3 + 2] = index + 2;
+        triangles[i3] = index + 1;
+        triangles[i3 + 1] = index + 6;
+        triangles[i3 + 2] = index + 2;
 
         // back
         i3 += 3;
-        triangels[i3] = index + 3;
-        triangels[i3 + 1] = index + 2;
-        triangels[i3 + 2] = index + 6;
+        triangles[i3] = index + 3;
+        triangles[i3 + 1] = index + 2;
+        triangles[i3 + 2] = index + 6;
 
         i3 += 3;
-        triangels[i3] = index + 3;
-        triangels[i3 + 1] = index + 6;
-        triangels[i3 + 2] = index + 7;
+        triangles[i3] = index + 3;
+        triangles[i3 + 1] = index + 6;
+        triangles[i3 + 2] = index + 7;
 
         // bottom
         i3 += 3;
-        triangels[i3] = index + 0;
-        triangels[i3 + 1] = index + 3;
-        triangels[i3 + 2] = index + 7;
+        triangles[i3] = index + 0;
+        triangles[i3 + 1] = index + 3;
+        triangles[i3 + 2] = index + 7;
 
         i3 += 3;
-        triangels[i3] = index;
-        triangels[i3 + 1] = index + 7;
-        triangels[i3 + 2] = index + 4;
-
-        // right
-        i3 += 3;
-        triangels[i3] = index + 4;
-        triangels[i3 + 1] = index + 6;
-        triangels[i3 + 2] = index + 5;
-
-        i3 += 3;
-        triangels[i3] = index + 4;
-        triangels[i3 + 1] = index + 7;
-        triangels[i3 + 2] = index + 6;
-
+        triangles[i3] = index;
+        triangles[i3 + 1] = index + 7;
+        triangles[i3 + 2] = index + 4;
     }
 
+    void calculateNormal(int index) {
+        int i2 = index * 2;
+        normals[i2] = Vector3.Cross(vertices[index + 4] - vertices[index + 0], vertices[index + 1] - vertices[index + 0]);
+        normals[i2 + 1] = normals[i2];
+        i2 += 2;
+
+        normals[i2] = Vector3.Cross(vertices[index + 5] - vertices[index + 1], vertices[index + 2] - vertices[index + 1]);
+        normals[i2 + 1] = normals[i2];
+        i2 += 2;
+
+        normals[i2] = Vector3.Cross(vertices[index + 6] - vertices[index + 2], vertices[index + 3] - vertices[index + 2]);
+        normals[i2 + 1] = normals[i2];
+        i2 += 2;
+
+        normals[i2] = Vector3.Cross(vertices[index + 7] - vertices[index + 3], vertices[index + 0] - vertices[index + 3]);
+        normals[i2 + 1] = normals[i2];
+    }
 
     static Vector3 mod(Vector3 v, float dx, float dy, float dz) {
         return new Vector3(v.x + dx, v.y + dy, v.z + dz);
