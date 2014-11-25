@@ -5,14 +5,17 @@ using System.Collections.Generic;
 public class ArenaAssetPlacement : MonoBehaviour {
 
 	private List<GameObject> assets;
+	public int amountOfAssets;
 	public float assetTimer = 5;
+	public int preCount = 0;
 
 	// returns an ArrayList of all GameObjects with tag "Platform"
 	List<GameObject> getAssets()
 	{
 		List<GameObject> result = new List<GameObject>();
-		foreach (GameObject go in Resources.LoadAll("Prefabs/Arena/Arena assets"))
+		foreach (GameObject go in Resources.LoadAll("Prefabs/Arena/ArenaAssets"))
 		{
+			preCount++;
 			if(go.tag == "ArenaAsset")
 			{
 				result.Add(go);
@@ -48,7 +51,8 @@ public class ArenaAssetPlacement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		assets = getAssets ();
-		placeAsset ();
+		amountOfAssets = getAmountOfAssets ();
+		//placeAsset ();
 	}
 	
 	// Update is called once per frame
