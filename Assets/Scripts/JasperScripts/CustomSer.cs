@@ -16,6 +16,18 @@ public class CustomSer : MonoBehaviour {
 	private Vector3 velo;
 	private Vector3 realvelo;
 
+	//Shoot
+	void Update(){
+		if(networkView.isMine){
+			if (Input.GetKeyDown(KeyCode.Space)){
+				networkView.RPC("Shoting",RPCMode.All,true);
+			}
+			else if(Input.GetKeyUp(KeyCode.Space)){
+				networkView.RPC("Shoting",RPCMode.All,false);
+			}
+		}
+	}
+	//Movements
 	void FixedUpdate () {
 		//check if you are controller the object
 		if(networkView.isMine){		
@@ -27,11 +39,6 @@ public class CustomSer : MonoBehaviour {
 			movement = new Vector3 (moveH, 0.0f, moveV);
 			
 			rigidbody.AddForce(movement*speed);
-			
-			// shoot 
-			if (Input.GetKeyDown(KeyCode.Space)){
-				Shoot ();
-			}
 		}
 		//Lerp (interpolation) other player positions for smooth gameplay
 		else{
@@ -62,20 +69,26 @@ public class CustomSer : MonoBehaviour {
 			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
 		}
 	}
-	//Shoot
-	void Shoot(){
-			RaycastHit hit;
-			Ray shotRay = new Ray (transform.position, Vector3.forward);
-			
-			if(Physics.Raycast(shotRay, out hit)){
-				if(hit.transform.tag == "Enemy"){
-					//Let other players know you hit an enemy and dealt damage
-					hit.transform.transform.networkView.RPC("Damage",RPCMode.All,5,this.name);
-				}
-				else if(hit.transform.tag == "Player"){
-					//Do stuff
-				}
-			}
+	//When bullet particle hits something
+	void OnParticleCollision(GameObject other) {
+		Rigidbody body = other.rigidbody;
+		if (networkView.isMine && body.tag == "Enemy") {
+			Debug.Log(this.name + " hit Enemy in OnParticleCollision");
+			body.networkView.RPC("Damage",RPCMode.AllBuffered,10,this.name);
+		}
+		else {
+			Debug.Log(this.name + " hit something in OnParticleCollision");
+		}
+	}
+	//RPC Calls
+	[RPC]
+	void Shoting(bool fire){
+		if(fire){
+			particleSystem.Play();
+		}
+		else if(!fire){
+			particleSystem.Stop();
+		}
 	}
 }
 

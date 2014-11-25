@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour {
 	void Update(){
 		if(health <= 0 && Network.isServer){
 			Network.Destroy(this.gameObject);
+			Network.RemoveRPCs(networkView.viewID);
 		}
 	}
 	
