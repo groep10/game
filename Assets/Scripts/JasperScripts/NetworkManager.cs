@@ -6,8 +6,8 @@ public class NetworkManager : MonoBehaviour {
 	public GameObject player2;
 	public Transform spawnObject;
 
-	private string IP = "127.0.0.1";
-	public int port = 25101;
+	private string IP = "IP";
+	public int port = 21234;
 
 	private bool connected;
 	private float btnX;
@@ -34,7 +34,7 @@ public class NetworkManager : MonoBehaviour {
 	void OnServerInitialized(){
 		spawnPlayer1();
 	}
-	//Spawn client
+	//Spawn clients
 	void OnConnectedToServer(){
 		spawnPlayer2();
 	}
@@ -52,9 +52,10 @@ public class NetworkManager : MonoBehaviour {
 				Debug.Log("Start server");
 				Network.InitializeServer(4, port, true);
 			}
-			
-			if(GUI.Button(new Rect(btnX, btnY *1.2f +btnH, btnW, btnH), "Find Game")){
-				Debug.Log("Searching");
+
+			IP = GUI.TextField(new Rect(btnX, btnY*4f +btnH, btnW, btnH*0.5f), IP);
+			if(GUI.Button(new Rect(btnX, btnY *5f +btnH, btnW, btnH), "Find Game")){
+				Debug.Log("joining game, IP: "+IP);
 				Network.Connect(IP,port);
 			}	
 		}
