@@ -15,7 +15,7 @@ public class WheelCar : MonoBehaviour {
 	public Transform wheelBR; 
 	public Transform wheelBL; 
 	
-	//Collider
+	//eigenschappen van de wielen
 	public float suspensionDistance = 0.2f; 
 	public float springs = 1000.0f; 
 	public float dampers = 2f; 
@@ -24,16 +24,18 @@ public class WheelCar : MonoBehaviour {
 	public float brakeTorque = 2000f; 
 	public float wheelWeight = 3f;
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.25f, 0.0f); 
+	public float fwdStiffness = 0.1f; //stijfheid wielen wordt slip mee bepaald
+	public float swyStiffness = 0.1f; 
 	
 	public float maxSteerAngle = 30.0f; 
 	public WheelDrive wheelDrive = WheelDrive.Front; 
 	
+	//Schakel voorwaarden
 	public float shiftDownRPM = 1500.0f; 
 	public float shiftUpRPM = 2500.0f; 
 
 	
-	public float fwdStiffness = 0.1f; 
-	public float swyStiffness = 0.1f; // for wheels, determines slip
+
 	
 	// gear ratios (index 0 is reverse)
 	public float[] gears = { -10f, 9f, 6f, 4.5f, 3f, 2.5f };
@@ -59,16 +61,10 @@ public class WheelCar : MonoBehaviour {
 		public bool motor;
 	};
 	
-	WheelData[] wheels; // array with the wheel data
-	
-	// setup wheelcollider for given wheel data
-	// wheel is the transform of the wheel
-	// maxSteer is the angle in degrees the wheel can steer (0f for no steering)
-	// motor if wheel is driven by engine or not
+	WheelData[] wheels; 
+
+
 	WheelData SetWheelParams(Transform wheel, float maxSteer, bool motor) {
-		if (wheel == null) {
-			throw new System.Exception("wheel not connected to script!");
-		}
 		WheelData result = new WheelData(); // the container of wheel specific data
 		
 		// we create a new gameobject for the collider and move, transform it to match
@@ -77,6 +73,7 @@ public class WheelCar : MonoBehaviour {
 		GameObject go = new GameObject("WheelCollider");
 		go.transform.parent = transform; // the car, not the wheel is parent
 		go.transform.position = wheel.position; // match wheel pos
+		//go.transform.rotation = wheel.rotation; 
 		
 		// create the actual wheel collider in the collider game object
 		WheelCollider col = (WheelCollider) go.AddComponent(typeof(WheelCollider));
@@ -95,26 +92,19 @@ public class WheelCar : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		// 4 wheels, if needed different size just modify and modify
-		// the wheels[...] block below.
-		wheels = new WheelData[4];
-		
-		// setup wheels
+		//Eerst auto goed zwaartepunt geven
+		rigidbody.centerOfMass += shiftCentre;
+
+		//De wielen in een WheelData array plaatsen en de settings maken
+		wheels = new WheelData[4];		
 		bool frontDrive = (wheelDrive == WheelDrive.Front) || (wheelDrive == WheelDrive.All);
-		bool backDrive = (wheelDrive == WheelDrive.Back) || (wheelDrive == WheelDrive.All);
-		
-		// we use 4 wheels, but you can change that easily if neccesary.
-		// this is the only place that refers directly to wheelFL, ...
-		// so when adding wheels, you need to add the public transforms,
-		// adjust the array size, and add the wheels initialisation here.
+		bool backDrive = (wheelDrive == WheelDrive.Back) || (wheelDrive == WheelDrive.All);		
 		wheels[0] = SetWheelParams(wheelFR, maxSteerAngle, frontDrive);
 		wheels[1] = SetWheelParams(wheelFL, maxSteerAngle, frontDrive);
 		wheels[2] = SetWheelParams(wheelBR, 0.0f, backDrive);
 		wheels[3] = SetWheelParams(wheelBL, 0.0f, backDrive);
 		
-		// found out the hard way: some parameters must be set AFTER all wheel colliders
-		// are created, like wheel mass, otherwise your car will act funny and will
-		// flip over all the time.
+		//Na gegevens aan de wielen gegeven te hebben en colliders aangemaakt te hebben nog wat laatste aanpassingen
 		foreach (WheelData w in wheels) {
 			WheelCollider col = w.col;
 			col.suspensionDistance = suspensionDistance;
@@ -124,9 +114,7 @@ public class WheelCar : MonoBehaviour {
 			col.suspensionSpring = js;
 			col.radius = wheelRadius;
 			col.mass = wheelWeight;
-			
-			// see docs, haven't really managed to get this work
-			// like i would but just try out a fiddle with it.
+
 			WheelFrictionCurve fc = col.forwardFriction;
 			fc.asymptoteValue = 5000.0f;
 			fc.extremumSlip = 2.0f;
@@ -140,20 +128,7 @@ public class WheelCar : MonoBehaviour {
 			col.sidewaysFriction = fc;
 			w.col=col; //zelf toegevoegd
 		}
-		
-		// we move the centre of mass (somewhere below the centre works best.)
-		rigidbody.centerOfMass += shiftCentre;
-		
-			
-	}
-	
-	void Update() {
-		if (Input.GetKeyDown("page up")) {
-			ShiftUp();
-		}
-		if (Input.GetKeyDown("page down")) {
-			ShiftDown();
-		}
+
 	}
 	
 	float shiftDelay = 0.0f;
@@ -196,6 +171,15 @@ public class WheelCar : MonoBehaviour {
 	
 	// handle the physics of the engine
 	void FixedUpdate () {
+
+		
+
+		/*foreach (WheelData w in wheels) {
+			if(w.transform.position.y<0){
+				Transform.position = new Vector3 (Transform.position.x,1,Transform.position.z);
+			}
+		}*/
+
 		float delta = Time.fixedDeltaTime;
 		
 		float steer = 0; // steering -1.0 .. 1.0
