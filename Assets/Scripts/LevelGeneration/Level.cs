@@ -32,13 +32,6 @@ public class Level : MonoBehaviour {
 		Invoke("setCheckpoint", checkpointTimer);
 	}
 
-//	// destroys the current checkpoint cpnt and sets a new checkpoint
-//	void setNewCheckpoint(GameObject cpnt){
-//		Destroy (cpnt);
-//		setCheckpoint ();				
-//	}
-
-
 	// edits the terrain according to the radius that is set.
 	void editTerrain(){
 		// Take the resolution of the terrain as the boundaries
@@ -58,4 +51,5 @@ public class Level : MonoBehaviour {
 		}
 		Arena.terrainData.SetHeights (0, 0, heights);
 	}
+
 }
