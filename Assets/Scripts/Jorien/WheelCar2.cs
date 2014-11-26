@@ -10,6 +10,7 @@ public enum wheelDrive {
 
 public class WheelCar2 : MonoBehaviour { 
 
+	//Wielen introduceren
 	public Transform wheelFR; 
 	public Transform wheelFL; 
 	public Transform wheelBR; 
@@ -25,32 +26,19 @@ public class WheelCar2 : MonoBehaviour {
 	public float wheelWeight = 3f;
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
 	public float fwdStiffness = 0.1f; //stijfheid wielen wordt slip mee bepaald
-	public float swyStiffness = 0.1f; 
-	
+	public float swyStiffness = 0.1f; 	
 	public float maxSteerAngle = 30.0f; 
 	public wheelDrive wheelDrive = wheelDrive.Front; 
 	
 	//Schakel voorwaarden
 	public float shiftDownRPM = 1500.0f; 
 	public float shiftUpRPM = 2500.0f; 
-
-	
-
-	
-	// gear ratios (index 0 is reverse)
 	public float[] gears = { -10f, 9f, 6f, 4.5f, 3f, 2.5f };
-	
-
-	// table of efficiency at certain RPM, in tableStep RPM increases, 1.0f is 100% efficient
-	// at the given RPM, current table has 100% at around 2000RPM
 	float[] efficiencyTable = { 0.6f, 0.65f, 0.7f, 0.75f, 0.8f, 0.85f, 0.9f, 1.0f, 1.0f, 0.95f, 0.80f, 0.70f, 0.60f, 0.5f, 0.45f, 0.40f, 0.36f, 0.33f, 0.30f, 0.20f, 0.10f, 0.05f };
-	
-	// the scale of the indices in table, so with 250f, 750RPM translates to efficiencyTable[3].
 	float efficiencyTableStep = 250.0f;
+	int currentGear = 1; 
 	
-	int currentGear = 1; // duh.
-	
-	// every wheel has a wheeldata struct, contains useful wheel specific info
+	// alle info van de wielen wordt hierin opgeslagen
 	class WheelData {
 		public Transform transform;
 		public GameObject go;
@@ -60,8 +48,10 @@ public class WheelCar2 : MonoBehaviour {
 		public float maxSteer;
 		public bool motor;
 	};
-	
+
+	//Er wordt een array aangemaakt waar per wiel data instaat
 	WheelData[] wheels; 
+
 
 
 	WheelData SetWheelParams(Transform wheel, float maxSteer, bool motor) {
