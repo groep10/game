@@ -5,8 +5,9 @@ using System.Collections.Generic;
 public class ArenaAssetPlacement : MonoBehaviour {
 
 	private List<GameObject> assets;
-	public int amountOfAssets;
-	public float assetTimer = 5;
+	private int amountOfAssets;
+	//public float assetTimer = 5;
+	private int assetsInArena = 10;
 
 	// returns an ArrayList of all GameObjects with tag "Platform"
 	List<GameObject> getAssets()
@@ -39,18 +40,24 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		int assetIndex = Mathf.RoundToInt(Random.Range(0, getAmountOfAssets()));
 		GameObject asset = assets[assetIndex];
 
+		// How long will before the asset is refreshed
+		float assetTimer = Random.Range(1, 15);
+
 		// instantiate the asset
 		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.identity);
 		Destroy (currentAsset, assetTimer);
 		Invoke ("placeAsset", assetTimer);
 	}
 
-
 	// Use this for initialization
 	void Start () {
 		assets = getAssets ();
 		amountOfAssets = getAmountOfAssets ();
-		placeAsset ();
+
+		// place several assets in the arena
+		for (int i=0; i < assetsInArena; i++){
+			placeAsset ();
+		}
 	}
 	
 	// Update is called once per frame
