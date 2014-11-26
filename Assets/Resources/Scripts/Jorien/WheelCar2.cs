@@ -22,7 +22,7 @@ public class WheelCar2 : MonoBehaviour {
 	public float dampers = 2f; 
 	public float wheelRadius = 0.25f; 
 	public float torque = 100f; 
-	public float brakeTorque = 2000f; 
+	public float brakeTorque = 500f; 
 	public float wheelWeight = 3f;
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
 	public float fwdStiffness = 0.1f; //stijfheid wielen wordt slip mee bepaald
@@ -52,35 +52,25 @@ public class WheelCar2 : MonoBehaviour {
 	//Er wordt een array aangemaakt waar per wiel data instaat
 	WheelData[] wheels; 
 
-
-
+	//Hier worden de eigenschappen aan de wiel gegeven en collider aangemaakt
 	WheelData SetWheelParams(Transform wheel, float maxSteer, bool motor) {
 		WheelData result = new WheelData(); // the container of wheel specific data
-		
-		// we create a new gameobject for the collider and move, transform it to match
-		// the position of the wheel it represents. This allows us to do transforms
-		// on the wheel itself without disturbing the collider.
 		GameObject go = new GameObject("WheelCollider");
 		go.transform.parent = transform; // the car, not the wheel is parent
 		go.transform.position = wheel.position; // match wheel pos
-		//go.transform.rotation = wheel.rotation; 
-		
-		// create the actual wheel collider in the collider game object
 		WheelCollider col = (WheelCollider) go.AddComponent(typeof(WheelCollider));
 		col.motorTorque = 0.0f;
-		
-		// store some useful references in the wheeldata object
-		result.transform = wheel; // access to wheel transform 
-		result.go = go; // store the collider game object
-		result.col = col; // store the collider self
+		// Nu wordt alles in Wheeldata gezet
+		result.transform = wheel;  
+		result.go = go; 
+		result.col = col; 
 		result.startPos = go.transform.localPosition; // store the current local pos of wheel
-		result.maxSteer = maxSteer; // store the max steering angle allowed for wheel
-		result.motor = motor; // store if wheel is connected to engine
-		
-		return result; // return the WheelData
+		result.maxSteer = maxSteer; 
+		result.motor = motor; 
+		return result; 
 	}
 	
-	// Use this for initialization
+
 	void Start () {
 		//Eerst auto goed zwaartepunt geven
 		rigidbody.centerOfMass += shiftCentre;
@@ -89,10 +79,6 @@ public class WheelCar2 : MonoBehaviour {
 		wheels = new WheelData[4];		
 		bool frontDrive = (wheelDrive == wheelDrive.Front) || (wheelDrive == wheelDrive.All);
 		bool backDrive = (wheelDrive == wheelDrive.Back) || (wheelDrive == wheelDrive.All);	
-		//print (frontDrive);
-		//print (backDrive);
-		//print (wheelDrive.Front);
-		//print (wheelDrive.Back);
 		wheels[0] = SetWheelParams(wheelFR, maxSteerAngle, frontDrive);
 		wheels[1] = SetWheelParams(wheelFL, maxSteerAngle, frontDrive);
 		wheels[2] = SetWheelParams(wheelBR, 0.0f, backDrive);
@@ -123,118 +109,92 @@ public class WheelCar2 : MonoBehaviour {
 			w.col=col; //zelf toegevoegd
 		}
 
+
 	}
 	
 	float shiftDelay = 0.0f;
 	
-	// handle shifting a gear up
+	//Omhoogschakelen
 	public void ShiftUp() {
 		float now = Time.timeSinceLevelLoad;
-		
-		// check if we have waited long enough to shift
+		// Er moet lang genoeg gewacht worden tot de shift
 		if (now < shiftDelay) return;
-		
-		// check if we can shift up
+		// Er kan alleen geschakeld worden als de hoogste nog niet bereikt is
 		if (currentGear < gears.Length - 1) {
 			currentGear ++;
-			
-			// we delay the next shift with 1s. (sorry, hardcoded)
-			shiftDelay = now + 1.0f;
+			shiftDelay = now + 1.0f; // De volgende schakeling wordt vertraagd met 1 seconde.
 		}
 	}
 	
-	// handle shifting a gear down
+	//Omlaagschakelen
 	public void ShiftDown() {
 		float now = Time.timeSinceLevelLoad;
-		
-		// check if we have waited long enough to shift
+		// Er moet lang genoeg gewacht worden tot de shift
 		if (now < shiftDelay) return;
-		
-		// check if we can shift down (note gear 0 is reverse)
+		// Er kan alleen geschakeld worden als de laagste nog niet bereikt is
 		if (currentGear > 0) {
 			currentGear --;
-			
-			// we delay the next shift with 1/10s. (sorry, hardcoded)
-			shiftDelay = now + 0.1f;
+			shiftDelay = now + 0.1f; // De volgende schakeling wordt vertraagd met 0.1 seconde, want naar beneden schakelen moet sneller gebeuren.
 		}
 	}
 	
-	float wantedRPM = 0.0f; // rpm the engine tries to reach
-	float motorRPM = 0.0f;
+	float wantedRPM = 0.0f; //Het toerental wat de motor probeert te bereiken
+	float motorRPM = 0.0f; //Het toerental van de motor
 
 	
-	// handle the physics of the engine
+
 	void FixedUpdate () {
-
-		
-
-		/*foreach (WheelData w in wheels) {
-			if(w.transform.position.y<0){
-				Transform.position = new Vector3 (Transform.position.x,1,Transform.position.z);
-			}
-		}*/
-
 		float delta = Time.fixedDeltaTime;
 		
-		float steer = 0; // steering -1.0 .. 1.0
-		float accel = 0; // accelerating -1.0 .. 1.0
-		bool brake = false; // braking (true is brake)
-		
-
-		// we only look at input when the object we monitor is
-		// active (or we aren't monitoring an object).
+		float steer = 0; // sturen
+		float accel = 0; // versnellen
+		bool brake = false; // remmen
 		steer = Input.GetAxis("Horizontal");
 		accel = Input.GetAxis("Vertical");
 		brake = Input.GetButton("Jump");
 
-				
-		// handle automatic shifting
-		if ((currentGear == 1) && (accel < 0.0f)) {
-			ShiftDown(); // reverse
+		//Schakelen
+		if ((currentGear == 1) && (accel < 0.0f)) { 
+			ShiftDown(); //Bij negatieve versnelling naar gear=0 schakelen die heeft negatieve snelheid.
 		}
 		else if ((currentGear == 0) && (accel > 0.0f)) {
-			ShiftUp(); // go from reverse to first gear
+			ShiftUp(); //Bij positieve versnelling en gear=0 doorschakelen naar gear=1.
 		}
 		else if ((motorRPM > shiftUpRPM) && (accel > 0.0f)) {
-			ShiftUp(); // shift up
+			ShiftUp(); //Als de toerenteller van de moter te hoog wordt, doorschakelen.
 		}
-		else if ((motorRPM < shiftDownRPM) && (currentGear > 1)) {
-			ShiftDown(); // shift down
+		else if ((motorRPM < shiftDownRPM) && (currentGear > 1)) { //alleen als gear groter dan 1 is want 0 is achteruit.
+			ShiftDown(); //Als de toerenteller van de motor te laag wordt, doorschakelen.
 		}
 		if ((currentGear == 0)) {
-			accel = - accel; // in automatic mode we need to hold arrow down for reverse
+			accel = - accel; //Zodat de versnelling negatief wordt
 		}
-		if (accel < 0.0f) {
-			// if we try to decelerate we brake.
+		if (accel < 0.0f) {// Bij negatieve versnelling wordt er geremd.
 			brake = true;
 			accel = 0.0f;
 			wantedRPM = 0.0f;
 		}
 		
-		// the RPM we try to achieve.
-		wantedRPM = (5500.0f * accel) * 0.1f + wantedRPM * 0.9f;
+		wantedRPM = (5500.0f * accel) * 0.1f + wantedRPM * 0.9f; //Het toerental wat we willen bereiken
 		
 		float rpm = 0.0f;
 		int motorizedWheels = 0;
 		bool floorContact = false;
 		
-		// calc rpm from current wheel speed and do some updating
+		// Toerental van de wielen berekenen
 		foreach (WheelData w in wheels) {
 			WheelHit hit;
 			WheelCollider col = w.col;
-			
-			// only calculate rpm on wheels that are connected to engine
 			if (w.motor) {
 				rpm += col.rpm;
 				motorizedWheels++;
 			}
 			
-			// calculate the local rotation of the wheels from the delta time and rpm
-			// then set the local rotation accordingly (also adjust for steering)
+			// Ga de locale rotatie na en zet nieuwe locale rotatie terug met delta 
 			w.rotation = Mathf.Repeat(w.rotation + delta * col.rpm * 360.0f / 60.0f, 360.0f);
 			w.transform.localRotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
 			
-			// let the wheels contact the ground, if no groundhit extend max suspension distance
+			// zorgt dat de wielen de grond raken
 			Vector3 lp = w.transform.localPosition;
 			if (col.GetGroundHit(out hit)) {
 				lp.y -= Vector3.Dot(w.transform.position - hit.point, transform.up) - col.radius;
@@ -245,48 +205,36 @@ public class WheelCar2 : MonoBehaviour {
 			}
 			w.transform.localPosition = lp;
 		}
-		// calculate the actual motor rpm from the wheels connected to the engine
-		// note we haven't corrected for gear yet.
+		// Toerental berkenen, onafhankelijk van gear.
 		if (motorizedWheels > 1) {
 			rpm = rpm / motorizedWheels;
 		}
 		
-		// we do some delay of the change (should take delta instead of just 95% of
-		// previous rpm, and also adjust or gears.
+		// Toerental afhankelijk maken van gear.
 		motorRPM = 0.95f * motorRPM + 0.05f * Mathf.Abs(rpm * gears[currentGear]);
-		if (motorRPM > 5500.0f) motorRPM = 5500.0f;
+		if (motorRPM > 5500.0f) motorRPM = 5500.0f; //Checken of we niet maximum hebben bereikt.
 		
-		// calculate the 'efficiency' (low or high rpm have lower efficiency then the
-		// ideal efficiency, say 2000RPM, see table
+		// Efficiecy nagaan met behulp van de tabel gegeven bovenin.
 		int index = (int) (motorRPM / efficiencyTableStep);
 		if (index >= efficiencyTable.Length) index = efficiencyTable.Length - 1;
 		if (index < 0) index = 0;
 		
-		// calculate torque using gears and efficiency table
+		// torque berekenen met gear en de tabel en daarna de torque aan de wielen geven
 		float newTorque = torque * gears[currentGear] * efficiencyTable[index];
-		
-		// go set torque to the wheels
 		foreach (WheelData w in wheels) {
 			WheelCollider col = w.col;
-			
-			// of course, only the wheels connected to the engine can get engine torque
 			if (w.motor) {
-				// only set torque if wheel goes slower than the expected speed
+				// Alleen torque geven als het wiel slomer toerental heeft dan de verwachte
 				if (Mathf.Abs(col.rpm) > Mathf.Abs(wantedRPM)) {
-					// wheel goes too fast, set torque to 0
 					col.motorTorque = 0;
 				}
 				else {
-					// 
 					float curTorque = col.motorTorque;
 					col.motorTorque = curTorque * 0.9f + newTorque * 0.1f;
 				}
 			}
-			// check if we have to brake
+			// Nagaan of er geremd moet worden en draaihoek definieren van de wielen.
 			col.brakeTorque = (brake)?brakeTorque:0.0f;
-			//if(brake){col.brakeTorque= brakeTorque; brakeTorque =- 500f;}
-			
-			// set steering angle
 			col.steerAngle = steer * w.maxSteer;
 		}
 		
