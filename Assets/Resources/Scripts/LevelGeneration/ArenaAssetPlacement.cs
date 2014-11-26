@@ -7,7 +7,6 @@ public class ArenaAssetPlacement : MonoBehaviour {
 	private List<GameObject> assets;
 	public int amountOfAssets;
 	public float assetTimer = 5;
-	public int preCount = 0;
 
 	// returns an ArrayList of all GameObjects with tag "Platform"
 	List<GameObject> getAssets()
@@ -15,7 +14,6 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		List<GameObject> result = new List<GameObject>();
 		foreach (GameObject go in Resources.LoadAll("Prefabs/Arena/ArenaAssets"))
 		{
-			preCount++;
 			if(go.tag == "ArenaAsset")
 			{
 				result.Add(go);
@@ -33,8 +31,8 @@ public class ArenaAssetPlacement : MonoBehaviour {
 	void placeAsset()
 	{
 		// randomise the location within x and z boundaries
-		float x = Random.Range (-200, 200);
-		float z = Random.Range (-200, 200);
+		float x = Random.Range (-500, 500);
+		float z = Random.Range (-500, 500);
 		Vector3 location = new Vector3(x, 50f, z);
 
 		// randomise the asset to be placed
@@ -52,7 +50,7 @@ public class ArenaAssetPlacement : MonoBehaviour {
 	void Start () {
 		assets = getAssets ();
 		amountOfAssets = getAmountOfAssets ();
-		//placeAsset ();
+		placeAsset ();
 	}
 	
 	// Update is called once per frame
