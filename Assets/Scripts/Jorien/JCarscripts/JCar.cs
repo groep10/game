@@ -61,7 +61,7 @@ public class JCar : MonoBehaviour {
 	// every wheel has a wheeldata struct, contains useful wheel specific info
 	class WheelData {
 			public Transform transform;
-			public GameObject go;
+//			public GameObject go;
 			public WheelCollider col;
 			public Vector3 startPos;
 			public float rotation = 0.0f;
@@ -84,19 +84,21 @@ public class JCar : MonoBehaviour {
 			// we create a new gameobject for the collider and move, transform it to match
 			// the position of the wheel it represents. This allows us to do transforms
 			// on the wheel itself without disturbing the collider.
-			GameObject go = new GameObject("WheelCollider");
+			/*GameObject go = new GameObject("WheelCollider");
 			go.transform.parent = transform; // the car, not the wheel is parent
 			go.transform.position = wheel.position; // match wheel pos
 		
 			// create the actual wheel collider in the collider game object
 			WheelCollider col = (WheelCollider) go.AddComponent(typeof(WheelCollider));
-			col.motorTorque = 0.0f;
+			*/
+		    WheelCollider col = wheel.GetComponent<WheelCollider>();
+		    col.motorTorque = 0.0f;
 		
 			// store some useful references in the wheeldata object
 			result.transform = wheel; // access to wheel transform 
-			result.go = go; // store the collider game object
+			//result.go = go; // store the collider game object
 			result.col = col; // store the collider self
-			result.startPos = go.transform.localPosition; // store the current local pos of wheel
+			result.startPos = wheel.transform.localPosition; // store the current local pos of wheel
 			result.maxSteer = maxSteer; // store the max steering angle allowed for wheel
 			result.motor = motor; // store if wheel is connected to engine
 		
