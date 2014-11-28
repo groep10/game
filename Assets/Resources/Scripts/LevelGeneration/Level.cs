@@ -12,16 +12,6 @@ public class Level : MonoBehaviour {
 
 	private float checkpointTimer = 60;
 
-	void Start(){
-		// creates an arena terrain with radius 200
-		editTerrain ();
-		Invoke ("setCheckpoint", 5);
-	}
-
-	// Use this for initialization
-	void Update () {
-	}
-
 	// sets the checkpoint in the arena
 	void setCheckpoint(){
 		float x = Random.Range (-300, 300);
@@ -52,4 +42,11 @@ public class Level : MonoBehaviour {
 		Arena.terrainData.SetHeights (0, 0, heights);
 	}
 
+	void Start(){
+		// creates an arena terrain with radius 200
+		editTerrain ();
+		Invoke ("setCheckpoint", 5);
+	}
 }
+
+

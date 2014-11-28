@@ -24,6 +24,10 @@ public class LineRenderer : MonoBehaviour {
 		collider = GetComponent<MeshCollider> ();
         //gameObject.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		spots.Add (start);
+
+
+        AccountController.getInstance().register("test", "test");
+        Debug.Log("test");
 	}
 
     void OnCollisionEnter()
@@ -99,8 +103,8 @@ public class LineRenderer : MonoBehaviour {
         mesh.RecalculateBounds();
         mesh.Optimize();
 
-        collider.sharedMesh = null;
-        collider.sharedMesh = mesh;
+        //collider.sharedMesh = null;
+        //collider.sharedMesh = mesh;
     }
 
     float lineHeight = 0.5f;
