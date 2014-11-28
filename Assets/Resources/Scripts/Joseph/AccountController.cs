@@ -49,6 +49,8 @@ class AccountController {
             // TODO: handle
             return;
         }
+        // Authenticate and get token.
+        Login(curUsername, curPassword);
         Debug.Log("After");
     }
 
@@ -67,8 +69,27 @@ class AccountController {
         {
             Debug.Log(request.response.Text);
             Hashtable json = (Hashtable)JSON.JsonDecode(request.response.Text);
-            this.afterRegister(json);
+            this.afterLogin(json);
         });
+    }
+
+    public void afterLogin(Hashtable json)
+    {
+        if (!(bool)json["success"])
+        {
+
+            Debug.Log("fail " + json["error"]);
+            // TODO: handle
+            return;
+        }
+        Hashtable data = (Hashtable)json["data"];
+
+        // Don't keep in memory
+        curUsername = null;
+        curPassword = null;
+
+        accessToken = (String)data["token"];
+        loggedIn = true;
     }
 }
 
