@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Globalization;
-using Ionic.Zlib;
 
 namespace HTTP
 {
@@ -230,17 +229,17 @@ namespace HTTP
                         throw new HTTPException ("Response length does not match content length");
                     }
                 }
-
+				/*
                 if ( GetHeader( "content-encoding" ).Contains( "gzip" ) ) {
                     bytes = UnZip( output );
                 }
                 else {
-                    bytes = output.ToArray();
-                }
+                }*/
+				bytes = output.ToArray();
             }
         }
 
-
+		/*
         byte[] UnZip(MemoryStream output) {
             var cms = new MemoryStream ();
             output.Seek(0, SeekOrigin.Begin);
@@ -252,7 +251,7 @@ namespace HTTP
                 }
             }
             return cms.ToArray();
-        }
+        }*/
 
     }
 }
