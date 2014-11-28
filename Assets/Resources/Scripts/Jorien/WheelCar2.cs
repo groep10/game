@@ -44,6 +44,7 @@ public class WheelCar2 : MonoBehaviour {
 		public GameObject go;
 		public WheelCollider col;
 		public Vector3 startPos;
+		public Vector3 startRot;
 		public float rotation = 0.0f;
 		public float maxSteer;
 		public bool motor;
@@ -55,6 +56,8 @@ public class WheelCar2 : MonoBehaviour {
 	//Hier worden de eigenschappen aan de wiel gegeven en collider aangemaakt
 	WheelData SetWheelParams(Transform wheel, float maxSteer, bool motor) {
 		WheelData result = new WheelData(); // the container of wheel specific data
+		result.startRot = wheel.localRotation.eulerAngles;
+
 		GameObject go = new GameObject("WheelCollider");
 		go.transform.parent = transform; // the car, not the wheel is parent
 		go.transform.position = wheel.position; // match wheel pos
@@ -192,7 +195,10 @@ public class WheelCar2 : MonoBehaviour {
 			
 			// Ga de locale rotatie na en zet nieuwe locale rotatie terug met delta 
 			w.rotation = Mathf.Repeat(w.rotation + delta * col.rpm * 360.0f / 60.0f, 360.0f);
-			w.transform.localRotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
+
+			// w.transform.rotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
+
+			w.transform.localRotation = Quaternion.Euler(w.startRot.x, w.startRot.y + col.steerAngle, w.startRot.z + w.rotation);
 			
 			// zorgt dat de wielen de grond raken
 			Vector3 lp = w.transform.localPosition;
