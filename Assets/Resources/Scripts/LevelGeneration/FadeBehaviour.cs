@@ -13,6 +13,7 @@ public class FadeBehaviour : MonoBehaviour {
 	private float curTime = 0;
 	private bool fadeIn = true;
 
+/* ---------------------  FUNCTIONS   ---------------------------- */
 	// creates the transparent shader
 	void setTransparentShader(){
 		transparentShader = Shader.Find ("Transparent/Diffuse");
@@ -55,21 +56,31 @@ public class FadeBehaviour : MonoBehaviour {
 	}
 
 	// starts the fading in of the object
-	void startFadeIn() {
+	public void startFadeIn() {
 		fadeIn = true;
 		curTime = 0;
 	}
 
+	public void queFadeOut(float delay) {
+		Invoke ("startFadeOut", delay);
+		Debug.Log ("invoked fade-out");
+		Debug.Log ("Delay = " + delay);
+	}
+
 	// starts the fading out of the object
-	void startFadeOut() {
+	public void startFadeOut() {
 		fadeIn = false;
 		curTime = 0;
+		Debug.Log ("Fading-out!");
 	}
+
+/* ------------------------- Start and Update ---------------------*/
+
 	// Use this for initialization
 	void Start () {
 		// make the objects shader transparent
 		setTransparentShader ();
-		Invoke ("startFadeOut", 10f);
+		//Invoke ("startFadeOut", 10f);
 	}
 
 	// Update is called once per frame
@@ -81,8 +92,7 @@ public class FadeBehaviour : MonoBehaviour {
 		if(fadeIn) {
 			// fade the object in
 			renderer.material.color = Color.Lerp (setFullyTransparentColor(), setFullyOpaqueColor(), curTime / time);
-		} 
-		else {
+		} else {
 			// fade the object out
 			renderer.material.color = Color.Lerp (setFullyOpaqueColor(), setFullyTransparentColor(), curTime / time);
 			// when its faded out, destroy the object
