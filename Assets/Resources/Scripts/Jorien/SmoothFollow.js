@@ -27,8 +27,8 @@ partial class SmoothFollow { }
 
 
 function LateUpdate () {
-	/*if (!target)
-		return;*/
+	if (!target)
+		return;
 	
 	// Calculate the current rotation angles
 	var wantedRotationAngle;

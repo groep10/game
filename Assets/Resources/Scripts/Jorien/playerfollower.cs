@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections;
 
 public class playerfollower : MonoBehaviour
@@ -21,3 +21,4 @@ public class playerfollower : MonoBehaviour
 		}
 }
 
+*/
