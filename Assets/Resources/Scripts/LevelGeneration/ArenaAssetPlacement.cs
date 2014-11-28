@@ -5,10 +5,12 @@ using System.Collections.Generic;
 public class ArenaAssetPlacement : MonoBehaviour {
 
 	private List<GameObject> assets;
-	private int amountOfAssets;
-	//public float assetTimer = 5;
+	//private int amountOfAssets;
 	private int assetsInArena = 10;
+	private FadeBehaviour fading;
 
+
+/* -------------------- FUNCTIONS -------------------------*/
 	// returns an ArrayList of all GameObjects with tag "Platform"
 	List<GameObject> getAssets()
 	{
@@ -29,6 +31,11 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		return assets.Count;
 	}
 
+	void fadeOut(FadeBehaviour fading){
+		fading.startFadeOut ();
+	}
+
+	// places an asset in the arena at a random location and with a random orientation
 	void placeAsset()
 	{
 		// randomise the location within x and z boundaries
@@ -40,28 +47,29 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		int assetIndex = Mathf.RoundToInt(Random.Range(0, getAmountOfAssets()));
 		GameObject asset = assets[assetIndex];
 
-		// How long will before the asset is refreshed
+		fading = asset.GetComponent<FadeBehaviour>();
+		// How long before the asset is refreshed
 		float assetTimer = Random.Range(1, 15);
 
 		// instantiate the asset
 		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.identity);
-		Destroy (currentAsset, assetTimer);
+		//Destroy (currentAsset, assetTimer);
+		//Invoke ("fadeOut", assetTimer);
+		fading.queFadeOut (assetTimer);
+		Debug.Log ("invoking fade-out");
 		Invoke ("placeAsset", assetTimer);
 	}
+
+/* ----------------------- Start & Update ------------------------- */
 
 	// Use this for initialization
 	void Start () {
 		assets = getAssets ();
-		amountOfAssets = getAmountOfAssets ();
+		//amountOfAssets = getAmountOfAssets ();
 
 		// place several assets in the arena
 		for (int i=0; i < assetsInArena; i++){
 			placeAsset ();
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
