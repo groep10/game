@@ -7,7 +7,11 @@ public class FadeBehaviour : MonoBehaviour {
 	private float opacity;
 	private Shader transparentShader;
 	private Color currentColor;
-	private float fadeTime = 3;
+
+	// the time it takes to fade in or out
+	private float time = 5;
+	private float curTime = 0;
+	private bool fadeIn = true;
 
 	// creates the transparent shader
 	void setTransparentShader(){
@@ -65,13 +69,10 @@ public class FadeBehaviour : MonoBehaviour {
 	void Start () {
 		// make the objects shader transparent
 		setTransparentShader ();
+		Invoke ("startFadeOut", 10f);
 	}
-	
-	// Update is called once per frame
-	float time = 5;
-	float curTime = 0;
-	bool fadeIn = true;
 
+	// Update is called once per frame
 	void Update () {
 		if (curTime >= time) {
 			return;
@@ -80,9 +81,14 @@ public class FadeBehaviour : MonoBehaviour {
 		if(fadeIn) {
 			// fade the object in
 			renderer.material.color = Color.Lerp (setFullyTransparentColor(), setFullyOpaqueColor(), curTime / time);
-		} else {
+		} 
+		else {
 			// fade the object out
 			renderer.material.color = Color.Lerp (setFullyOpaqueColor(), setFullyTransparentColor(), curTime / time);
+			// when its faded out, destroy the object
+			if(curTime >= time){
+				Destroy (this.gameObject);
+			}
 		}
 	}
 }
