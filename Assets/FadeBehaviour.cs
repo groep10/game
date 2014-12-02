@@ -3,35 +3,34 @@ using System.Collections;
 
 public class FadeBehaviour : MonoBehaviour {
 
-	public Renderer renderer;
+	public Renderer objectRenderer;
 	private float opacity;
 	private Shader transparentShader;
 	private Color currentColor;
-	private float fadeTime = 3;
 
 	// creates the transparent shader
 	void setTransparentShader(){
 		transparentShader = Shader.Find ("Transparent/Diffuse");
-		renderer.material.shader = transparentShader;
+		objectRenderer.material.shader = transparentShader;
 	}
 
 	// get the red value of rgb
 	float getRed(){
-		currentColor = renderer.material.color;
+		currentColor = objectRenderer.material.color;
 		float red = currentColor.r;
 		return red;
 	}
 
 	// get the green value of rgb
 	float getGreen(){
-		currentColor = renderer.material.color;
+		currentColor = objectRenderer.material.color;
 		float green = currentColor.g;
 		return green;
 	}
 
 	// get the blue value of rgb
 	float getBlue(){
-		currentColor = renderer.material.color;
+		currentColor = objectRenderer.material.color;
 		float blue = currentColor.b;
 		return blue;
 	}
@@ -53,13 +52,13 @@ public class FadeBehaviour : MonoBehaviour {
 	// starts the fading in of the object
 	void startFadeIn() {
 		fadeIn = true;
-		curTime = 0;
+		currentFadeTime = 0;
 	}
 
 	// starts the fading out of the object
 	void startFadeOut() {
 		fadeIn = false;
-		curTime = 0;
+		currentFadeTime = 0;
 	}
 	// Use this for initialization
 	void Start () {
@@ -68,21 +67,21 @@ public class FadeBehaviour : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	float time = 5;
-	float curTime = 0;
+	float fadeTime = 5;
+	float currentFadeTime = 0;
 	bool fadeIn = true;
 
 	void Update () {
-		if (curTime >= time) {
+		if (currentFadeTime >= fadeTime) {
 			return;
 		}
-		curTime += Time.deltaTime;
+		currentFadeTime += Time.deltaTime;
 		if(fadeIn) {
 			// fade the object in
-			renderer.material.color = Color.Lerp (setFullyTransparentColor(), setFullyOpaqueColor(), curTime / time);
+			objectRenderer.material.color = Color.Lerp (setFullyTransparentColor(), setFullyOpaqueColor(), currentFadeTime / fadeTime);
 		} else {
 			// fade the object out
-			renderer.material.color = Color.Lerp (setFullyOpaqueColor(), setFullyTransparentColor(), curTime / time);
+			objectRenderer.material.color = Color.Lerp (setFullyOpaqueColor(), setFullyTransparentColor(), currentFadeTime / fadeTime);
 		}
 	}
 }

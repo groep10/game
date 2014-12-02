@@ -5,22 +5,31 @@ using System.Collections.Generic;
 public class ArenaAssetPlacement : MonoBehaviour {
 
 	private List<GameObject> assets;
-	private int amountOfAssets;
 	//public float assetTimer = 5;
 	private int assetsInArena = 10;
 
+
+    void Start()
+    {
+        loadAssets();
+
+        for (int i = 0; i < assetsInArena; i++)
+        {
+            placeAsset();
+        }
+    }
+
 	// returns an ArrayList of all GameObjects with tag "Platform"
-	List<GameObject> getAssets()
+	void loadAssets()
 	{
-		List<GameObject> result = new List<GameObject>();
+        assets = new List<GameObject>();
 		foreach (GameObject go in Resources.LoadAll("Prefabs/Arena/ArenaAssets"))
 		{
 			if(go.tag == "ArenaAsset")
 			{
-				result.Add(go);
+                assets.Add(go);
 			}
 		}
-		return result;
 	}
 
 	// returns the amounts of assets in the assets ArrayList
@@ -47,17 +56,6 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.identity);
 		Destroy (currentAsset, assetTimer);
 		Invoke ("placeAsset", assetTimer);
-	}
-
-	// Use this for initialization
-	void Start () {
-		assets = getAssets ();
-		amountOfAssets = getAmountOfAssets ();
-
-		// place several assets in the arena
-		for (int i=0; i < assetsInArena; i++){
-			placeAsset ();
-		}
 	}
 	
 	// Update is called once per frame
