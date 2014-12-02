@@ -65,7 +65,7 @@ AnimationClip:
         value: {x: 1.04999995, y: 1.04999995, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 171468812
+        tangentMode: 1083430873
       m_PreInfinity: 2
       m_PostInfinity: 2
     path: 
@@ -187,6 +187,48 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
+        value: 1.04999995
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalScale.x
+    path: 
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1.04999995
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalScale.y
+    path: 
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalScale.z
+    path: 
+    classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
         value: .816176474
         inSlope: 0
         outSlope: 0
@@ -238,48 +280,6 @@ AnimationClip:
     attribute: m_Color.a
     path: 
     classID: 114
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - time: 0
-        value: 1.04999995
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 10
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-    attribute: m_LocalScale.x
-    path: 
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - time: 0
-        value: 1.04999995
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 10
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-    attribute: m_LocalScale.y
-    path: 
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 10
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-    attribute: m_LocalScale.z
-    path: 
-    classID: 224
     script: {fileID: 0}
   m_EulerEditorCurves: []
   m_Events: []
@@ -376,7 +376,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LogInButton
+  m_Name: BaBu
   serializedVersion: 2
   m_AnimatorParameters:
   - m_Name: Normal
@@ -435,7 +435,7 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1101 &110124237
+--- !u!1101 &110104716
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
@@ -443,7 +443,7 @@ Transition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_SrcState: {fileID: 0}
-  m_DstState: {fileID: 110224237}
+  m_DstState: {fileID: 110204716}
   m_TransitionDuration: .100000001
   m_TransitionOffset: 0
   m_Conditions:
@@ -455,7 +455,7 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1101 &110172313
+--- !u!1101 &110125537
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
@@ -463,7 +463,7 @@ Transition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_SrcState: {fileID: 0}
-  m_DstState: {fileID: 110272313}
+  m_DstState: {fileID: 110225537}
   m_TransitionDuration: .100000001
   m_TransitionOffset: 0
   m_Conditions:
@@ -475,7 +475,7 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1101 &110188986
+--- !u!1101 &110193934
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
@@ -483,7 +483,7 @@ Transition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_SrcState: {fileID: 0}
-  m_DstState: {fileID: 110288986}
+  m_DstState: {fileID: 110293934}
   m_TransitionDuration: .100000001
   m_TransitionOffset: 0
   m_Conditions:
@@ -510,7 +510,7 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110224237
+--- !u!1102 &110204716
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
@@ -525,7 +525,7 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110272313
+--- !u!1102 &110225537
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
@@ -540,7 +540,7 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110288986
+--- !u!1102 &110293934
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
@@ -565,20 +565,20 @@ StateMachine:
   m_DefaultState: {fileID: 110200000}
   m_States:
   - {fileID: 110200000}
-  - {fileID: 110288986}
-  - {fileID: 110272313}
-  - {fileID: 110224237}
+  - {fileID: 110293934}
+  - {fileID: 110225537}
+  - {fileID: 110204716}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
     data:
-      first: {fileID: 110224237}
+      first: {fileID: 110204716}
       second: []
     data:
-      first: {fileID: 110272313}
+      first: {fileID: 110225537}
       second: []
     data:
-      first: {fileID: 110288986}
+      first: {fileID: 110293934}
       second: []
     data:
       first: {fileID: 110200000}
@@ -587,9 +587,9 @@ StateMachine:
       first: {fileID: 0}
       second:
       - {fileID: 110100000}
-      - {fileID: 110188986}
-      - {fileID: 110172313}
-      - {fileID: 110124237}
+      - {fileID: 110193934}
+      - {fileID: 110125537}
+      - {fileID: 110104716}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
