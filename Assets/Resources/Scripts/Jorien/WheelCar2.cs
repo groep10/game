@@ -37,6 +37,16 @@ public class WheelCar2 : MonoBehaviour {
 	float[] efficiencyTable = { 0.6f, 0.65f, 0.7f, 0.75f, 0.8f, 0.85f, 0.9f, 1.0f, 1.0f, 0.95f, 0.80f, 0.70f, 0.60f, 0.5f, 0.45f, 0.40f, 0.36f, 0.33f, 0.30f, 0.20f, 0.10f, 0.05f };
 	float efficiencyTableStep = 250.0f;
 	int currentGear = 1; 
+
+	private bool anyOnGround;
+	private float curvedSpeedFactor;
+	private bool reversing;
+	public float SpeedFactor { get;  private set; }
+	private float maxReversingSpeed;
+	private float maxSpeed = 60;
+	public float reversingSpeedFactor = 0.3f; 
+	public float downForce=80;
+	private float CurrentSpeed;
 	
 	// alle info van de wielen wordt hierin opgeslagen
 	class WheelData {
@@ -44,9 +54,12 @@ public class WheelCar2 : MonoBehaviour {
 		public GameObject go;
 		public WheelCollider col;
 		public Vector3 startPos;
+		public Vector3 startRot;
 		public float rotation = 0.0f;
 		public float maxSteer;
 		public bool motor;
+
+
 	};
 
 	//Er wordt een array aangemaakt waar per wiel data instaat
@@ -55,6 +68,8 @@ public class WheelCar2 : MonoBehaviour {
 	//Hier worden de eigenschappen aan de wiel gegeven en collider aangemaakt
 	WheelData SetWheelParams(Transform wheel, float maxSteer, bool motor) {
 		WheelData result = new WheelData(); // the container of wheel specific data
+		result.startRot = wheel.localRotation.eulerAngles;
+
 		GameObject go = new GameObject("WheelCollider");
 		go.transform.parent = transform; // the car, not the wheel is parent
 		go.transform.position = wheel.position; // match wheel pos
@@ -74,6 +89,8 @@ public class WheelCar2 : MonoBehaviour {
 	void Start () {
 		//Eerst auto goed zwaartepunt geven
 		rigidbody.centerOfMass += shiftCentre;
+		maxReversingSpeed = maxSpeed * reversingSpeedFactor;
+
 
 		//De wielen in een WheelData array plaatsen en de settings maken
 		wheels = new WheelData[4];		
@@ -110,6 +127,7 @@ public class WheelCar2 : MonoBehaviour {
 		}
 
 
+
 	}
 	
 	float shiftDelay = 0.0f;
@@ -137,6 +155,22 @@ public class WheelCar2 : MonoBehaviour {
 			shiftDelay = now + 0.1f; // De volgende schakeling wordt vertraagd met 0.1 seconde, want naar beneden schakelen moet sneller gebeuren.
 		}
 	}
+
+	float CurveFactor (float factor)
+	{
+		return 1 - (1 - factor)*(1 - factor);
+	}
+
+
+
+	void ApplyDownforce ()
+	{
+		// apply downforce
+		if (anyOnGround) {
+			//print("Het werkt");
+			rigidbody.AddForce (-transform.up * curvedSpeedFactor * downForce);
+		}
+	}
 	
 	float wantedRPM = 0.0f; //Het toerental wat de motor probeert te bereiken
 	float motorRPM = 0.0f; //Het toerental van de motor
@@ -156,15 +190,19 @@ public class WheelCar2 : MonoBehaviour {
 		//Schakelen
 		if ((currentGear == 1) && (accel < 0.0f)) { 
 			ShiftDown(); //Bij negatieve versnelling naar gear=0 schakelen die heeft negatieve snelheid.
+			reversing = true;
 		}
 		else if ((currentGear == 0) && (accel > 0.0f)) {
 			ShiftUp(); //Bij positieve versnelling en gear=0 doorschakelen naar gear=1.
+			reversing=false;
 		}
 		else if ((motorRPM > shiftUpRPM) && (accel > 0.0f)) {
 			ShiftUp(); //Als de toerenteller van de moter te hoog wordt, doorschakelen.
+			reversing=false;
 		}
 		else if ((motorRPM < shiftDownRPM) && (currentGear > 1)) { //alleen als gear groter dan 1 is want 0 is achteruit.
 			ShiftDown(); //Als de toerenteller van de motor te laag wordt, doorschakelen.
+			reversing=false;
 		}
 		if ((currentGear == 0)) {
 			accel = - accel; //Zodat de versnelling negatief wordt
@@ -173,6 +211,7 @@ public class WheelCar2 : MonoBehaviour {
 			brake = true;
 			accel = 0.0f;
 			wantedRPM = 0.0f;
+			reversing=true;
 		}
 		
 		wantedRPM = (5500.0f * accel) * 0.1f + wantedRPM * 0.9f; //Het toerental wat we willen bereiken
@@ -180,11 +219,18 @@ public class WheelCar2 : MonoBehaviour {
 		float rpm = 0.0f;
 		int motorizedWheels = 0;
 		bool floorContact = false;
-		
+
+		CurrentSpeed = transform.InverseTransformDirection (rigidbody.velocity).z;
+		SpeedFactor = Mathf.InverseLerp (0, reversing ? maxReversingSpeed : maxSpeed, Mathf.Abs (CurrentSpeed));
+		curvedSpeedFactor = reversing ? 0 : CurveFactor (SpeedFactor);
+
 		// Toerental van de wielen berekenen
 		foreach (WheelData w in wheels) {
 			WheelHit hit;
 			WheelCollider col = w.col;
+			if(col.isGrounded){
+				anyOnGround=true;
+			}
 			if (w.motor) {
 				rpm += col.rpm;
 				motorizedWheels++;
@@ -192,7 +238,10 @@ public class WheelCar2 : MonoBehaviour {
 			
 			// Ga de locale rotatie na en zet nieuwe locale rotatie terug met delta 
 			w.rotation = Mathf.Repeat(w.rotation + delta * col.rpm * 360.0f / 60.0f, 360.0f);
-			w.transform.localRotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
+
+			// w.transform.rotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
+
+			w.transform.localRotation = Quaternion.Euler(w.startRot.x + w.rotation , w.startRot.y + col.steerAngle, w.startRot.z );
 			
 			// zorgt dat de wielen de grond raken
 			Vector3 lp = w.transform.localPosition;
@@ -237,6 +286,8 @@ public class WheelCar2 : MonoBehaviour {
 			col.brakeTorque = (brake)?brakeTorque:0.0f;
 			col.steerAngle = steer * w.maxSteer;
 		}
+
+		ApplyDownforce ();
 		
 
 	}
