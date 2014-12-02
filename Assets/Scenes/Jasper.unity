@@ -164,7 +164,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 20
+  m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &638708396
 Transform:
@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 828635533}
   m_GameObject: {fileID: 638708394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 40}
+  m_LocalPosition: {x: 0, y: 0, z: 99.0169983}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -244,7 +244,7 @@ Transform:
   m_GameObject: {fileID: 667072407}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 10}
+  m_LocalScale: {x: 20, y: 1, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -265,7 +265,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0d0a1a977d238104ca4fc9218287fc0e, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 40
+      value: 99.0169983
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0d0a1a977d238104ca4fc9218287fc0e, type: 2}
       propertyPath: m_LocalRotation.x
@@ -286,6 +286,10 @@ Prefab:
     - target: {fileID: 400000, guid: 0d0a1a977d238104ca4fc9218287fc0e, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 13500000, guid: 0d0a1a977d238104ca4fc9218287fc0e, type: 2}
+      propertyPath: m_Radius
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d0a1a977d238104ca4fc9218287fc0e, type: 2}
@@ -319,8 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36fd51369e3c42b45994f32bd13354f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 100004, guid: 36a6abc4f9c77124ca4dfa78b214290f, type: 2}
-  player2: {fileID: 100004, guid: 7c8e49d3303110a40a8d3ec3634441d4, type: 2}
+  player1: {fileID: 100280, guid: ebbb4a8537a699542a965d3cc7702823, type: 2}
+  player2: {fileID: 100280, guid: ebbb4a8537a699542a965d3cc7702823, type: 2}
   spawnObject: {fileID: 1893934888}
   port: 25101
 --- !u!4 &847341257
