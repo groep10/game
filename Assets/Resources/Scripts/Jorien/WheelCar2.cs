@@ -45,7 +45,7 @@ public class WheelCar2 : MonoBehaviour {
 	private float maxReversingSpeed;
 	private float maxSpeed = 60;
 	public float reversingSpeedFactor = 0.3f; 
-	public float downForce=30;
+	public float downForce=80;
 	private float CurrentSpeed;
 	
 	// alle info van de wielen wordt hierin opgeslagen
