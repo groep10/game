@@ -45,11 +45,12 @@ class AccountController {
         if (!(bool)json["success"])
         {
 
-            Debug.Log("fail " + json["error"]);
+            Debug.Log("[register]fail " + json["error"]);
             // TODO: handle
             return;
         }
-        Debug.Log("After");
+        Debug.Log("[register]After");
+        Login(curUsername, curPassword);
     }
 
     public void Login(String username, String password)
@@ -67,8 +68,31 @@ class AccountController {
         {
             Debug.Log(request.response.Text);
             Hashtable json = (Hashtable)JSON.JsonDecode(request.response.Text);
-            this.afterRegister(json);
+            this.afterLogin(json);
         });
+    }
+
+    public void afterLogin(Hashtable json)
+    {
+        if (!(bool)json["success"])
+        {
+
+            Debug.Log("[login]fail " + json["error"]);
+            // TODO: handle
+            return;
+        }
+        Hashtable data = (Hashtable)json["data"];
+        accessToken = (String)data["token"];
+
+        curUsername = null;
+        curPassword = null;
+
+        Debug.Log("[login]After");
+    }
+
+    public String getAccessToken()
+    {
+        return accessToken;
     }
 }
 
