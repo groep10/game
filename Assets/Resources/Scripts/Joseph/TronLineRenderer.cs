@@ -2,26 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class LineRenderer : MonoBehaviour {
-	Vector3 start, previous;
+public class TronLineRenderer : MonoBehaviour {
+	Vector3 start;
 	List<Vector3> spots = new List<Vector3> ();
 
 	Mesh mesh;
-    MeshCollider collider;
+    MeshCollider meshCollider;
     MeshFilter filter;
 
 	public GameObject target;
 
 	// Use this for initialization
 	void Start () {
-		previous = start = target.transform.position;
+		start = target.transform.position;
 		
         mesh = new Mesh ();
         mesh.MarkDynamic();
 
         filter = GetComponent<MeshFilter>();
         filter.mesh = mesh;
-		collider = GetComponent<MeshCollider> ();
+		meshCollider = GetComponent<MeshCollider> ();
         //gameObject.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		spots.Add (start);
 
@@ -50,7 +50,7 @@ public class LineRenderer : MonoBehaviour {
         updateMesh();
 	}
 
-	Vector3[] vertices, normals;
+	Vector3[] vertices;
 	int[] triangles;
 
     static float minDistance = 2;
@@ -103,8 +103,8 @@ public class LineRenderer : MonoBehaviour {
         mesh.RecalculateBounds();
         mesh.Optimize();
 
-        //collider.sharedMesh = null;
-        //collider.sharedMesh = mesh;
+        meshCollider.sharedMesh = null;
+        meshCollider.sharedMesh = mesh;
     }
 
     float lineHeight = 0.5f;
@@ -166,6 +166,8 @@ public class LineRenderer : MonoBehaviour {
         triangles[i3 + 2] = index + 4;
     }
 
+    /*
+    We let unity do this for us
     void calculateNormal(int index) {
         int i2 = index * 2;
         normals[i2] = Vector3.Cross(vertices[index + 4] - vertices[index + 0], vertices[index + 1] - vertices[index + 0]);
@@ -182,7 +184,7 @@ public class LineRenderer : MonoBehaviour {
 
         normals[i2] = Vector3.Cross(vertices[index + 7] - vertices[index + 3], vertices[index + 0] - vertices[index + 3]);
         normals[i2 + 1] = normals[i2];
-    }
+    }*/
 
     static Vector3 mod(Vector3 v, float dx, float dy, float dz) {
         return new Vector3(v.x + dx, v.y + dy, v.z + dz);

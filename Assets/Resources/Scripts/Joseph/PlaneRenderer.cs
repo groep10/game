@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlaneRenderer : MonoBehaviour {
-	Mesh mesh;
-    MeshCollider collider;
+public class PlaneRenderer : MonoBehaviour
+{
+    Mesh mesh;
+    MeshCollider meshCollider;
     MeshFilter filter;
 
     public float tileXSize = 10, tileZSize = 10;
@@ -14,13 +15,14 @@ public class PlaneRenderer : MonoBehaviour {
 
     public int randomHoleCnt = 5;
 
-	// Use this for initialization
-	void Start () {
-        mesh = new Mesh ();
+    // Use this for initialization
+    void Start()
+    {
+        mesh = new Mesh();
 
         filter = GetComponent<MeshFilter>();
         filter.mesh = mesh;
-		collider = GetComponent<MeshCollider> ();
+        meshCollider = GetComponent<MeshCollider>();
 
         hide = new bool[xTiles, zTiles];
 
@@ -29,23 +31,26 @@ public class PlaneRenderer : MonoBehaviour {
             hide[Random.Range(1, xTiles - 1), Random.Range(1, zTiles - 2)] = true;
         }
         createMesh();
-	}
+    }
 
-	Vector3[] vertices, normals;
-	int[] triangles;
-	void createMesh() {
+    Vector3[] vertices, normals;
+    int[] triangles;
+    void createMesh()
+    {
         Vector3 start = Vector3.zero;
 
         int idx, xSize = xTiles + 1;
         vertices = new Vector3[xSize * zTiles];
         triangles = new int[xTiles * (zTiles - 1) * 12];
 
-        for (int z = 0; z < zTiles; z += 1) {
-            for (int x = 0; x < xSize; x += 1) {
+        for (int z = 0; z < zTiles; z += 1)
+        {
+            for (int x = 0; x < xSize; x += 1)
+            {
                 idx = x + z * xSize;
                 vertices[idx] = mod(start, x * tileXSize, 0f, z * tileZSize);
             }
-        } 
+        }
         for (int z = 0; z < (zTiles - 1); z += 1)
         {
             for (int x = 0; x < xTiles; x += 1)
@@ -65,6 +70,9 @@ public class PlaneRenderer : MonoBehaviour {
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
         mesh.Optimize();
+
+        meshCollider.sharedMesh = null;
+        meshCollider.sharedMesh = mesh;
     }
 
     void renderTileForward(int idx, int tl)
@@ -107,8 +115,9 @@ public class PlaneRenderer : MonoBehaviour {
         triangles[idx + 2] = br;
     }
 
-    static Vector3 mod(Vector3 v, float dx, float dy, float dz) {
+    static Vector3 mod(Vector3 v, float dx, float dy, float dz)
+    {
         return new Vector3(v.x + dx, v.y + dy, v.z + dz);
     }
-		
+
 }

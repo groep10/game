@@ -65,7 +65,7 @@ AnimationClip:
         value: {x: 1.04999995, y: 1.04999995, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
+        tangentMode: 19
       m_PreInfinity: 2
       m_PostInfinity: 2
     path: 
@@ -83,7 +83,7 @@ AnimationClip:
     attribute: m_Color.r
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -97,7 +97,7 @@ AnimationClip:
     attribute: m_Color.g
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -111,7 +111,7 @@ AnimationClip:
     attribute: m_Color.b
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -125,7 +125,7 @@ AnimationClip:
     attribute: m_Color.a
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 0
@@ -142,25 +142,25 @@ AnimationClip:
       isPPtrCurve: 0
     - path: 0
       attribute: 2526845255
-      script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+      script: {fileID: 0}
       classID: 114
       customType: 0
       isPPtrCurve: 0
     - path: 0
       attribute: 4215373228
-      script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+      script: {fileID: 0}
       classID: 114
       customType: 0
       isPPtrCurve: 0
     - path: 0
       attribute: 2334886179
-      script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+      script: {fileID: 0}
       classID: 114
       customType: 0
       isPPtrCurve: 0
     - path: 0
       attribute: 304273561
-      script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+      script: {fileID: 0}
       classID: 114
       customType: 0
       isPPtrCurve: 0
@@ -238,7 +238,7 @@ AnimationClip:
     attribute: m_Color.r
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -252,7 +252,7 @@ AnimationClip:
     attribute: m_Color.g
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -266,7 +266,7 @@ AnimationClip:
     attribute: m_Color.b
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -280,7 +280,7 @@ AnimationClip:
     attribute: m_Color.a
     path: 
     classID: 114
-    script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+    script: {fileID: 0}
   m_EulerEditorCurves: []
   m_Events: []
 --- !u!74 &7400004
@@ -376,7 +376,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: HighButton
+  m_Name: QB
   serializedVersion: 2
   m_AnimatorParameters:
   - m_Name: Normal
@@ -435,7 +435,7 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1101 &110100209
+--- !u!1101 &110113418
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
@@ -443,27 +443,7 @@ Transition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_SrcState: {fileID: 0}
-  m_DstState: {fileID: 110200209}
-  m_TransitionDuration: .100000001
-  m_TransitionOffset: 0
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Highlighted
-    m_EventTreshold: 0
-    m_ExitTime: .899999976
-  m_Atomic: 1
-  m_Solo: 0
-  m_Mute: 0
-  m_CanTransitionToSelf: 0
---- !u!1101 &110189938
-Transition:
-  serializedVersion: 2
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_SrcState: {fileID: 0}
-  m_DstState: {fileID: 110289938}
+  m_DstState: {fileID: 110213418}
   m_TransitionDuration: .100000001
   m_TransitionOffset: 0
   m_Conditions:
@@ -475,7 +455,7 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1101 &110197096
+--- !u!1101 &110187961
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
@@ -483,7 +463,27 @@ Transition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_SrcState: {fileID: 0}
-  m_DstState: {fileID: 110297096}
+  m_DstState: {fileID: 110287961}
+  m_TransitionDuration: .100000001
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Highlighted
+    m_EventTreshold: 0
+    m_ExitTime: .899999976
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
+--- !u!1101 &110196079
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 0}
+  m_DstState: {fileID: 110296079}
   m_TransitionDuration: .100000001
   m_TransitionOffset: 0
   m_Conditions:
@@ -510,37 +510,7 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110200209
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Highlighted
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400002}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 235, y: 65, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110277591
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: highbut
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 5196d0e8d516e445aac86f5654cf5265, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 340, y: 260, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110289938
+--- !u!1102 &110213418
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
@@ -555,7 +525,22 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110297096
+--- !u!1102 &110287961
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Highlighted
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400002}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: 235, y: 65, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
+--- !u!1102 &110296079
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
@@ -580,32 +565,31 @@ StateMachine:
   m_DefaultState: {fileID: 110200000}
   m_States:
   - {fileID: 110200000}
-  - {fileID: 110200209}
-  - {fileID: 110297096}
-  - {fileID: 110289938}
-  - {fileID: 110277591}
+  - {fileID: 110287961}
+  - {fileID: 110296079}
+  - {fileID: 110213418}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
     data:
-      first: {fileID: 0}
-      second:
-      - {fileID: 110100000}
-      - {fileID: 110100209}
-      - {fileID: 110197096}
-      - {fileID: 110189938}
+      first: {fileID: 110213418}
+      second: []
+    data:
+      first: {fileID: 110296079}
+      second: []
+    data:
+      first: {fileID: 110287961}
+      second: []
     data:
       first: {fileID: 110200000}
       second: []
     data:
-      first: {fileID: 110200209}
-      second: []
-    data:
-      first: {fileID: 110297096}
-      second: []
-    data:
-      first: {fileID: 110289938}
-      second: []
+      first: {fileID: 0}
+      second:
+      - {fileID: 110100000}
+      - {fileID: 110187961}
+      - {fileID: 110196079}
+      - {fileID: 110113418}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

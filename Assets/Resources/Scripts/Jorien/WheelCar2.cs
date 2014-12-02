@@ -45,7 +45,7 @@ public class WheelCar2 : MonoBehaviour {
 	private float maxReversingSpeed;
 	private float maxSpeed = 60;
 	public float reversingSpeedFactor = 0.3f; 
-	public float downForce=30;
+	public float downForce=80;
 	private float CurrentSpeed;
 	
 	// alle info van de wielen wordt hierin opgeslagen
@@ -167,6 +167,7 @@ public class WheelCar2 : MonoBehaviour {
 	{
 		// apply downforce
 		if (anyOnGround) {
+			//print("Het werkt");
 			rigidbody.AddForce (-transform.up * curvedSpeedFactor * downForce);
 		}
 	}
@@ -240,7 +241,7 @@ public class WheelCar2 : MonoBehaviour {
 
 			// w.transform.rotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
 
-            w.transform.localRotation = Quaternion.Euler(w.startRot.x + w.rotation , w.startRot.y + col.steerAngle, w.startRot.z);
+			w.transform.localRotation = Quaternion.Euler(w.startRot.x + w.rotation , w.startRot.y + col.steerAngle, w.startRot.z );
 			
 			// zorgt dat de wielen de grond raken
 			Vector3 lp = w.transform.localPosition;
@@ -285,6 +286,8 @@ public class WheelCar2 : MonoBehaviour {
 			col.brakeTorque = (brake)?brakeTorque:0.0f;
 			col.steerAngle = steer * w.maxSteer;
 		}
+
+		ApplyDownforce ();
 		
 
 	}
