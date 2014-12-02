@@ -241,7 +241,11 @@ public class WheelCar2 : MonoBehaviour {
 
 			// w.transform.rotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
 
+<<<<<<< HEAD
 			w.transform.localRotation = Quaternion.Euler(w.startRot.x + w.rotation , w.startRot.y + col.steerAngle, w.startRot.z );
+=======
+            w.transform.localRotation = Quaternion.Euler(w.startRot.x + w.rotation , w.startRot.y + col.steerAngle, w.startRot.z);
+>>>>>>> 903bba8bbeeb609f90e37f313758375dbd303378
 			
 			// zorgt dat de wielen de grond raken
 			Vector3 lp = w.transform.localPosition;
