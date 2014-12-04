@@ -7,6 +7,13 @@ public class FadeBehaviour : MonoBehaviour {
 	private float opacity;
 	private Shader transparentShader;
 	private Color currentColor;
+	private float totalLifeTime;
+
+	private ArenaAssetPlacement parent;
+
+	public void setParent(ArenaAssetPlacement parent) {
+		this.parent = parent;
+	}
 
 	// creates the transparent shader
 	void setTransparentShader(){
@@ -64,14 +71,31 @@ public class FadeBehaviour : MonoBehaviour {
 	void Start () {
 		// make the objects shader transparent
 		setTransparentShader ();
+		// Make the object transparent at start-up
+		objectRenderer.material.color = setFullyTransparentColor ();
+		// The time it takes before the asset is destroyed
+		totalLifeTime = Random.Range(10, 15);
 	}
 	
-	// Update is called once per frame
+
 	float fadeTime = 5;
 	float currentFadeTime = 0;
 	bool fadeIn = true;
+	float currentLifeTime = 0;
+	bool isFadingOut = false;
 
+	// Update is called once per frame
 	void Update () {
+		currentLifeTime += Time.deltaTime;
+		if (!isFadingOut){
+			Debug.Log ("Checking for startFadeOut()");
+			if (totalLifeTime - currentLifeTime <= fadeTime) {
+				startFadeOut();
+				isFadingOut = true;
+				Debug.Log ("Started fading out!");
+			}
+		}
+
 		if (currentFadeTime >= fadeTime) {
 			return;
 		}
@@ -82,6 +106,14 @@ public class FadeBehaviour : MonoBehaviour {
 		} else {
 			// fade the object out
 			objectRenderer.material.color = Color.Lerp (setFullyOpaqueColor(), setFullyTransparentColor(), currentFadeTime / fadeTime);
+			if (currentFadeTime >= fadeTime) {
+				doDestroy ();
+			}
 		}
+	}
+
+	void doDestroy() {
+		Destroy(this.gameObject);
+		parent.placeAsset ();
 	}
 }
