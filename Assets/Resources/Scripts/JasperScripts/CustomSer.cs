@@ -14,6 +14,7 @@ public enum wheelDriveTest {
 public class CustomSer : MonoBehaviour {
 	public GameObject enemy;
 	public Transform enemySpawn;
+	private Transform child;
 
 	private float moveH;
 	private float moveV;
@@ -385,22 +386,14 @@ public class CustomSer : MonoBehaviour {
 	//RPC Calls
 	[RPC]
 	void Shoting(bool fire){
+		child = transform.FindChild("Shooter");
 		if(fire){
-			particleSystem.Play();
+			child.particleSystem.Play();
 		}
 		else if(!fire){
-			particleSystem.Stop();
+			child.particleSystem.Stop();
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
 
 
