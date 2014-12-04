@@ -187,6 +187,27 @@ ModelImporter:
     100362: Wheel_empty
     100364: Wheel_F_L_empty
     100366: Wheel_F_R_empty
+    100368: Front_wheel_L
+    100370: Armature_003
+    100372: BezierCircle_003
+    100374: BezierCircle_004
+    100376: BezierCurve_000
+    100378: Car_Body_001_MeshPart2
+    100380: Empty_103
+    100382: Empty_104
+    100384: Empty_105
+    100386: Empty_106
+    100388: Front_Spring_Bottom_002
+    100390: Front_Spring_bottom_Empty_002
+    100392: Front_Spring_Top_002
+    100394: Front_Spring_top_Empty_002
+    100396: Hanging_bottom_002
+    100398: Hanging_top_002
+    100400: Root_2
+    100402: Spring_B_R_top_empty
+    100404: stratch_2
+    100406: Stretch_target_2
+    100408: Susp_B_R_top_rotation_empty
     400000: Armature
     400002: Armature_001
     400004: Armature_002
@@ -371,6 +392,27 @@ ModelImporter:
     400362: Wheel_empty
     400364: Wheel_F_L_empty
     400366: Wheel_F_R_empty
+    400368: Front_wheel_L
+    400370: Armature_003
+    400372: BezierCircle_003
+    400374: BezierCircle_004
+    400376: BezierCurve_000
+    400378: Car_Body_001_MeshPart2
+    400380: Empty_103
+    400382: Empty_104
+    400384: Empty_105
+    400386: Empty_106
+    400388: Front_Spring_Bottom_002
+    400390: Front_Spring_bottom_Empty_002
+    400392: Front_Spring_Top_002
+    400394: Front_Spring_top_Empty_002
+    400396: Hanging_bottom_002
+    400398: Hanging_top_002
+    400400: Root_2
+    400402: Spring_B_R_top_empty
+    400404: stratch_2
+    400406: Stretch_target_2
+    400408: Susp_B_R_top_rotation_empty
     2300000: BezierCircle
     2300002: BezierCircle_001
     2300004: BezierCircle_002
@@ -411,6 +453,12 @@ ModelImporter:
     2300074: Torus_001
     2300076: Wheel_B_L
     2300078: Wheel_B_R
+    2300080: Front_wheel_L
+    2300082: BezierCircle_003
+    2300084: BezierCircle_004
+    2300086: Car_Body_001_MeshPart2
+    2300088: Front_Spring_Bottom_002
+    2300090: Front_Spring_Top_002
     3300000: BezierCircle
     3300002: BezierCircle_001
     3300004: BezierCircle_002
@@ -451,9 +499,16 @@ ModelImporter:
     3300074: Torus_001
     3300076: Wheel_B_L
     3300078: Wheel_B_R
+    3300080: Front_wheel_L
+    3300082: BezierCircle_003
+    3300084: BezierCircle_004
+    3300086: Car_Body_001_MeshPart2
+    3300088: Front_Spring_Bottom_002
+    3300090: Front_Spring_Top_002
     4300000: Wheel_B_L
     4300002: Spring_B_L_bottom
     4300004: Spring_B_L_top
+    4300006: Front_wheel_L
     4300008: Seet
     4300010: Body_plating
     4300014: BezierCircle_002
@@ -492,11 +547,18 @@ ModelImporter:
     4300080: Cylinder_008
     4300082: Cylinder_010
     4300084: Torus_001
+    4300088: Car_Body_001_MeshPart2
+    4300090: Front_Spring_Bottom_002
+    4300092: BezierCurve_000
+    4300094: BezierCircle_003
+    4300096: BezierCircle_004
+    4300098: Front_Spring_Top_002
     7400000: Default Take
     9500000: //RootNode
     13700000: BezierCurve
     13700002: BezierCurve_001
     13700004: BezierCurve_002
+    13700006: BezierCurve_000
   materials:
     importMaterials: 1
     materialName: 0
