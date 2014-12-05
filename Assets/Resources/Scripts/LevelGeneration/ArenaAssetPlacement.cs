@@ -31,14 +31,16 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		// randomise the location within x and z boundaries
 		float x = Random.Range (-500, 500);
 		float z = Random.Range (-500, 500);
-		Vector3 location = new Vector3(x, 50f, z);
+		Vector3 location = new Vector3(x, 0f, z);
+
+		float rotationY = Random.Range (0, 360);
 
 		// randomise the asset to be placed
 		int assetIndex = Mathf.RoundToInt(Random.Range(0, getAmountOfAssets()));
 		GameObject asset = assets[assetIndex];
 
 		// instantiate the asset
-		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.identity);
+		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f));
 		currentAsset.GetComponent<FadeBehaviour> ().setParent (this);
 		//Debug.Log("Object created");
 	}
