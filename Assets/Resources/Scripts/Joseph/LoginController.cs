@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class LoginController : MonoBehaviour {
 
@@ -14,18 +16,41 @@ public class LoginController : MonoBehaviour {
 
     void Start()
     {
-        if (login != null) login.onClick.AddListener(onLoginPressed);
-        if (register != null) register.onClick.AddListener(onRegisterPressed);
+        if (login != null) login.onClick.AddListener(onLoginClicked);
+        if (register != null) register.onClick.AddListener(onRegisterClicked);
     }
 
-    public void onLoginPressed()
+    public void onAvatarClicked()
+    {
+        String path = EditorUtility.OpenFilePanel(
+                    "Select new avatar",
+                    "",
+                    "*.png;*.jpg;*.gif");
+
+        setLoading(true);
+        AccountController.getInstance().uploadAvatar(path, result =>
+        {
+            setLoading(false);
+            if (!(bool)result["success"])
+            {
+                GameObject err = (GameObject)Instantiate(errorWindow);
+                err.GetComponentInChildren<Text>().text = (String)result["error"];
+                err.transform.SetParent(transform, false);
+
+                return;
+            }
+            updateUserPanel();
+        });
+    }
+
+    public void onLoginClicked()
     {
         Debug.Log("login");
         setLoading(true);
         AccountController.getInstance().login(email.text, password.text, this.onResult);
     }
 
-    public void onRegisterPressed()
+    public void onRegisterClicked()
     {
         Debug.Log("register");
         setLoading(true);
@@ -48,10 +73,14 @@ public class LoginController : MonoBehaviour {
             GameObject err = (GameObject) Instantiate(errorWindow);
             err.GetComponentInChildren<Text>().text = (String) result["error"];
             err.transform.SetParent(transform, false);
-            
             return;
         }
 
+        updateUserPanel();
+    }
+
+    public void updateUserPanel()
+    {
         if (userPanel != null)
         {
             String displayname = (String)AccountController.getInstance().getUser()["displayname"];
@@ -63,8 +92,8 @@ public class LoginController : MonoBehaviour {
                 Debug.Log("done");
             });
         }
-
     }
+
 
     Sprite tex2sprite(Texture2D tex)
     {

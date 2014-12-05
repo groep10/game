@@ -9,6 +9,7 @@ public class PlaneRenderer : MonoBehaviour
     MeshFilter filter;
 
     public float tileXSize = 10, tileZSize = 10;
+
     public int xTiles = 10, zTiles = 10;
 
     bool[,] hide;

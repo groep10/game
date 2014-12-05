@@ -117,6 +117,34 @@ class AccountController {
         });
     }
 
+    public void uploadAvatar(String filePath, handleHash callback)
+    {
+        Http req = new Http("file:///" + filePath);
+        req.getData(www =>
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("token", this.getAccessToken());
+            form.AddBinaryData("avatar", www.bytes);
+
+            Http setreq =  new Http("http://so.meaglin.com/api.php?action=setavatar", form);
+            setreq.getText(responseText =>
+            {
+                Debug.Log(responseText);
+                Hashtable json = (Hashtable)JSON.JsonDecode(responseText);
+                if (!json.ContainsKey("success") || !(bool)json["success"])
+                {
+                    json["success"] = false;
+                    if (!json.ContainsKey("error"))
+                    {
+                        json["error"] = "Server Error";
+                    }
+                    Debug.Log("[avatar]fail " + json["error"]);
+                }
+                callback(json);
+            });
+            //  Debug.Log("data " + www.bytes.Length);
+        });
+    }
 
     public String getAccessToken()
     {
