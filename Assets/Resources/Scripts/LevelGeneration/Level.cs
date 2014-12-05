@@ -43,8 +43,9 @@ public class Level : MonoBehaviour {
 	}
 
 	/* ------------ GENETIC ALGORITHM TO PLACE THE CHECKPOINT -------------------------- */
-	// Genetic Algorithm variables
-	private int amountOfChromosomes = 30;
+	// Variables
+	private int chromosomesPerGeneration = 30;
+	private int maxGenerations = 50;
 
 	// returns a  Vector2 chromosome representing the possible x and y coordinates of the checkpoint
 	Vector2 createChromosome(){
@@ -57,7 +58,7 @@ public class Level : MonoBehaviour {
 	// returns a generation of coordian
 	List<Vector2> createFirstGeneration(){
 		List<Vector2> result = new List<Vector2>();
-		for (int i = 0; i < amountOfChromosomes; i++){
+		for (int i = 0; i < chromosomesPerGeneration; i++){
 			result.Add(createChromosome());
 		}
 		return result;
@@ -91,10 +92,49 @@ public class Level : MonoBehaviour {
 		chrom2 = child2;
 	}
 
+	// returns the fitness as a float for a pair of coordinates
+	float calculateFitness(Vector2 chrom, List<Vector2> players){
+		List<float> distances = new List<float>();
+		// calculate the distances between the chromosome and the player
+		for (int i =0; i < players.Count; i++){
+			distances[i] = Vector2.Distance (chrom, players[i]);
+		}
+
+		float min = Mathf.Min (distances);
+		float max = Mathf.Max (distances);
+		float difference = max - min;
+
+		float fitness = 1 / difference;
+		return fitness;
+	}
+
+	// returns a list floats containing all the fitnesses of a generation
+	List<float> fitnessOfGeneration(List<Vector2> generation, List<Vector2> players){
+		List<float> result = new List<float>();
+		// calculate the fitness for each chromosome in the generation
+		foreach (Vector2 chrom in generation){
+			result.Add(calculateFitness(chrom, players));
+		}
+		
+	}
+
+	void runGeneticAlgorithm(){
+		// made up player-coordinates to test (ideal result with these coordinates is 0f,0f)
+		Vector2 player1 = new Vector2 (-200f, 200f);
+		Vector2 player2 = new Vector2 (200f, 200f);
+		Vector2 player3 = new Vector2 (200f, -200f);
+		Vector2 player4 = new Vector2 (-200f, -200f);
+
+		List<Vector2> players = new List<Vector2>();
+		players.Add(player1);
+		players.Add(player2);
+		players.Add(player3);
+		players.Add(player4);
 
 
-
-
+		List<Vector2> nextGeneration;
+		List<Vector2> currentGeneration = createFirstGeneration ();
+	}
 
 	/* ---------------- END OF GENETIC ALGORITHM ------------------------------ */
 
