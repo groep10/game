@@ -100,8 +100,8 @@ public class Level : MonoBehaviour {
 			distances[i] = Vector2.Distance (chrom, players[i]);
 		}
 
-		float min = Mathf.Min (distances);
-		float max = Mathf.Max (distances);
+		float min = Mathf.Min (distances[0], distances[1], distances[2], distances[3]);
+		float max = Mathf.Max (distances[0], distances[1], distances[2], distances[3]);
 		float difference = max - min;
 
 		float fitness = 1 / difference;
@@ -115,7 +115,7 @@ public class Level : MonoBehaviour {
 		foreach (Vector2 chrom in generation){
 			result.Add(calculateFitness(chrom, players));
 		}
-		
+		return result;
 	}
 
 	void runGeneticAlgorithm(){
