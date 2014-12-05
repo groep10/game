@@ -1,0 +1,143 @@
+fileFormatVersion: 2
+guid: abfe774d8dfa775438f608104be9fd36
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Bell
+    100002: //RootNode
+    100004: Door
+    100006: Porch_walls
+    100008: Roof_big
+    100010: Roof_big_frame
+    100012: Roof_small
+    100014: Roof_small_frame
+    100016: Stairs
+    100018: Walls
+    100020: Window
+    100022: Window_001
+    100024: Window_002
+    100026: Window_003
+    100028: Window_004
+    100030: Window_005
+    100032: Window_small
+    400000: Bell
+    400002: //RootNode
+    400004: Door
+    400006: Porch_walls
+    400008: Roof_big
+    400010: Roof_big_frame
+    400012: Roof_small
+    400014: Roof_small_frame
+    400016: Stairs
+    400018: Walls
+    400020: Window
+    400022: Window_001
+    400024: Window_002
+    400026: Window_003
+    400028: Window_004
+    400030: Window_005
+    400032: Window_small
+    2300000: Bell
+    2300002: Door
+    2300004: Porch_walls
+    2300006: Roof_big
+    2300008: Roof_big_frame
+    2300010: Roof_small
+    2300012: Roof_small_frame
+    2300014: Stairs
+    2300016: Walls
+    2300018: Window
+    2300020: Window_001
+    2300022: Window_002
+    2300024: Window_003
+    2300026: Window_004
+    2300028: Window_005
+    2300030: Window_small
+    3300000: Bell
+    3300002: Door
+    3300004: Porch_walls
+    3300006: Roof_big
+    3300008: Roof_big_frame
+    3300010: Roof_small
+    3300012: Roof_small_frame
+    3300014: Stairs
+    3300016: Walls
+    3300018: Window
+    3300020: Window_001
+    3300022: Window_002
+    3300024: Window_003
+    3300026: Window_004
+    3300028: Window_005
+    3300030: Window_small
+    4300000: Window_005
+    4300002: Window_004
+    4300004: Window_003
+    4300006: Window_002
+    4300008: Window_001
+    4300010: Door
+    4300012: Roof_small
+    4300014: Roof_big
+    4300016: Stairs
+    4300018: Porch_walls
+    4300020: Roof_small_frame
+    4300022: Bell
+    4300024: Walls
+    4300026: Window_small
+    4300028: Window
+    4300030: Roof_big_frame
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
