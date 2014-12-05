@@ -84,15 +84,18 @@ public class FadeBehaviour : MonoBehaviour {
 	float currentLifeTime = 0;
 	bool isFadingOut = false;
 
+	void doDestroy() {
+		Destroy(this.gameObject);
+		parent.placeAsset ();
+	}
+
 	// Update is called once per frame
 	void Update () {
 		currentLifeTime += Time.deltaTime;
 		if (!isFadingOut){
-			Debug.Log ("Checking for startFadeOut()");
 			if (totalLifeTime - currentLifeTime <= fadeTime) {
 				startFadeOut();
 				isFadingOut = true;
-				Debug.Log ("Started fading out!");
 			}
 		}
 
@@ -112,8 +115,4 @@ public class FadeBehaviour : MonoBehaviour {
 		}
 	}
 
-	void doDestroy() {
-		Destroy(this.gameObject);
-		parent.placeAsset ();
-	}
 }
