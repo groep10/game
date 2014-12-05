@@ -19,10 +19,17 @@ class AccountController {
 
     private String curUsername, curPassword;
 
+    private Hashtable user;
+
     private Boolean loggedIn;
     private String accessToken;
 
-    public void register(String username, String password) {
+    public delegate void handleHash(Hashtable result);
+    public delegate void handleData(byte[] data);
+    public delegate void handleTexture(Texture2D tex);
+    public delegate void handleSprite(Sprite sprite);
+
+    public void register(String username, String password, handleHash callback) {
         curUsername = username;
         curPassword = password;
 
@@ -30,30 +37,33 @@ class AccountController {
         form.AddField("username", username);
         form.AddField("password", password);
 
-        HTTP.Request someRequest = new HTTP.Request("post", "http://so.meaglin.com/api.php?action=register", form);
-        someRequest.synchronous = true;
-        someRequest.Send((request) =>
+        Http request = new Http("http://so.meaglin.com/api.php?action=register", form);
+        request.getText((responseText) =>
         {
-            Debug.Log(request.response.Text);
-            Hashtable json = (Hashtable)JSON.JsonDecode(request.response.Text);
-            this.afterRegister(json);
+            Debug.Log(responseText);
+            Hashtable json = (Hashtable)JSON.JsonDecode(responseText);
+            this.afterRegister(json, callback);
         });
     }
 
-    public void afterRegister(Hashtable json)
+    public void afterRegister(Hashtable json, handleHash callback)
     {
-        if (!(bool)json["success"])
+        if (!json.ContainsKey("success") || !(bool)json["success"])
         {
-
+            json["success"] = false;
+            if (!json.ContainsKey("error"))
+            {
+                json["error"] = "Server Error";
+            }
             Debug.Log("[register]fail " + json["error"]);
-            // TODO: handle
+            callback(json);
             return;
         }
         Debug.Log("[register]After");
-        Login(curUsername, curPassword);
+        login(curUsername, curPassword, callback);
     }
 
-    public void Login(String username, String password)
+    public void login(String username, String password, handleHash callback)
     {
         curUsername = username;
         curPassword = password;
@@ -62,37 +72,60 @@ class AccountController {
         form.AddField("username", username);
         form.AddField("password", password);
 
-        HTTP.Request someRequest = new HTTP.Request("post", "http://so.meaglin.com/api.php?action=login", form);
-        someRequest.synchronous = true;
-        someRequest.Send((request) =>
+        Http request = new Http("http://so.meaglin.com/api.php?action=login", form);
+        request.getText((responseText) =>
         {
-            Debug.Log(request.response.Text);
-            Hashtable json = (Hashtable)JSON.JsonDecode(request.response.Text);
-            this.afterLogin(json);
+            Debug.Log(responseText);
+            Hashtable json = (Hashtable)JSON.JsonDecode(responseText);
+            this.afterLogin(json, callback);
         });
     }
 
-    public void afterLogin(Hashtable json)
+    public void afterLogin(Hashtable json, handleHash callback)
     {
-        if (!(bool)json["success"])
+        if (!json.ContainsKey("success") || !(bool)json["success"])
         {
-
+            json["success"] = false;
+            if (!json.ContainsKey("error"))
+            {
+                json["error"] = "Server Error";
+            }
             Debug.Log("[login]fail " + json["error"]);
-            // TODO: handle
+            callback(json);
             return;
         }
         Hashtable data = (Hashtable)json["data"];
+        user = (Hashtable)data["user"];
         accessToken = (String)data["token"];
 
         curUsername = null;
         curPassword = null;
 
         Debug.Log("[login]After");
+        callback(json);
     }
+
+    public void getUserAvatar(handleTexture callback)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("token", this.getAccessToken());
+
+        Http request = new Http("http://so.meaglin.com/api.php?action=getavatar&raw", form);
+        request.getData((www) =>
+        {
+            callback(www.texture);
+        });
+    }
+
 
     public String getAccessToken()
     {
         return accessToken;
+    }
+
+    public Hashtable getUser()
+    {
+        return user;
     }
 }
 
