@@ -20,7 +20,7 @@ public class WheelCar2 : MonoBehaviour {
 	public float suspensionDistance = 0.2f; 
 	public float springs = 1000.0f; 
 	public float dampers = 2f; 
-	public float wheelRadius = 0.25f; 
+	public float wheelRadius = 1.25f; 
 	public float torque = 100f; 
 	public float brakeTorque = 500f; 
 	public float wheelWeight = 3f;
@@ -241,7 +241,7 @@ public class WheelCar2 : MonoBehaviour {
 
 			// w.transform.rotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
 
-			w.transform.localRotation = Quaternion.Euler(w.startRot.x , w.startRot.y + col.steerAngle  + w.rotation, w.startRot.z  );
+			w.transform.localRotation = Quaternion.Euler(w.rotation , col.steerAngle,  90.0f );
 			
 			// zorgt dat de wielen de grond raken
 			Vector3 lp = w.transform.localPosition;
