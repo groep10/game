@@ -5,21 +5,9 @@ using System.Collections.Generic;
 public class ArenaAssetPlacement : MonoBehaviour {
 
 	private List<GameObject> assets;
-	//public float assetTimer = 5;
 	private int assetsInArena = 10;
 
-
-    void Start()
-    {
-        loadAssets();
-
-        for (int i = 0; i < assetsInArena; i++)
-        {
-            placeAsset();
-        }
-    }
-
-	// returns an ArrayList of all GameObjects with tag "Platform"
+	    // returns an ArrayList of all GameObjects with tag "ArenaAsset"
 	void loadAssets()
 	{
         assets = new List<GameObject>();
@@ -38,28 +26,33 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		return assets.Count;
 	}
 
-	void placeAsset()
+	public void placeAsset()
 	{
 		// randomise the location within x and z boundaries
 		float x = Random.Range (-500, 500);
 		float z = Random.Range (-500, 500);
-		Vector3 location = new Vector3(x, 50f, z);
+		Vector3 location = new Vector3(x, 0f, z);
+
+		float rotationY = Random.Range (0, 360);
 
 		// randomise the asset to be placed
 		int assetIndex = Mathf.RoundToInt(Random.Range(0, getAmountOfAssets()));
 		GameObject asset = assets[assetIndex];
 
-		// How long will before the asset is refreshed
-		float assetTimer = Random.Range(1, 15);
-
 		// instantiate the asset
-		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.identity);
-		Destroy (currentAsset, assetTimer);
-		Invoke ("placeAsset", assetTimer);
+		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f));
+		currentAsset.GetComponent<FadeBehaviour> ().setParent (this);
+		//Debug.Log("Object created");
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	// Called at the start of the game
+	void Start()
+	{
+		loadAssets();
+		for (int i = 0; i < assetsInArena; i++)
+		{
+			placeAsset();
+		}
 	}
+
 }

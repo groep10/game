@@ -26,7 +26,7 @@ public class TronLineRenderer : MonoBehaviour {
 		spots.Add (start);
 
 
-        AccountController.getInstance().register("test", "test");
+        //AccountController.getInstance().register("test", "test");
         Debug.Log("test");
 	}
 
