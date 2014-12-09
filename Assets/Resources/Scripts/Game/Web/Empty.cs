@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-
-class Empty : MonoBehaviour
+namespace Game.Web
 {
+    class Empty : MonoBehaviour
+    {
 
+    }
 }
