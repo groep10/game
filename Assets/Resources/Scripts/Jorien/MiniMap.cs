@@ -57,6 +57,10 @@ public class MiniMap : MonoBehaviour
 		if(dist<=mapWidth*.5/mapScale){ 
 			GUI.DrawTexture(new Rect(mapCenter.x+bX,mapCenter.y+bY,SizePlayers,SizePlayers),aTexture);
 		}
+		/*if (dist > mapWidth * .5 / mapScale && Texture.Equals(aTexture, CheckPointTag)==0) {
+			print ( "CheckPoint");
+		}*/
+
 		
 	}
 	
@@ -72,6 +76,8 @@ public class MiniMap : MonoBehaviour
 	void DrawBlipsForCheckPoints(){ 
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (CheckPointTag);
+		Vector3 position = transform.position;
+
 
 	}
 	
