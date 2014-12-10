@@ -1,0 +1,143 @@
+fileFormatVersion: 2
+guid: 4f699a56493780d438ee0ed13e316a9e
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Doors
+    100004: Doors_001
+    100006: roof
+    100008: roof_001
+    100010: shutters
+    100012: shutters_001
+    100014: shutters_002
+    100016: shutters_003
+    100018: shutters_004
+    100020: Walls
+    100022: window
+    100024: window_001
+    100026: window_002
+    100028: window_003
+    100030: window_004
+    100032: window_005
+    400000: //RootNode
+    400002: Doors
+    400004: Doors_001
+    400006: roof
+    400008: roof_001
+    400010: shutters
+    400012: shutters_001
+    400014: shutters_002
+    400016: shutters_003
+    400018: shutters_004
+    400020: Walls
+    400022: window
+    400024: window_001
+    400026: window_002
+    400028: window_003
+    400030: window_004
+    400032: window_005
+    2300000: Doors
+    2300002: Doors_001
+    2300004: roof
+    2300006: roof_001
+    2300008: shutters
+    2300010: shutters_001
+    2300012: shutters_002
+    2300014: shutters_003
+    2300016: shutters_004
+    2300018: Walls
+    2300020: window
+    2300022: window_001
+    2300024: window_002
+    2300026: window_003
+    2300028: window_004
+    2300030: window_005
+    3300000: Doors
+    3300002: Doors_001
+    3300004: roof
+    3300006: roof_001
+    3300008: shutters
+    3300010: shutters_001
+    3300012: shutters_002
+    3300014: shutters_003
+    3300016: shutters_004
+    3300018: Walls
+    3300020: window
+    3300022: window_001
+    3300024: window_002
+    3300026: window_003
+    3300028: window_004
+    3300030: window_005
+    4300000: shutters_004
+    4300002: shutters_003
+    4300004: shutters_002
+    4300006: shutters_001
+    4300008: window_005
+    4300010: window_004
+    4300012: window_003
+    4300014: window_002
+    4300016: window_001
+    4300018: roof_001
+    4300020: shutters
+    4300022: window
+    4300024: Doors_001
+    4300026: Doors
+    4300028: roof
+    4300030: Walls
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
