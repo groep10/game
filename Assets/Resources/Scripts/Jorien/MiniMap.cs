@@ -3,49 +3,101 @@ using System.Collections;
 
 public class MiniMap : MonoBehaviour
 {
-
-	//For placing the image of the mini map.
-	public GUIStyle miniMap;
-	//Two transform variables, one for the player's and the enemy's,
-	public Transform player;
-	public Transform enemy;
-	//Icon images for the player and enemy(s) on the map.
-	public GUIStyle playerIcon;
-	public GUIStyle enemyIcon;
-	//Offset variables (X and Y) - where you want to place your map on screen.
-	public float mapOffSetX = 762f;
-	public float mapOffSetY = 510;
-	//The width and height of your map as it'll appear on screen,
-	public float mapWidth = 200f;
-	public float mapHeight = 200f;
-	//Width and Height of your scene, or the resolution of your terrain.
-	public float sceneWidth = 500f;
-	public float sceneHeight = 500f;
-	//The size of your player's and enemy's icon on the map.
-	public float iconSize = 10f;
-	private float iconHalfSize;
+	public Texture field;
+	public Texture otherPlayer;
+	public Texture player;
+	public Texture CheckPoint;
 	
-	void Update () { //So that the pivot point of the icon is at the middle of the image.
-		//You'll know what it means later...
-		iconHalfSize = iconSize/2f;
-	} 
+	public Transform PlayerCar;
+	public float mapScale = 0.3f;
+	public float mapSizePercent = 15f;
+	
+	public string otherPlayerTag = "OtherPlayer";
+	public string CheckPointTag = "CheckPoint";
 
-	float GetMapPos(float pos, float mapSize, float sceneSize) {
-		return pos * mapSize/sceneSize;
-	}
+	public float SizePlayers = 8;
+	
+	public enum radarLocationValues {topLeft, topRight, middleLeft, middleRight, bottomLeft, bottomRight}
+	public radarLocationValues radarLocation; 
+	
+	private float mapWidth;
+	private float mapHeight;
+	private Vector2 mapCenter;
+	private GameObject Player;
 
 	
-	void OnGUI() {
-		Rect rect1 = new Rect(mapOffSetX,mapOffSetY,mapWidth,mapHeight);
-		GUI.BeginGroup(rect1, miniMap);
-		float pX = GetMapPos(transform.position.x, mapWidth, sceneWidth);
-		float pZ = GetMapPos(transform.position.z, mapHeight, sceneHeight);
-		float playerMapX = pX - iconHalfSize;
-		float playerMapZ = ((pZ * - 1) - iconHalfSize) + mapHeight;
-		Rect rect2 = new Rect (playerMapX, playerMapZ, iconSize, iconSize);
-		GUI.Box(rect2, "MiniMap", playerIcon);
-		GUI.EndGroup();
+	void Start () {
+		setMapLocation ();	
+		Player = transform.gameObject;
+	}
+	
+	void OnGUI () {
+		GUI.DrawTexture (new Rect (mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2, mapWidth, mapHeight), field);
+		drawBlip (Player, player);
+		DrawBlipsForOtherPlayers ();
+		DrawBlipsForCheckPoints ();
+	}
+	
+	void drawBlip(GameObject go,Texture aTexture){
+		Vector3 centerPos = PlayerCar.position;
+		Vector3 extPos = go.transform.position;
+
+		float dist = Vector3.Distance (centerPos, extPos);
+		float dx = centerPos.x - extPos.x;
+		float dz = centerPos.z - extPos.z; 
+		
+		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
+
+		float bX = dist * Mathf.Cos (deltay * Mathf.Deg2Rad);
+		float bY = dist * Mathf.Sin (deltay * Mathf.Deg2Rad);
+		
+		bX = bX * mapScale; 
+		bY = bY * mapScale;
+		
+		if(dist<=mapWidth*.5/mapScale){ 
+			GUI.DrawTexture(new Rect(mapCenter.x+bX,mapCenter.y+bY,SizePlayers,SizePlayers),aTexture);
+		}
+		/*if (dist > mapWidth * .5 / mapScale && Texture.Equals(aTexture, CheckPointTag)==0) {
+			print ( "CheckPoint");
+		}*/
+
+		
+	}
+	
+	void DrawBlipsForOtherPlayers(){
+		GameObject[] gos;
+		gos = GameObject.FindGameObjectsWithTag (otherPlayerTag);		
+		foreach (GameObject go in gos) {
+			drawBlip(go,otherPlayer);
+		}
+		
 	}
 
+	void DrawBlipsForCheckPoints(){ 
+		GameObject[] gos;
+		gos = GameObject.FindGameObjectsWithTag (CheckPointTag);
+		Vector3 position = transform.position;
+
+
+	}
+	
+	void setMapLocation () {
+		mapWidth = Screen.width * mapSizePercent / 100.0f;
+		mapHeight = mapWidth;
+		
+		if(radarLocation == radarLocationValues.topLeft){
+			mapCenter = new Vector2(mapWidth/2, mapHeight/2);
+		} else if(radarLocation == radarLocationValues.topRight){
+			mapCenter = new Vector2(Screen.width-mapWidth/2, mapHeight/2);
+		} else if(radarLocation == radarLocationValues.middleLeft){
+			mapCenter = new Vector2(mapWidth/2, Screen.height/2);
+		} else if(radarLocation == radarLocationValues.middleRight){
+			mapCenter = new Vector2(Screen.width-mapWidth/2, Screen.height/2);
+		} else if(radarLocation == radarLocationValues.bottomLeft){
+			mapCenter = new Vector2(mapWidth/2, Screen.height - mapHeight/2);
+		} else if(radarLocation == radarLocationValues.bottomRight){
+			mapCenter = new Vector2(Screen.width-mapWidth/2, Screen.height - mapHeight/2);
+		} 
+		
+	}
 }
-

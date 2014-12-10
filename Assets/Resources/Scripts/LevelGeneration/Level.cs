@@ -10,7 +10,7 @@ public class Level : MonoBehaviour {
 	public bool makeLarger;
 	public float terrainRadius = 200;
 	public GameObject checkpoint;
-	private float checkpointTimer = 60;
+	private float checkpointTimer = 10;
 
 	// edits the terrain according to the radius that is set.
 	void editTerrain(){
@@ -34,9 +34,14 @@ public class Level : MonoBehaviour {
 
 	// sets the checkpoint in the arena
 	void setCheckpoint(){
-		float x = Random.Range (-300, 300);
-		float z = Random.Range (-300, 300);
-		Vector3 location = new Vector3(x, 50f, z);
+		//float x = Random.Range (-300, 300);
+		//float z = Random.Range (-300, 300);
+
+		Vector2 locXZ = runGeneticAlgorithm ();
+		float locX = locXZ.x;
+		float locZ = locXZ.y;
+		Vector3 location = new Vector3(locX, 50f, locZ);
+
 		GameObject cpnt = (GameObject) Instantiate (checkpoint, location, Quaternion.identity);
 		Destroy (cpnt, checkpointTimer);
 		Invoke("setCheckpoint", checkpointTimer);
@@ -44,8 +49,10 @@ public class Level : MonoBehaviour {
 
 	/* ------------ GENETIC ALGORITHM TO PLACE THE CHECKPOINT -------------------------- */
 	// Variables
-	private int chromosomesPerGeneration = 30;
-	private int maxGenerations = 50;
+	private int chromosomesPerGeneration = 20; // must be an even number
+	private int maxGenerations = 30;
+	private float mutationProb = 0.1f;
+	private float crossoverProb = 0.7f;
 
 	// returns a  Vector2 chromosome representing the possible x and y coordinates of the checkpoint
 	Vector2 createChromosome(){
@@ -66,12 +73,12 @@ public class Level : MonoBehaviour {
 
 	// mutates the chromosome by setting either the x or the z value randomly within a certain range
 	void mutate(Vector2 chrom){
-		float chance = Random.Range (0f, 1f);
-		if (chance >= 0.5){
-			chrom.x = Random.Range (-300, 300);
-		}
-		else{
-			chrom.y = Random.Range(-300, 300);
+		float range = Random.Range (-100f, 100f);
+		float var = Random.Range (0f, 1f);
+		if (var < 0.5f) {
+			chrom.x = Mathf.Min(Mathf.Max(chrom.x + range, -300), 300);
+		} else {
+			chrom.y = Mathf.Min(Mathf.Max(chrom.y + range, -300), 300);
 		}
 	}
 
@@ -83,13 +90,14 @@ public class Level : MonoBehaviour {
 		float x2 = chrom2.x;
 		float z2 = chrom2.y;
 
-		// create children
-		Vector2 child1 = new Vector2 (x1, z2);
-		Vector2 child2 = new Vector2 (x2, z1);
-
-		// replace parents with children
-		chrom1 = child1;
-		chrom2 = child2;
+		float var = Random.Range (0f, 1f);
+		if (var < 0.5f) {
+			chrom1.y = z2;
+			chrom2.x = x1;
+		} else {
+			chrom1.x = x2;
+			chrom2.y = z1;
+		}
 	}
 
 	// returns the fitness as a float for a pair of coordinates
@@ -97,7 +105,7 @@ public class Level : MonoBehaviour {
 		List<float> distances = new List<float>();
 		// calculate the distances between the chromosome and the player
 		for (int i =0; i < players.Count; i++){
-			distances[i] = Vector2.Distance (chrom, players[i]);
+			distances.Add(Vector2.Distance (chrom, players[i]));
 		}
 
 		float min = Mathf.Min (distances[0], distances[1], distances[2], distances[3]);
@@ -118,22 +126,111 @@ public class Level : MonoBehaviour {
 		return result;
 	}
 
-	void runGeneticAlgorithm(){
+	// calculates the sum of all the elements of an array of floats
+	float sum(List<float> array){
+		float sum = 0f;
+		foreach (float e in array){
+			sum += e;
+		}
+		return sum;
+	}
+
+	float average(List<float> array){
+		float total = sum (array);
+		float average = total / array.Count;
+		return average;
+	}
+
+	// returns a piechart distribution array of the fitness of a generation
+	List<float> fitnessPiechart(List<float> fitnesses){
+		float totalFitness = sum (fitnesses);
+		List<float> piechart = new List<float>();
+
+        //piechart.Add((fitnesses[0] / totalFitness) * 100);
+		for (int i = 0; i < fitnesses.Count; i++) {
+			piechart.Add((fitnesses [i] / totalFitness) * 100);
+		}
+		return piechart;
+	}
+
+	// returns the index of a randomly picked element from the piechart
+	int pickFromPiechart(List<float> piechart){
+		float number = Random.Range (0f, 100f);
+		for (int i = 0; i < piechart.Count; i++) {
+			float value = piechart[i];
+            number -= value;
+            if (number <= 0)
+            {
+                return i;
+            }
+		}
+		return -1;
+	}
+
+	Vector2 runGeneticAlgorithm(){
 		// made up player-coordinates to test (ideal result with these coordinates is 0f,0f)
 		Vector2 player1 = new Vector2 (-200f, 200f);
 		Vector2 player2 = new Vector2 (200f, 200f);
 		Vector2 player3 = new Vector2 (200f, -200f);
 		Vector2 player4 = new Vector2 (-200f, -200f);
 
-		List<Vector2> players = new List<Vector2>();
-		players.Add(player1);
-		players.Add(player2);
-		players.Add(player3);
-		players.Add(player4);
+		// create a list containing the coordinates of the players
+		List<Vector2> players = new List<Vector2> ();
+		players.Add (player1);
+		players.Add (player2);
+		players.Add (player3);
+		players.Add (player4);
 
-
-		List<Vector2> nextGeneration;
+		// run the actual GA
+		float overallBestFitness = 0f;
+		Vector2 overallBestChrom = new Vector2 ();
 		List<Vector2> currentGeneration = createFirstGeneration ();
+		
+		for (int h=0; h < maxGenerations; h++) {
+			//Debug.Log("Generation:" + h);
+
+			List<float> fitnesses = fitnessOfGeneration (currentGeneration, players);
+			List<float> piechart = fitnessPiechart (fitnesses);
+
+			// extract information from the generation
+			float generationBestFitness = Mathf.Max(fitnesses.ToArray());
+			if (generationBestFitness > overallBestFitness){
+				overallBestFitness = generationBestFitness;
+				overallBestChrom = currentGeneration[fitnesses.IndexOf(generationBestFitness)];
+			}
+			float generationAverage = average(fitnesses);
+
+			//Debug.Log("generationAverage:" + generationAverage);
+			//Debug.Log("generationBestFitness:" + generationBestFitness);
+			//Debug.Log("overallBestFitness:" + overallBestFitness);
+
+
+			// create a new generation
+			List<Vector2> newGeneration = new List<Vector2> ();
+			for (int i = 0; i < chromosomesPerGeneration; i++) {
+				int index = pickFromPiechart (piechart);
+				newGeneration.Add (currentGeneration [index]);
+			}
+
+			/* apply crossover and mutation */
+			// crossover
+			for (int j = 0; j < newGeneration.Count; j += 2) {
+				float crossoverChance = Random.Range (0f, 1f);
+				if (crossoverChance <= crossoverProb) {
+					crossover (newGeneration [j], newGeneration [j + 1]);
+					continue;
+				} 
+				float chance = Random.Range(0f, 1f);
+				if(chance <= mutationProb) {
+					mutate (newGeneration[j]);
+					mutate (newGeneration[j + 1]);
+				}
+			}
+
+			// set newGeneration as currentGeneration
+			currentGeneration = newGeneration;
+		}
+		return overallBestChrom;
 	}
 
 	/* ---------------- END OF GENETIC ALGORITHM ------------------------------ */

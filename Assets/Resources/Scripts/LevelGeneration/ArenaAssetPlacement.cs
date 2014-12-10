@@ -11,8 +11,12 @@ public class ArenaAssetPlacement : MonoBehaviour {
 	void loadAssets()
 	{
         assets = new List<GameObject>();
-		foreach (GameObject go in Resources.LoadAll("Prefabs/Arena/ArenaAssets"))
+		foreach (Object o in Resources.LoadAll("Prefabs/Arena/ArenaAssets"))
 		{
+			if (!(o is GameObject)) {
+				continue;
+			}
+			GameObject go = (GameObject) o;
 			if(go.tag == "ArenaAsset")
 			{
                 assets.Add(go);
