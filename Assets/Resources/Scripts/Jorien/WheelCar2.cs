@@ -169,7 +169,7 @@ public class WheelCar2 : MonoBehaviour {
 		if (anyOnGround) {
 			//print("Het werkt");
 			rigidbody.AddForce (-transform.up * curvedSpeedFactor * downForce);
-			print(-transform.up * curvedSpeedFactor * downForce);
+			//print(-transform.up * curvedSpeedFactor * downForce);
 		}
 	}
 	
