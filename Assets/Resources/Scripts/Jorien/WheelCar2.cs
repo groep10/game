@@ -23,7 +23,7 @@ public class WheelCar2 : MonoBehaviour {
 	public float wheelRadius = 1.25f; 
 	public float torque = 100f; 
 	public float brakeTorque = 500f; 
-	public float wheelWeight = 3f;
+	public float wheelWeight = 15f;
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
 	public float fwdStiffness = 0.1f; //stijfheid wielen wordt slip mee bepaald
 	public float swyStiffness = 0.1f; 	
@@ -169,6 +169,7 @@ public class WheelCar2 : MonoBehaviour {
 		if (anyOnGround) {
 			//print("Het werkt");
 			rigidbody.AddForce (-transform.up * curvedSpeedFactor * downForce);
+			print(-transform.up * curvedSpeedFactor * downForce);
 		}
 	}
 	
