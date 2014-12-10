@@ -73,22 +73,12 @@ public class Level : MonoBehaviour {
 
 	// mutates the chromosome by setting either the x or the z value randomly within a certain range
 	void mutate(Vector2 chrom){
-		float chance = Random.Range (0f, 1f);
-		if (chance >= 0.5){
-			if (chrom.x <= 275){
-				chrom.x += 25;
-			}
-			else{
-				chrom.x -= 25;
-			}
-		}
-		else{
-			if (chrom.y <= 275){
-				chrom.y += 25;
-			}
-			else{
-				chrom.y -= 25;
-			}
+		float range = Random.Range (-100f, 100f);
+		float var = Random.Range (0f, 1f);
+		if (var < 0.5f) {
+			chrom.x = Mathf.Min(Mathf.Max(chrom.x + range, -300), 300);
+		} else {
+			chrom.y = Mathf.Min(Mathf.Max(chrom.y + range, -300), 300);
 		}
 	}
 
@@ -100,8 +90,14 @@ public class Level : MonoBehaviour {
 		float x2 = chrom2.x;
 		float z2 = chrom2.y;
 
-        chrom1.y = z2;
-        chrom2.x = x1;
+		float var = Random.Range (0f, 1f);
+		if (var < 0.5f) {
+			chrom1.y = z2;
+			chrom2.x = x1;
+		} else {
+			chrom1.x = x2;
+			chrom2.y = z1;
+		}
 	}
 
 	// returns the fitness as a float for a pair of coordinates
@@ -222,13 +218,12 @@ public class Level : MonoBehaviour {
 				float crossoverChance = Random.Range (0f, 1f);
 				if (crossoverChance <= crossoverProb) {
 					crossover (newGeneration [j], newGeneration [j + 1]);
-				}
-			}
-			// mutation
-			for (int k = 0; k < newGeneration.Count; k++) {
-				float mutationChance = Random.Range (0f, 1f);
-				if (mutationChance <= mutationProb) {
-					mutate (newGeneration [k]);
+					continue;
+				} 
+				float chance = Random.Range(0f, 1f);
+				if(chance <= mutationProb) {
+					mutate (newGeneration[j]);
+					mutate (newGeneration[j + 1]);
 				}
 			}
 
