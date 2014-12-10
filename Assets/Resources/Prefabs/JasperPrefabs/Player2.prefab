@@ -46,10 +46,11 @@ GameObject:
   - 65: {fileID: 6500000}
   - 23: {fileID: 2300000}
   - 148: {fileID: 14800000}
-  - 114: {fileID: 11400002}
   - 54: {fileID: 5400000}
   - 199: {fileID: 19900000}
   - 198: {fileID: 19800000}
+  - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player
@@ -139,7 +140,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 52fdc4b067b2aa648b8bb8dbef92041c, type: 2}
+  - {fileID: 2100000, guid: e8eebf093d08e74448325f3893b47001, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -195,9 +196,50 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
---- !u!114 &11400002
+--- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085db23871f7a194291224b4e992dc44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  enemySpawn: {fileID: 0}
+  speed: 0
+  wheelFR: {fileID: 0}
+  wheelFL: {fileID: 0}
+  wheelBR: {fileID: 0}
+  wheelBL: {fileID: 0}
+  suspensionDistance: .200000003
+  springs: 1000
+  dampers: 2
+  wheelRadius: .25
+  torque: 100
+  brakeTorque: 500
+  wheelWeight: 3
+  shiftCentre: {x: 0, y: -.5, z: 0}
+  fwdStiffness: .100000001
+  swyStiffness: .100000001
+  maxSteerAngle: 30
+  wheelDriveTest: 0
+  shiftDownRPM: 1500
+  shiftUpRPM: 2500
+  gears:
+  - -10
+  - 9
+  - 6
+  - 4.5
+  - 3
+  - 2.5
+  reversingSpeedFactor: .300000012
+  downForce: 80
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
@@ -224,7 +266,7 @@ NetworkView:
   m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_StateSynchronization: 1
-  m_Observed: {fileID: 11400002}
+  m_Observed: {fileID: 11400000}
   m_ViewID:
     m_ID: 0
     m_Type: 0
