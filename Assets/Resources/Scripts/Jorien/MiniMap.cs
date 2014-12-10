@@ -7,13 +7,16 @@ public class MiniMap : MonoBehaviour
 	public Texture otherPlayer;
 	public Texture player;
 	public Texture CheckPoint;
-	
+	public Texture CPpointer;
+	public Texture Enemy;
+
 	public Transform PlayerCar;
 	public float mapScale = 0.3f;
 	public float mapSizePercent = 15f;
 	
 	public string otherPlayerTag = "OtherPlayer";
 	public string CheckPointTag = "CheckPoint";
+	public string EnemyTag = "Enemy";
 
 	public float SizePlayers = 8;
 	
@@ -33,12 +36,13 @@ public class MiniMap : MonoBehaviour
 	
 	void OnGUI () {
 		GUI.DrawTexture (new Rect (mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2, mapWidth, mapHeight), field);
-		drawBlip (Player, player);
+		drawBlip (Player, player, false);
 		DrawBlipsForOtherPlayers ();
 		DrawBlipsForCheckPoints ();
+		DrawBlipsForEnemys ();
 	}
 	
-	void drawBlip(GameObject go,Texture aTexture){
+	void drawBlip(GameObject go,Texture aTexture, bool check){
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
 
@@ -57,9 +61,11 @@ public class MiniMap : MonoBehaviour
 		if(dist<=mapWidth*.5/mapScale){ 
 			GUI.DrawTexture(new Rect(mapCenter.x+bX,mapCenter.y+bY,SizePlayers,SizePlayers),aTexture);
 		}
-		/*if (dist > mapWidth * .5 / mapScale && Texture.Equals(aTexture, CheckPointTag)==0) {
-			print ( "CheckPoint");
-		}*/
+		else if (check) {
+			float bX2 = mapWidth*.45f * Mathf.Cos (deltay * Mathf.Deg2Rad);
+			float bY2 = mapWidth*.45f * Mathf.Sin (deltay * Mathf.Deg2Rad);
+			GUI.DrawTexture(new Rect(mapCenter.x+bX2,mapCenter.y+bY2,SizePlayers,SizePlayers),CPpointer);
+		}
 
 		
 	}
@@ -68,7 +74,7 @@ public class MiniMap : MonoBehaviour
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (otherPlayerTag);		
 		foreach (GameObject go in gos) {
-			drawBlip(go,otherPlayer);
+			drawBlip(go,otherPlayer, false);
 		}
 		
 	}
@@ -77,7 +83,20 @@ public class MiniMap : MonoBehaviour
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (CheckPointTag);
 		Vector3 position = transform.position;
+		foreach (GameObject go in gos) {
+			drawBlip(go,CheckPoint, true);
+		}
 
+
+	}
+
+	void DrawBlipsForEnemys (){
+		GameObject[] gos;
+		gos = GameObject.FindGameObjectsWithTag (EnemyTag);
+		Vector3 position = transform.position;
+		foreach (GameObject go in gos) {
+			drawBlip(go,Enemy, false);
+		}
 
 	}
 	
