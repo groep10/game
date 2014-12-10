@@ -4,6 +4,7 @@ using System.Collections;
 public class NetworkManager : MonoBehaviour {
 	public GameObject player1;
 	public GameObject player2;
+	public GameObject level;
 
 	private string IP = "IP";
 	public int port = 21234;
@@ -16,6 +17,7 @@ public class NetworkManager : MonoBehaviour {
 
 	private Vector3 spawn = new Vector3(-10,1,0);
 	private Vector3 offset = new Vector3(5,0,0);
+	private Vector3 levelSpawn = new Vector3(0,0,0);
 
 	// variables for buttons
 	void Start () {
@@ -34,6 +36,7 @@ public class NetworkManager : MonoBehaviour {
 	}
 	//Spawn host
 	void OnServerInitialized(){
+		Network.Instantiate (level, levelSpawn, Quaternion.identity, 0);
 		spawnPlayer1();
 	}
 	//Remove player on disconnect
@@ -56,9 +59,6 @@ public class NetworkManager : MonoBehaviour {
 		spawn = spawn + offset * num;
 		spawnPlayer2();
 	}
-
-
-
 
 
 	//GUI
