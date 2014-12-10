@@ -10,7 +10,7 @@ public class Level : MonoBehaviour {
 	public bool makeLarger;
 	public float terrainRadius = 200;
 	public GameObject checkpoint;
-	private float checkpointTimer = 60;
+	private float checkpointTimer = 10;
 
 	// edits the terrain according to the radius that is set.
 	void editTerrain(){
@@ -49,8 +49,8 @@ public class Level : MonoBehaviour {
 
 	/* ------------ GENETIC ALGORITHM TO PLACE THE CHECKPOINT -------------------------- */
 	// Variables
-	private int chromosomesPerGeneration = 6; // must be an even number
-	private int maxGenerations = 50;
+	private int chromosomesPerGeneration = 20; // must be an even number
+	private int maxGenerations = 30;
 	private float mutationProb = 0.1f;
 	private float crossoverProb = 0.7f;
 
@@ -187,7 +187,7 @@ public class Level : MonoBehaviour {
 		List<Vector2> currentGeneration = createFirstGeneration ();
 		
 		for (int h=0; h < maxGenerations; h++) {
-			Debug.Log("Generation:" + h);
+			//Debug.Log("Generation:" + h);
 
 			List<float> fitnesses = fitnessOfGeneration (currentGeneration, players);
 			List<float> piechart = fitnessPiechart (fitnesses);
@@ -200,9 +200,9 @@ public class Level : MonoBehaviour {
 			}
 			float generationAverage = average(fitnesses);
 
-			Debug.Log("generationAverage:" + generationAverage);
-			Debug.Log("generationBestFitness:" + generationBestFitness);
-			Debug.Log("overallBestFitness:" + overallBestFitness);
+			//Debug.Log("generationAverage:" + generationAverage);
+			//Debug.Log("generationBestFitness:" + generationBestFitness);
+			//Debug.Log("overallBestFitness:" + overallBestFitness);
 
 
 			// create a new generation
