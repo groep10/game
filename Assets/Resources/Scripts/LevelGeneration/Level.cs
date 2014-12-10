@@ -90,13 +90,16 @@ public class Level : MonoBehaviour {
 		float x2 = chrom2.x;
 		float z2 = chrom2.y;
 
-		// create children
-		Vector2 child1 = new Vector2 (x1, z2);
-		Vector2 child2 = new Vector2 (x2, z1);
+        chrom1.y = z2;
+        chrom2.x = x1;
 
-		// replace parents with children
-		chrom1 = child1;
-		chrom2 = child2;
+        // create children
+        //Vector2 child1 = new Vector2 (x1, z2);
+        //Vector2 child2 = new Vector2 (x2, z1);
+
+        // replace parents with children
+        //chrom1 = child1;
+        //chrom2 = child2;
 	}
 
 	// returns the fitness as a float for a pair of coordinates
@@ -145,9 +148,9 @@ public class Level : MonoBehaviour {
 		float totalFitness = sum (fitnesses);
 		List<float> piechart = new List<float>();
 
-		piechart.Add((fitnesses [0] / totalFitness) * 100);
-		for (int i = 1; i < fitnesses.Count; i++) {
-			piechart.Add((piechart[i-1] + (fitnesses [i] / totalFitness)) * 100);
+        //piechart.Add((fitnesses[0] / totalFitness) * 100);
+		for (int i = 0; i < fitnesses.Count; i++) {
+			piechart.Add((fitnesses [i] / totalFitness) * 100);
 		}
 		return piechart;
 	}
@@ -155,13 +158,13 @@ public class Level : MonoBehaviour {
 	// returns the index of a randomly picked element from the piechart
 	int pickFromPiechart(List<float> piechart){
 		float number = Random.Range (0f, 100f);
-		float lowBound = 0f;
 		for (int i = 0; i < piechart.Count; i++) {
-			float highBound = piechart[i];
-			if (lowBound <= number && number <= highBound){
-				return i;
-			}
-			lowBound = highBound;
+			float value = piechart[i];
+            number -= value;
+            if (number <= 0)
+            {
+                return i;
+            }
 		}
 		return -1;
 	}
