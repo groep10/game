@@ -49,7 +49,7 @@ public class Level : MonoBehaviour {
 
 	/* ------------ GENETIC ALGORITHM TO PLACE THE CHECKPOINT -------------------------- */
 	// Variables
-	private int chromosomesPerGeneration = 30;
+	private int chromosomesPerGeneration = 6; // must be an even number
 	private int maxGenerations = 50;
 	private float mutationProb = 0.1f;
 	private float crossoverProb = 0.7f;
@@ -75,10 +75,20 @@ public class Level : MonoBehaviour {
 	void mutate(Vector2 chrom){
 		float chance = Random.Range (0f, 1f);
 		if (chance >= 0.5){
-			chrom.x = Random.Range (-300, 300);
+			if (chrom.x <= 275){
+				chrom.x += 25;
+			}
+			else{
+				chrom.x -= 25;
+			}
 		}
 		else{
-			chrom.y = Random.Range(-300, 300);
+			if (chrom.y <= 275){
+				chrom.y += 25;
+			}
+			else{
+				chrom.y -= 25;
+			}
 		}
 	}
 
@@ -92,14 +102,6 @@ public class Level : MonoBehaviour {
 
         chrom1.y = z2;
         chrom2.x = x1;
-
-        // create children
-        //Vector2 child1 = new Vector2 (x1, z2);
-        //Vector2 child2 = new Vector2 (x2, z1);
-
-        // replace parents with children
-        //chrom1 = child1;
-        //chrom2 = child2;
 	}
 
 	// returns the fitness as a float for a pair of coordinates
