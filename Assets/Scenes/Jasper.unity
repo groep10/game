@@ -162,13 +162,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 847341255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36fd51369e3c42b45994f32bd13354f6, type: 3}
+  m_Script: {fileID: 11500000, guid: cf293f7d0c521e440936cf793eb6fce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 100358, guid: 9378609aab0803e4ba8614f9804eeade, type: 2}
-  player2: {fileID: 100358, guid: 9378609aab0803e4ba8614f9804eeade, type: 2}
+  player1: {fileID: 100004, guid: 18aaff1c83728414c842fb7545ca7c0f, type: 2}
+  player2: {fileID: 100004, guid: a214da6c6fdef4a4eb9cc1791c7057bf, type: 2}
   level: {fileID: 0}
-  port: 25101
+  port: 21234
 --- !u!4 &847341257
 Transform:
   m_ObjectHideFlags: 0
