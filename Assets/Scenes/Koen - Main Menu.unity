@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: .948529422, g: .818900287, b: .606779873, a: .596078455}
-  m_Sprite: {fileID: 21300000, guid: 54c50c6b538b243049975ac861ef7a95, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9d7480b4c217e45639473c65a7973a07, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4278,7 +4278,7 @@ Animator:
   m_GameObject: {fileID: 1613965702}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9c021e554dfcc48c0b24f99a45d3fee7, type: 2}
+  m_Controller: {fileID: 9100000, guid: a21a2957933a24f7ba84ecfbab63b749, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -4350,7 +4350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: .948529422, g: .818900287, b: .606779873, a: .596078455}
-  m_Sprite: {fileID: 21300000, guid: 24d32c3d8b325491b9ea6f35cc63b528, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 30ea1bc05ab1b49bd8e53b9d02a59e51, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
