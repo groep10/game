@@ -20,6 +20,8 @@ namespace Game.Menu
 
         public GameObject loading, errorWindow, userPanel;
 
+        public Item mainMenu;
+
         void Start()
         {
             if (login != null) login.onClick.AddListener(onLoginClicked);
@@ -82,6 +84,8 @@ namespace Game.Menu
                 return;
             }
 
+            GetComponentInParent<Manager>().ShowMenu(mainMenu);
+
             updateUserPanel();
         }
 
@@ -95,16 +99,12 @@ namespace Game.Menu
                 AccountController.getInstance().getUserAvatar(texture =>
                 {
                     userPanel.GetComponentInChildren<RawImage>().texture = texture;
+                    userPanel.GetComponentInChildren<RawImage>().enabled = true; // Activate
                     Debug.Log("done");
                 });
             }
         }
 
-
-        Sprite tex2sprite(Texture2D tex)
-        {
-            return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-        }
     }
 
 
