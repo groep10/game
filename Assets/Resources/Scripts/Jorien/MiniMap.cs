@@ -101,7 +101,6 @@ public class MiniMap : MonoBehaviour
 	void DrawBlipsForCheckPoints(){ 
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (CheckPointTag);
-		Vector3 position = transform.position;
 		foreach (GameObject go in gos) {
 			drawBlip(go,CheckPoint, true);
 		}
@@ -112,7 +111,6 @@ public class MiniMap : MonoBehaviour
 	void DrawBlipsForEnemys (){
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (EnemyTag);
-		Vector3 position = transform.position;
 		foreach (GameObject go in gos) {
 			drawBlip(go,Enemy, false);
 		}

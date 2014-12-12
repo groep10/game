@@ -11,16 +11,20 @@ public enum wheelDrive3 {
 public class WheelCar4 : MonoBehaviour { 
 
 	//Wielen introduceren
+	[Header ("Wielen")]
 	public Transform wheelFR; 
 	public Transform wheelFL; 
 	public Transform wheelBR; 
 	public Transform wheelBL; 
+
+	[Header ("WielColliders")]
 	public WheelCollider wheelcFR; 
 	public WheelCollider wheelcFL; 
 	public WheelCollider wheelcBR; 
 	public WheelCollider wheelcBL;
 	
 	//eigenschappen van de wielen
+	[Header ("eigenschappen wielen")]
 	public float suspensionDistance = 0.2f; 
 	public float springs = 1000.0f; 
 	public float dampers = 2f; 
@@ -35,6 +39,7 @@ public class WheelCar4 : MonoBehaviour {
 	public wheelDrive3 wheelDrive3 = wheelDrive3.Front; 
 	
 	//Schakel voorwaarden
+	[Header ("Schakelvoorwaarden")]
 	public float shiftDownRPM = 1500.0f; 
 	public float shiftUpRPM = 2500.0f; 
 	public float[] gears = { -10f, 9f, 6f, 4.5f, 3f, 2.5f };
@@ -42,6 +47,7 @@ public class WheelCar4 : MonoBehaviour {
 	float efficiencyTableStep = 250.0f;
 	int currentGear = 1; 
 
+	[Header ("extras")]
 	private bool anyOnGround;
 	private float curvedSpeedFactor;
 	private bool reversing;
@@ -55,7 +61,7 @@ public class WheelCar4 : MonoBehaviour {
 	// alle info van de wielen wordt hierin opgeslagen
 	class WheelData {
 		public Transform transform;
-		public GameObject go;
+//		public GameObject go;
 		public WheelCollider col;
 		public Vector3 startPos;
 		public Vector3 startRot;
