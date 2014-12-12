@@ -26,7 +26,6 @@ public class NetworkList : MonoBehaviour {
 	
 	// variables for buttons
 	void Start () {
-		port = Random.Range (20000, 25000);
 		btnX = Screen.width * 0.1f;
 		btnY = Screen.height * 0.1f;
 		btnW = Screen.width * 0.1f;
@@ -45,6 +44,7 @@ public class NetworkList : MonoBehaviour {
 
 	// Start a server and register on masterserver
 	void startServer(){
+		port = Random.Range (20000, 25000);
 		Network.InitializeServer(4, port, false);
 		MasterServer.RegisterHost(gName,customName,"Arena racing");
 	}
