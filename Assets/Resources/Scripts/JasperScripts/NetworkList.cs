@@ -26,25 +26,15 @@ public class NetworkList : MonoBehaviour {
 	
 	// variables for buttons
 	void Start () {
-		port = Random.Range (20000, 25000);
 		btnX = Screen.width * 0.1f;
 		btnY = Screen.height * 0.1f;
 		btnW = Screen.width * 0.1f;
 		btnH = Screen.width * 0.05f;
 	}
 
-	// Keep searching until you find a server
-	void Update(){
-		if(searching){
-			if(MasterServer.PollHostList ().Length > 0){
-				searching=false;
-				hostdata = MasterServer.PollHostList (); 
-			}
-		}
-	}
-
 	// Start a server and register on masterserver
 	void startServer(){
+		port = Random.Range (20000, 25000);
 		Network.InitializeServer(4, port, false);
 		MasterServer.RegisterHost(gName,customName,"Arena racing");
 	}
@@ -58,8 +48,6 @@ public class NetworkList : MonoBehaviour {
 	// Start seaching for active servers
 	void findGames(){
 		MasterServer.RequestHostList (gName);
-		searching = true;
-		MasterServer.PollHostList ();
 	}
 
 	// Remove player on disconnect
@@ -94,7 +82,13 @@ public class NetworkList : MonoBehaviour {
 		spawn = spawn + offset * num;
 		spawnPlayer2();
 	}
-	
+
+	// Masterserver event 
+	void OnMasterServerEvent(MasterServerEvent mse){
+		if (mse == MasterServerEvent.HostListReceived){
+			hostdata = MasterServer.PollHostList ();
+		}
+	}
 	
 	//GUI
 	void OnGUI(){
