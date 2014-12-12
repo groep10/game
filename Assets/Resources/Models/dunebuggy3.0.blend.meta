@@ -223,6 +223,75 @@ ModelImporter:
     100434: Wheel_B_R_hang_001
     100436: Wheel_F_R_empty
     100438: Wheel_F_R_empty_001
+    100440: Front_wheel_002
+    100442: Front_wheel_003
+    100444: Wheel_B_R_002
+    100446: Wheel_B_R_003
+    100448: Hanging_B_L_body_bottom
+    100450: Hanging_B_L_bottom
+    100452: Hanging_B_L_top
+    100454: Hanging_B_L_wheel_bottom
+    100456: Hanging_B_L_wheel_top
+    100458: Hanging_F_L_bottom_empty
+    100460: Hanging_F_L_top
+    100462: Hanging_F_R_bottom
+    100464: Hanging_F_R_top_empty
+    100466: Spring_B_L
+    100468: Spring_F_L
+    100470: Spring_F_L_top_rot_Empty
+    100472: Spring_F_R
+    100474: Spring_F_R_Bottom
+    100476: Spring_F_R_top_rot_Empty
+    100478: Susp_B_L_bottom
+    100480: Susp_B_L_bottom_empty
+    100482: Susp_B_L_bottom_rotation_empty
+    100484: Susp_B_L_top
+    100486: Susp_B_L_top_empty
+    100488: Susp_B_L_top_rotation_empty
+    100490: Susp_F_L_bottom_empty
+    100492: Susp_F_L_bottom_empty_001
+    100494: Susp_F_L_bottom_rot_empty
+    100496: Susp_F_L_bottom_rot_empty_001
+    100498: Susp_F_L_Frame_Bottom
+    100500: Susp_Frame_F_L_Bottom
+    100502: Susp_Frame_F_L_Top
+    100504: Wheel_B_L
+    100506: Wheel_B_L_empty
+    100508: Wheel_B_L_stat
+    100510: Wheel_F_L
+    100512: Wheel_F_L_Bottom_Empty
+    100514: Wheel_F_L_empty
+    100516: Wheel_F_L_stat
+    100518: Wheel_F_L_top_empty
+    100520: Wheel_F_R
+    100522: Wheel_F_R_Bottom_Empty
+    100524: Wheel_F_R_stat
+    100526: Wheel_F_R_top_empty
+    100528: Body_plating
+    100530: Car_Body_MeshPart0
+    100532: Car_Body_MeshPart1
+    100534: Hanging_B_L_body_top_empty
+    100536: Hanging_B_R_body_bottom_empty
+    100538: Hanging_B_R_body_top_empty
+    100540: Hanging_F_L_Bottom
+    100542: Hanging_F_L_Top
+    100544: Hanging_F_L_top_empty
+    100546: Hanging_F_R_Bottom
+    100548: Hanging_F_R_bottom_empty
+    100550: Hanging_F_R_top
+    100552: Stearing_F_L
+    100554: Stearing_F_R
+    100556: Susp_B_L_armature
+    100558: Susp_F_L_bottom
+    100560: Susp_F_L_top
+    100562: Susp_F_L_top_empty
+    100564: Susp_F_R_bottom
+    100566: Susp_F_R_bottom_empty
+    100568: Susp_F_R_bottom_rot_empty
+    100570: Susp_F_R_top
+    100572: Susp_F_R_top_empty
+    100574: Wheel_B_L_hang
+    100576: Wheel_B_R_stat
     400000: Armature_001
     400002: Armature_002
     400004: BezierCircle
@@ -443,6 +512,75 @@ ModelImporter:
     400434: Wheel_B_R_hang_001
     400436: Wheel_F_R_empty
     400438: Wheel_F_R_empty_001
+    400440: Front_wheel_002
+    400442: Front_wheel_003
+    400444: Wheel_B_R_002
+    400446: Wheel_B_R_003
+    400448: Hanging_B_L_body_bottom
+    400450: Hanging_B_L_bottom
+    400452: Hanging_B_L_top
+    400454: Hanging_B_L_wheel_bottom
+    400456: Hanging_B_L_wheel_top
+    400458: Hanging_F_L_bottom_empty
+    400460: Hanging_F_L_top
+    400462: Hanging_F_R_bottom
+    400464: Hanging_F_R_top_empty
+    400466: Spring_B_L
+    400468: Spring_F_L
+    400470: Spring_F_L_top_rot_Empty
+    400472: Spring_F_R
+    400474: Spring_F_R_Bottom
+    400476: Spring_F_R_top_rot_Empty
+    400478: Susp_B_L_bottom
+    400480: Susp_B_L_bottom_empty
+    400482: Susp_B_L_bottom_rotation_empty
+    400484: Susp_B_L_top
+    400486: Susp_B_L_top_empty
+    400488: Susp_B_L_top_rotation_empty
+    400490: Susp_F_L_bottom_empty
+    400492: Susp_F_L_bottom_empty_001
+    400494: Susp_F_L_bottom_rot_empty
+    400496: Susp_F_L_bottom_rot_empty_001
+    400498: Susp_F_L_Frame_Bottom
+    400500: Susp_Frame_F_L_Bottom
+    400502: Susp_Frame_F_L_Top
+    400504: Wheel_B_L
+    400506: Wheel_B_L_empty
+    400508: Wheel_B_L_stat
+    400510: Wheel_F_L
+    400512: Wheel_F_L_Bottom_Empty
+    400514: Wheel_F_L_empty
+    400516: Wheel_F_L_stat
+    400518: Wheel_F_L_top_empty
+    400520: Wheel_F_R
+    400522: Wheel_F_R_Bottom_Empty
+    400524: Wheel_F_R_stat
+    400526: Wheel_F_R_top_empty
+    400528: Body_plating
+    400530: Car_Body_MeshPart0
+    400532: Car_Body_MeshPart1
+    400534: Hanging_B_L_body_top_empty
+    400536: Hanging_B_R_body_bottom_empty
+    400538: Hanging_B_R_body_top_empty
+    400540: Hanging_F_L_Bottom
+    400542: Hanging_F_L_Top
+    400544: Hanging_F_L_top_empty
+    400546: Hanging_F_R_Bottom
+    400548: Hanging_F_R_bottom_empty
+    400550: Hanging_F_R_top
+    400552: Stearing_F_L
+    400554: Stearing_F_R
+    400556: Susp_B_L_armature
+    400558: Susp_F_L_bottom
+    400560: Susp_F_L_top
+    400562: Susp_F_L_top_empty
+    400564: Susp_F_R_bottom
+    400566: Susp_F_R_bottom_empty
+    400568: Susp_F_R_bottom_rot_empty
+    400570: Susp_F_R_top
+    400572: Susp_F_R_top_empty
+    400574: Wheel_B_L_hang
+    400576: Wheel_B_R_stat
     2300000: BezierCircle
     2300002: BezierCircle_002
     2300004: BezierCircle_003
@@ -473,6 +611,38 @@ ModelImporter:
     2300054: Wheel_B_R_001
     2300056: Wheel_B_R_hang
     2300058: Wheel_B_R_hang_001
+    2300060: Front_wheel_002
+    2300062: Front_wheel_003
+    2300064: Wheel_B_R_002
+    2300066: Wheel_B_R_003
+    2300068: Hanging_B_L_bottom
+    2300070: Hanging_B_L_top
+    2300072: Spring_F_R_Bottom
+    2300074: Susp_B_L_bottom
+    2300076: Susp_B_L_top
+    2300078: Susp_F_L_Frame_Bottom
+    2300080: Susp_Frame_F_L_Bottom
+    2300082: Susp_Frame_F_L_Top
+    2300084: Wheel_B_L
+    2300086: Wheel_B_L_stat
+    2300088: Wheel_F_L
+    2300090: Wheel_F_L_stat
+    2300092: Wheel_F_R
+    2300094: Wheel_F_R_stat
+    2300096: Car_Body_MeshPart0
+    2300098: Car_Body_MeshPart1
+    2300100: Hanging_F_L_Bottom
+    2300102: Hanging_F_L_Top
+    2300104: Hanging_F_R_Bottom
+    2300106: Hanging_F_R_top
+    2300108: Stearing_F_L
+    2300110: Stearing_F_R
+    2300112: Susp_F_L_bottom
+    2300114: Susp_F_L_top
+    2300116: Susp_F_R_bottom
+    2300118: Susp_F_R_top
+    2300120: Wheel_B_L_hang
+    2300122: Wheel_B_R_stat
     3300000: BezierCircle
     3300002: BezierCircle_002
     3300004: BezierCircle_003
@@ -503,6 +673,38 @@ ModelImporter:
     3300054: Wheel_B_R_001
     3300056: Wheel_B_R_hang
     3300058: Wheel_B_R_hang_001
+    3300060: Front_wheel_002
+    3300062: Front_wheel_003
+    3300064: Wheel_B_R_002
+    3300066: Wheel_B_R_003
+    3300068: Hanging_B_L_bottom
+    3300070: Hanging_B_L_top
+    3300072: Spring_F_R_Bottom
+    3300074: Susp_B_L_bottom
+    3300076: Susp_B_L_top
+    3300078: Susp_F_L_Frame_Bottom
+    3300080: Susp_Frame_F_L_Bottom
+    3300082: Susp_Frame_F_L_Top
+    3300084: Wheel_B_L
+    3300086: Wheel_B_L_stat
+    3300088: Wheel_F_L
+    3300090: Wheel_F_L_stat
+    3300092: Wheel_F_R
+    3300094: Wheel_F_R_stat
+    3300096: Car_Body_MeshPart0
+    3300098: Car_Body_MeshPart1
+    3300100: Hanging_F_L_Bottom
+    3300102: Hanging_F_L_Top
+    3300104: Hanging_F_R_Bottom
+    3300106: Hanging_F_R_top
+    3300108: Stearing_F_L
+    3300110: Stearing_F_R
+    3300112: Susp_F_L_bottom
+    3300114: Susp_F_L_top
+    3300116: Susp_F_R_bottom
+    3300118: Susp_F_R_top
+    3300120: Wheel_B_L_hang
+    3300122: Wheel_B_R_stat
     4300000: Body_plating_001
     4300002: Seet
     4300004: BezierCircle_002
@@ -538,6 +740,42 @@ ModelImporter:
     4300064: Front_Spring_Bottom
     4300066: Susp_B_R_top_001
     4300068: Susp_B_R_top
+    4300070: Front_wheel_003
+    4300072: Wheel_B_R_002
+    4300074: Wheel_B_R_003
+    4300076: Front_wheel_002
+    4300078: Spring_F_L
+    4300080: Spring_F_R
+    4300082: Spring_B_L
+    4300084: Wheel_F_L_stat
+    4300086: Wheel_F_L
+    4300088: Susp_Frame_F_L_Top
+    4300090: Susp_Frame_F_L_Bottom
+    4300092: Wheel_B_L_stat
+    4300094: Wheel_B_L
+    4300096: Hanging_B_L_bottom
+    4300098: Hanging_B_L_top
+    4300100: Susp_B_L_bottom
+    4300102: Wheel_F_R_stat
+    4300104: Wheel_F_R
+    4300106: Susp_F_L_Frame_Bottom
+    4300108: Spring_F_R_Bottom
+    4300110: Susp_B_L_top
+    4300112: Body_plating
+    4300114: Car_Body_MeshPart0
+    4300116: Car_Body_MeshPart1
+    4300118: Hanging_F_L_Top
+    4300120: Susp_F_L_top
+    4300122: Hanging_F_L_Bottom
+    4300124: Stearing_F_L
+    4300126: Susp_F_L_bottom
+    4300128: Wheel_B_L_hang
+    4300130: Wheel_B_R_stat
+    4300132: Hanging_F_R_top
+    4300134: Susp_F_R_top
+    4300136: Hanging_F_R_Bottom
+    4300138: Stearing_F_R
+    4300140: Susp_F_R_bottom
     7400000: Default Take
     9500000: //RootNode
     13700000: BezierCurve_001
@@ -545,6 +783,10 @@ ModelImporter:
     13700004: Body_plating_001
     13700006: Spring_B_R
     13700008: Spring_B_R_001
+    13700010: Spring_B_L
+    13700012: Spring_F_L
+    13700014: Spring_F_R
+    13700016: Body_plating
   materials:
     importMaterials: 1
     materialName: 0
