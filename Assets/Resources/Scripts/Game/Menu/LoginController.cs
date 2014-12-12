@@ -24,8 +24,35 @@ namespace Game.Menu
 
         void Start()
         {
-            if (login != null) login.onClick.AddListener(onLoginClicked);
-            if (register != null) register.onClick.AddListener(onRegisterClicked);
+            if (login != null)
+            {
+                login.onClick.AddListener(onLoginClicked);
+            }
+            if (register != null)
+            {
+                register.onClick.AddListener(onRegisterClicked);
+            }
+            if (password != null)
+            {
+                password.onEndEdit.AddListener(onPasswordEndEdit);
+            }
+        }
+
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Tab) &&
+                email != null && email.isFocused && 
+                password != null) {
+                    EventSystem.current.SetSelectedGameObject(password.gameObject);
+            }
+        }
+
+        public void onPasswordEndEdit(String action)
+        {
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                onLoginClicked();
+            }
         }
 
         public void onAvatarClicked()
