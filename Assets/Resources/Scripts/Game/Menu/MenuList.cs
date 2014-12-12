@@ -37,12 +37,12 @@ namespace Game.Menu
                 //float height = r.rect.height / ratio;
                 float height = r.rect.height;
                 r.offsetMin = new Vector2(0, - innerHeight - height);
-                r.offsetMax = new Vector2(width, - innerHeight);
+                r.offsetMax = new Vector2(0, - innerHeight);
 
                 innerHeight += height;
             }
             // Strech
-            pos.sizeDelta = new Vector2(width, innerHeight);
+            pos.sizeDelta = new Vector2(0, innerHeight);
 
             changed = false;
         }

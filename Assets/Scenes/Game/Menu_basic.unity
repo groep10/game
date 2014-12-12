@@ -525,7 +525,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -99.1000061, y: -14.0499878}
+  m_AnchoredPosition: {x: -120, y: -47.549984}
   m_SizeDelta: {x: 50, y: 338}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &564438677
@@ -566,8 +566,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2015211947}
   m_HandleRect: {fileID: 2015211946}
   m_Direction: 2
-  m_Value: .999999583
-  m_Size: .831283748
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -961,17 +961,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1107718588}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: .00144484453, w: .999998987}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1866573437}
   m_Father: {fileID: 2137840896}
   m_RootOrder: 4
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 717.799988, y: -116}
-  m_SizeDelta: {x: 404.600006, y: 189.950043}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 223, y: -6}
+  m_SizeDelta: {x: -450, y: -152}
   m_Pivot: {x: .50000006, y: .5}
 --- !u!114 &1107718590
 MonoBehaviour:
@@ -985,7 +985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .39199999}
+  m_Color: {r: 1, g: 1, b: 1, a: .376470596}
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -1724,8 +1724,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.52590001e-05, y: -7.62939453e-06}
-  m_SizeDelta: {x: -181.699997, y: -169.800003}
+  m_AnchoredPosition: {x: 0, y: 107}
+  m_SizeDelta: {x: 0, y: -214}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1866573438
 MonoBehaviour:
@@ -1744,7 +1744,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 5ad740184096e2d4783b364becec5639, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 0
@@ -1858,7 +1858,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: .800000012}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 261, y: 339}
+  m_SizeDelta: {x: 0, y: 270.399994}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1872803221
 MonoBehaviour:
