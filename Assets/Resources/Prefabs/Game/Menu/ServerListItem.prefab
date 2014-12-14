@@ -80,9 +80,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c00f9444e98be58429f6f284bcd947a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 0}
-  ip_portText: {fileID: 0}
-  button: {fileID: 0}
+  nameText: {fileID: 11400008}
+  ip_portText: {fileID: 11400002}
+  button: {fileID: 11400004}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,7 +274,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42, y: 122}
+  m_AnchoredPosition: {x: 516.614746, y: -158.711548}
   m_SizeDelta: {x: 561, y: 52}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22400006

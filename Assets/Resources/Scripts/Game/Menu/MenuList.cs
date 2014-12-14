@@ -54,10 +54,13 @@ namespace Game.Menu
             changed = true;
         }
 
-        public void setItems(GameObject[] obj)
+        public void setItems(GameObject[] objs)
         {
+			foreach(GameObject obj in items) {
+				Destroy(obj);
+			}
             items.Clear();
-            items.AddRange(obj);
+            items.AddRange(objs);
             changed = true;
         }
         

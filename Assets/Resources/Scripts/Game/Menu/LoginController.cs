@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEditor;
 
 using Game.Web;
 
@@ -57,7 +56,10 @@ namespace Game.Menu
 
         public void onAvatarClicked()
         {
-            String path = EditorUtility.OpenFilePanel(
+
+			// TODO: find other method for this.
+			#if UNITY_EDITOR
+			String path = UnityEditor.EditorUtility.OpenFilePanel(
                         "Select new avatar",
                         "",
                         "*.png;*.jpg;*.gif");
@@ -76,6 +78,7 @@ namespace Game.Menu
                 }
                 updateUserPanel();
             });
+			#endif
         }
 
         public void onLoginClicked()
