@@ -51,7 +51,7 @@ public class MiniMap3 : MonoBehaviour
 		DrawBlipsForEnemys ();
 	}
 	
-	void drawBlip(GameObject go,Texture aTexture, bool check){/*
+	void drawBlip(GameObject go,Texture aTexture, bool check){
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
 
@@ -72,9 +72,13 @@ public class MiniMap3 : MonoBehaviour
 			GameObject Blip = new GameObject();
 			Blip = Field;
 			RectTransform blip = Blip.GetComponent<RectTransform>();
+			blip.anchorMax = temp.anchorMin = new Vector2 (0, 1);
+			blip.offsetMin = new Vector2 (mapCenter.x - mapWidth, mapCenter.y - mapHeight);
+			blip.offsetMax = new Vector2 (mapCenter.x + mapWidth, mapCenter.y + mapHeight);
+
 
 			GUI.DrawTexture(new Rect(mapCenter.x+bX,mapCenter.y+bY,SizePlayers,SizePlayers),aTexture);
-		}
+		}/*
 		else if (check) {
 			float bX2 = mapWidth*.45f * Mathf.Cos (deltay * Mathf.Deg2Rad);
 			float bY2 = mapWidth*.45f * Mathf.Sin (deltay * Mathf.Deg2Rad);
