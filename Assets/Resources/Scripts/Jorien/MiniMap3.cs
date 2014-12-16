@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class MiniMap : MonoBehaviour
+public class MiniMap3 : MonoBehaviour
 {
 
 	public Transform PlayerCar;
+	public GameObject Field;
+	public float size;
 
 	[Header ("Textures")]
 	public Texture field;
@@ -29,7 +31,7 @@ public class MiniMap : MonoBehaviour
 	public float mapScale = 0.3f;
 	public float mapSizePercent = 15f;
 	public float SizePlayers = 8;
-	public enum radarLocationValues {topLeft, topRight, middleLeft, middleRight, bottomLeft, bottomRight}
+	public enum radarLocationValues {topLeft, topRight, bottomLeft, bottomRight}
 	public radarLocationValues radarLocation; 
 	private float mapWidth;
 	private float mapHeight;
@@ -38,23 +40,18 @@ public class MiniMap : MonoBehaviour
 
 	
 	void Start () {
-		setMapLocation ();	
+		setMapLocation ();
 		Player = transform.gameObject;
 	}
 	
-	void OnGui() {
-		//RectTransform temp = new RectTransform();
-		//temp.anchoredPosition = mapCenter;
-		//temp.offsetMin = new Vector2(mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2);
-		//temp.offsetMax = new Vector2(mapCenter.x + mapWidth / 2, mapCenter.y + mapHeight / 2);
-		GUI.DrawTexture (new Rect (mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2, mapWidth, mapHeight), field);
+	void Update() {
 		drawBlip (Player, player, false);
 		DrawBlipsForOtherPlayers ();
 		DrawBlipsForCheckPoints ();
 		DrawBlipsForEnemys ();
 	}
 	
-	void drawBlip(GameObject go,Texture aTexture, bool check){
+	void drawBlip(GameObject go,Texture aTexture, bool check){/*
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
 
@@ -71,6 +68,11 @@ public class MiniMap : MonoBehaviour
 		bY = bY * mapScale;
 		
 		if(dist<=mapWidth*.5/mapScale){ 
+			//RectTransform temp = Field.GetComponent<RectTransform> ();
+			GameObject Blip = new GameObject();
+			Blip = Field;
+			RectTransform blip = Blip.GetComponent<RectTransform>();
+
 			GUI.DrawTexture(new Rect(mapCenter.x+bX,mapCenter.y+bY,SizePlayers,SizePlayers),aTexture);
 		}
 		else if (check) {
@@ -89,8 +91,7 @@ public class MiniMap : MonoBehaviour
 			}else{
 				GUI.DrawTexture(new Rect(mapCenter.x+bX2,mapCenter.y+bY2,SizePlayers,SizePlayers),CheckPointU);
 			}
-		}
-
+		}*/
 		
 	}
 	
@@ -125,20 +126,20 @@ public class MiniMap : MonoBehaviour
 	void setMapLocation () {
 		mapWidth = Screen.width * mapSizePercent / 100.0f;
 		mapHeight = mapWidth;
-		
-		if(radarLocation == radarLocationValues.topLeft){
-			mapCenter = new Vector2(mapWidth/2, mapHeight/2);
+		RectTransform temp = Field.GetComponent<RectTransform> ();
+
+		if (radarLocation == radarLocationValues.topLeft) {
+				temp.anchorMax = temp.anchorMin = new Vector2 (0, 1);
 		} else if(radarLocation == radarLocationValues.topRight){
-			mapCenter = new Vector2(Screen.width-mapWidth/2, mapHeight/2);
-		} else if(radarLocation == radarLocationValues.middleLeft){
-			mapCenter = new Vector2(mapWidth/2, Screen.height/2);
-		} else if(radarLocation == radarLocationValues.middleRight){
-			mapCenter = new Vector2(Screen.width-mapWidth/2, Screen.height/2);
+				temp.anchorMax = temp.anchorMin = new Vector2 (1, 1);
 		} else if(radarLocation == radarLocationValues.bottomLeft){
-			mapCenter = new Vector2(mapWidth/2, Screen.height - mapHeight/2);
+				temp.anchorMax = temp.anchorMin = new Vector2 (0, 0);
 		} else if(radarLocation == radarLocationValues.bottomRight){
-			mapCenter = new Vector2(Screen.width-mapWidth/2, Screen.height - mapHeight/2);
+			temp.anchorMax = temp.anchorMin = new Vector2 (1, 0);
 		} 
+
+		temp.offsetMin = new Vector2 (mapCenter.x - mapWidth, mapCenter.y - mapHeight);
+		temp.offsetMax = new Vector2 (mapCenter.x + mapWidth, mapCenter.y + mapHeight);
 		
 	}
 }
