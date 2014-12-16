@@ -19,7 +19,7 @@ RenderSettings:
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: da976b1a4f7ebb949b0f71341e4f1821, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 53412155bc1016547b1a77b2333c0380, type: 2}
   m_HaloStrength: .5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -98,10 +98,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 963909198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60ef99f34949e054388ecd50b03cbbab, type: 3}
+  m_Script: {fileID: 11500000, guid: 87616af3eb15d754eb134a3c3b932062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level: {fileID: 100000, guid: e4287010326d4cd44a4184944a14489a, type: 2}
+  Level: {fileID: 100004, guid: 9d9e4f84b957db248ab9936244c1ff12, type: 2}
 --- !u!4 &963909200
 Transform:
   m_ObjectHideFlags: 0

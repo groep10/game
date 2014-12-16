@@ -85,7 +85,9 @@ public class FadeBehaviour : MonoBehaviour {
 	bool isFadingOut = false;
 
 	void doDestroy() {
-		Destroy(this.gameObject);
+		Debug.Log ("destroy cube");
+		Network.Destroy(this.gameObject.networkView.viewID);
+		Network.RemoveRPCs (this.gameObject.networkView.viewID);
 		parent.placeAsset ();
 	}
 
@@ -110,7 +112,9 @@ public class FadeBehaviour : MonoBehaviour {
 			// fade the object out
 			objectRenderer.material.color = Color.Lerp (setFullyOpaqueColor(), setFullyTransparentColor(), currentFadeTime / fadeTime);
 			if (currentFadeTime >= fadeTime) {
-				doDestroy ();
+				if(Network.isServer){
+					doDestroy ();
+				}
 			}
 		}
 	}
