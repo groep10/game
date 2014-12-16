@@ -3,7 +3,7 @@ using System.Collections;
 
 // wheel car------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-public enum wheelDriveTest {
+public enum wheelDriv {
 	Front = 0,
 	Back = 1,
 	All = 2
@@ -12,16 +12,10 @@ public enum wheelDriveTest {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 public class CustomSer : MonoBehaviour {
-	public GameObject enemy;
-	public Transform enemySpawn;
-	private Transform child;
-
-	private float moveH;
-	private float moveV;
-	public float speed;
-	private Vector3 movement;
-	
-	private float distance;
+	//public GameObject enemy;
+	//public Transform enemySpawn;
+	//private Transform child; // used for shooting
+		
 	private Vector3 pos;
 	private Vector3 realpos;
 	private Vector3 velo;
@@ -36,6 +30,7 @@ public class CustomSer : MonoBehaviour {
 
 	//wheel car 2-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
 	//Wielen introduceren
 	public Transform wheelFR; 
 	public Transform wheelFL; 
@@ -46,15 +41,15 @@ public class CustomSer : MonoBehaviour {
 	public float suspensionDistance = 0.2f; 
 	public float springs = 1000.0f; 
 	public float dampers = 2f; 
-	public float wheelRadius = 0.25f; 
+	public float wheelRadius = 1.25f; 
 	public float torque = 100f; 
 	public float brakeTorque = 500f; 
-	public float wheelWeight = 3f;
+	public float wheelWeight = 15f;
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
 	public float fwdStiffness = 0.1f; //stijfheid wielen wordt slip mee bepaald
 	public float swyStiffness = 0.1f; 	
 	public float maxSteerAngle = 30.0f; 
-	public wheelDriveTest wheelDriveTest = wheelDriveTest.Front; 
+	public wheelDriv wheelDriv = wheelDriv.Front; 
 	
 	//Schakel voorwaarden
 	public float shiftDownRPM = 1500.0f; 
@@ -85,7 +80,7 @@ public class CustomSer : MonoBehaviour {
 		public float maxSteer;
 		public bool motor;
 	};
-
+	
 	//Er wordt een array aangemaakt waar per wiel data instaat
 	WheelData[] wheels; 
 	
@@ -108,8 +103,7 @@ public class CustomSer : MonoBehaviour {
 		result.motor = motor; 
 		return result; 
 	}
-	
-	
+
 	void Start () {
 		//Eerst auto goed zwaartepunt geven
 		rigidbody.centerOfMass += shiftCentre;
@@ -118,8 +112,8 @@ public class CustomSer : MonoBehaviour {
 		
 		//De wielen in een WheelData array plaatsen en de settings maken
 		wheels = new WheelData[4];		
-		bool frontDrive = (wheelDriveTest == wheelDriveTest.Front) || (wheelDriveTest == wheelDriveTest.All);
-		bool backDrive = (wheelDriveTest == wheelDriveTest.Back) || (wheelDriveTest == wheelDriveTest.All);	
+		bool frontDrive = (wheelDriv == wheelDriv.Front) || (wheelDriv == wheelDriv.All);
+		bool backDrive = (wheelDriv == wheelDriv.Back) || (wheelDriv == wheelDriv.All);	
 		wheels[0] = SetWheelParams(wheelFR, maxSteerAngle, frontDrive);
 		wheels[1] = SetWheelParams(wheelFL, maxSteerAngle, frontDrive);
 		wheels[2] = SetWheelParams(wheelBR, 0.0f, backDrive);
@@ -181,22 +175,25 @@ public class CustomSer : MonoBehaviour {
 	{
 		return 1 - (1 - factor)*(1 - factor);
 	}
-
+	
 	void ApplyDownforce ()
 	{
 		// apply downforce
 		if (anyOnGround) {
 			//print("Het werkt");
 			rigidbody.AddForce (-transform.up * curvedSpeedFactor * downForce);
+			//print(-transform.up * curvedSpeedFactor * downForce);
 		}
 	}
 	
 	float wantedRPM = 0.0f; //Het toerental wat de motor probeert te bereiken
 	float motorRPM = 0.0f; //Het toerental van de motor
+
 	//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//Shoot
+	/* apply particle system to prefab
 	void Update(){
 		if(networkView.isMine){
 			if (Input.GetKeyDown(KeyCode.Space)){
@@ -207,6 +204,8 @@ public class CustomSer : MonoBehaviour {
 			}
 		}
 	}
+	*/
+
 	//Movements
 	void FixedUpdate () {
 		//check if you are controller the object
@@ -216,112 +215,114 @@ public class CustomSer : MonoBehaviour {
 			playercam.SetActive(true);
 
 			float delta = Time.fixedDeltaTime;
-
+			
 			float steer = 0; // sturen
 			float accel = 0; // versnellen
 			bool brake = false; // remmen
-			steer = Input.GetAxis ("Horizontal");
-			accel = Input.GetAxis ("Vertical");
-			brake = Input.GetKey(KeyCode.LeftShift);
-
+			steer = Input.GetAxis("Horizontal");
+			accel = Input.GetAxis("Vertical");
+			brake = Input.GetButton("Jump");
+			
 			//Schakelen
 			if ((currentGear == 1) && (accel < 0.0f)) { 
-					ShiftDown (); //Bij negatieve versnelling naar gear=0 schakelen die heeft negatieve snelheid.
-					reversing = true;
-			} else if ((currentGear == 0) && (accel > 0.0f)) {
-					ShiftUp (); //Bij positieve versnelling en gear=0 doorschakelen naar gear=1.
-					reversing = false;
-			} else if ((motorRPM > shiftUpRPM) && (accel > 0.0f)) {
-					ShiftUp (); //Als de toerenteller van de moter te hoog wordt, doorschakelen.
-					reversing = false;
-			} else if ((motorRPM < shiftDownRPM) && (currentGear > 1)) { //alleen als gear groter dan 1 is want 0 is achteruit.
-					ShiftDown (); //Als de toerenteller van de motor te laag wordt, doorschakelen.
-					reversing = false;
+				ShiftDown(); //Bij negatieve versnelling naar gear=0 schakelen die heeft negatieve snelheid.
+				reversing = true;
+			}
+			else if ((currentGear == 0) && (accel > 0.0f)) {
+				ShiftUp(); //Bij positieve versnelling en gear=0 doorschakelen naar gear=1.
+				reversing=false;
+			}
+			else if ((motorRPM > shiftUpRPM) && (accel > 0.0f)) {
+				ShiftUp(); //Als de toerenteller van de moter te hoog wordt, doorschakelen.
+				reversing=false;
+			}
+			else if ((motorRPM < shiftDownRPM) && (currentGear > 1)) { //alleen als gear groter dan 1 is want 0 is achteruit.
+				ShiftDown(); //Als de toerenteller van de motor te laag wordt, doorschakelen.
+				reversing=false;
 			}
 			if ((currentGear == 0)) {
-					accel = - accel; //Zodat de versnelling negatief wordt
+				accel = - accel; //Zodat de versnelling negatief wordt
 			}
 			if (accel < 0.0f) {// Bij negatieve versnelling wordt er geremd.
-					brake = true;
-					accel = 0.0f;
-					wantedRPM = 0.0f;
-					reversing = true;
+				brake = true;
+				accel = 0.0f;
+				wantedRPM = 0.0f;
+				reversing=true;
 			}
-
+			
 			wantedRPM = (5500.0f * accel) * 0.1f + wantedRPM * 0.9f; //Het toerental wat we willen bereiken
-
+			
 			float rpm = 0.0f;
 			int motorizedWheels = 0;
 			bool floorContact = false;
-
+			
 			CurrentSpeed = transform.InverseTransformDirection (rigidbody.velocity).z;
 			SpeedFactor = Mathf.InverseLerp (0, reversing ? maxReversingSpeed : maxSpeed, Mathf.Abs (CurrentSpeed));
 			curvedSpeedFactor = reversing ? 0 : CurveFactor (SpeedFactor);
-
+			
 			// Toerental van de wielen berekenen
 			foreach (WheelData w in wheels) {
-					WheelHit hit;
-					WheelCollider col = w.col;
-					if (col.isGrounded) {
-							anyOnGround = true;
-					}
-					if (w.motor) {
-							rpm += col.rpm;
-							motorizedWheels++;
-					}
-	
-					// Ga de locale rotatie na en zet nieuwe locale rotatie terug met delta 
-					w.rotation = Mathf.Repeat (w.rotation + delta * col.rpm * 360.0f / 60.0f, 360.0f);
-					
-					// w.transform.rotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
-	
-					w.transform.localRotation = Quaternion.Euler (w.startRot.x + w.rotation, w.startRot.y + col.steerAngle, w.startRot.z);
-	
-					// zorgt dat de wielen de grond raken
-					Vector3 lp = w.transform.localPosition;
-					if (col.GetGroundHit (out hit)) {
-							lp.y -= Vector3.Dot (w.transform.position - hit.point, transform.up) - col.radius;
-							floorContact = floorContact || (w.motor);
-					} else {
-							lp.y = w.startPos.y - suspensionDistance;
-					}
-					w.transform.localPosition = lp;
+				WheelHit hit;
+				WheelCollider col = w.col;
+				if(col.isGrounded){
+					anyOnGround=true;
+				}
+				if (w.motor) {
+					rpm += col.rpm;
+					motorizedWheels++;
+				}
+				
+				// Ga de locale rotatie na en zet nieuwe locale rotatie terug met delta 
+				w.rotation = Mathf.Repeat(w.rotation + delta * col.rpm * 360.0f / 60.0f, 360.0f);
+				
+				// w.transform.rotation = Quaternion.Euler(w.rotation, col.steerAngle, 0.0f);
+				
+				w.transform.localRotation = Quaternion.Euler(w.rotation , col.steerAngle,  90.0f );
+				
+				// zorgt dat de wielen de grond raken
+				Vector3 lp = w.transform.localPosition;
+				if (col.GetGroundHit(out hit)) {
+					lp.y -= Vector3.Dot(w.transform.position - hit.point, transform.up) - col.radius;
+					floorContact = floorContact || (w.motor);
+				}
+				else {
+					lp.y = w.startPos.y - suspensionDistance;
+				}
+				w.transform.localPosition = lp;
 			}
 			// Toerental berkenen, onafhankelijk van gear.
 			if (motorizedWheels > 1) {
-					rpm = rpm / motorizedWheels;
+				rpm = rpm / motorizedWheels;
 			}
-
+			
 			// Toerental afhankelijk maken van gear.
-			motorRPM = 0.95f * motorRPM + 0.05f * Mathf.Abs (rpm * gears [currentGear]);
-			if (motorRPM > 5500.0f)
-					motorRPM = 5500.0f; //Checken of we niet maximum hebben bereikt.
-
+			motorRPM = 0.95f * motorRPM + 0.05f * Mathf.Abs(rpm * gears[currentGear]);
+			if (motorRPM > 5500.0f) motorRPM = 5500.0f; //Checken of we niet maximum hebben bereikt.
+			
 			// Efficiecy nagaan met behulp van de tabel gegeven bovenin.
-			int index = (int)(motorRPM / efficiencyTableStep);
-			if (index >= efficiencyTable.Length)
-					index = efficiencyTable.Length - 1;
-			if (index < 0)
-					index = 0;
-
+			int index = (int) (motorRPM / efficiencyTableStep);
+			if (index >= efficiencyTable.Length) index = efficiencyTable.Length - 1;
+			if (index < 0) index = 0;
+			
 			// torque berekenen met gear en de tabel en daarna de torque aan de wielen geven
-			float newTorque = torque * gears [currentGear] * efficiencyTable [index];
+			float newTorque = torque * gears[currentGear] * efficiencyTable[index];
 			foreach (WheelData w in wheels) {
-					WheelCollider col = w.col;
-					if (w.motor) {
-							// Alleen torque geven als het wiel slomer toerental heeft dan de verwachte
-							if (Mathf.Abs (col.rpm) > Mathf.Abs (wantedRPM)) {
-									col.motorTorque = 0;
-							} else {
-									float curTorque = col.motorTorque;
-									col.motorTorque = curTorque * 0.9f + newTorque * 0.1f;
-							}
+				WheelCollider col = w.col;
+				if (w.motor) {
+					// Alleen torque geven als het wiel slomer toerental heeft dan de verwachte
+					if (Mathf.Abs(col.rpm) > Mathf.Abs(wantedRPM)) {
+						col.motorTorque = 0;
 					}
-					// Nagaan of er geremd moet worden en draaihoek definieren van de wielen.
-					col.brakeTorque = (brake) ? brakeTorque : 0.0f;
-					col.steerAngle = steer * w.maxSteer;
+					else {
+						float curTorque = col.motorTorque;
+						col.motorTorque = curTorque * 0.9f + newTorque * 0.1f;
+					}
+				}
+				// Nagaan of er geremd moet worden en draaihoek definieren van de wielen.
+				col.brakeTorque = (brake)?brakeTorque:0.0f;
+				col.steerAngle = steer * w.maxSteer;
 			}
-		ApplyDownforce ();
+			ApplyDownforce ();
 	}
 		//Lerp (interpolation) other player positions for smooth gameplay
 		else{
@@ -367,12 +368,14 @@ public class CustomSer : MonoBehaviour {
 			steerBack = sBack;
 		}
 	}
+	/* 
 	//When someone enters the trigger spawn an enemy (their can only be one)
 	void OnTriggerEnter(Collider other){
 		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
 			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
 		}
 	}
+
 	//When bullet particle hits something
 	void OnParticleCollision(GameObject other) {
 		Rigidbody body = other.rigidbody;
@@ -394,6 +397,5 @@ public class CustomSer : MonoBehaviour {
 			child.particleSystem.Stop();
 		}
 	}
+	*/
 }
-
-
