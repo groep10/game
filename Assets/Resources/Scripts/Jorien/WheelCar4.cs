@@ -47,15 +47,16 @@ public class WheelCar4 : MonoBehaviour {
 	float efficiencyTableStep = 250.0f;
 	int currentGear = 1; 
 
-	[Header ("extras")]
+	[Header ("extra")]
+	public float reversingSpeedFactor = 0.3f; 
+	public float downForce=80;
+
+	public float SpeedFactor { get;  private set; }
 	private bool anyOnGround;
 	private float curvedSpeedFactor;
 	private bool reversing;
-	public float SpeedFactor { get;  private set; }
 	private float maxReversingSpeed;
 	private float maxSpeed = 60;
-	public float reversingSpeedFactor = 0.3f; 
-	public float downForce=80;
 	private float CurrentSpeed;
 	
 	// alle info van de wielen wordt hierin opgeslagen
@@ -126,26 +127,26 @@ public class WheelCar4 : MonoBehaviour {
 		//Na gegevens aan de wielen gegeven te hebben en colliders aangemaakt te hebben nog wat laatste aanpassingen
 		foreach (WheelData w in wheels) {
 			WheelCollider col = w.col;
-			col.suspensionDistance = suspensionDistance;
+			//col.suspensionDistance = suspensionDistance;
 			JointSpring js = col.suspensionSpring;
 			js.spring = springs;
 			js.damper = dampers;            
-			col.suspensionSpring = js;
-			col.radius = wheelRadius;
-			col.mass = wheelWeight;
+			//col.suspensionSpring = js;
+			//col.radius = wheelRadius;
+			//col.mass = wheelWeight;
 
 			WheelFrictionCurve fc = col.forwardFriction;
 			fc.asymptoteValue = 5000.0f;
 			fc.extremumSlip = 2.0f;
 			fc.asymptoteSlip = 20.0f;
 			fc.stiffness = fwdStiffness;
-			col.forwardFriction = fc;
+			//col.forwardFriction = fc;
 			fc = col.sidewaysFriction;
 			fc.asymptoteValue = 7500.0f;
 			fc.asymptoteSlip = 2.0f;
 			fc.stiffness = swyStiffness;
-			col.sidewaysFriction = fc;
-			w.col=col; //zelf toegevoegd
+			//col.sidewaysFriction = fc;
+			//w.col=col; //zelf toegevoegd
 		}
 
 
