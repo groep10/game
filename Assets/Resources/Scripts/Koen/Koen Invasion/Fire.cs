@@ -13,7 +13,7 @@ public class Fire : MonoBehaviour
 		}
 
 	void FireBullet () {
-		Rigidbody bulletClone = (Rigidbody) Instantiate(bullet, player.position, player.rotation);
+		Rigidbody bulletClone = (Rigidbody) Instantiate(bullet, (player.position + 5), player.rotation);
 		bulletClone.velocity = player.forward * speed;
 	}
 
