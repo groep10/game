@@ -51,7 +51,7 @@ public class MiniMap3 : MonoBehaviour
 		DrawBlipsForEnemys ();
 	}
 	
-	void drawBlip(GameObject go,Texture aTexture, bool check){
+	void drawBlip(GameObject go,Texture aTexture, bool check){/*
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
 
@@ -133,7 +133,9 @@ public class MiniMap3 : MonoBehaviour
 		RectTransform temp = Field.GetComponent<RectTransform> ();
 
 		if (radarLocation == radarLocationValues.topLeft) {
-				temp.anchorMax = temp.anchorMin = new Vector2 (0, 1);
+			    //mapCenter = new Vector2(mapWidth/2, mapHeight/2);
+				temp.anchorMax = new Vector2 (0, 1/2);
+				temp.anchorMin = new Vector2 (0, 1/2);
 		} else if(radarLocation == radarLocationValues.topRight){
 				temp.anchorMax = temp.anchorMin = new Vector2 (1, 1);
 		} else if(radarLocation == radarLocationValues.bottomLeft){
@@ -142,8 +144,8 @@ public class MiniMap3 : MonoBehaviour
 			temp.anchorMax = temp.anchorMin = new Vector2 (1, 0);
 		} 
 
-		temp.offsetMin = new Vector2 (mapCenter.x - mapWidth, mapCenter.y - mapHeight);
-		temp.offsetMax = new Vector2 (mapCenter.x + mapWidth, mapCenter.y + mapHeight);
-		
+		temp.offsetMin = new Vector2 (0,0);
+		temp.offsetMax = new Vector2 (mapCenter.x + mapWidth/2, mapCenter.y + mapHeight/2);
+		print (mapCenter);
 	}
 }
