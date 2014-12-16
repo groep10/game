@@ -9,8 +9,8 @@ namespace Game.Net {
 		public GameObject level;
 
 		private Vector3 spawn = new Vector3(-10,1,0);
-		private Vector3 offset = new Vector3(5,0,0);
-		private Vector3 levelSpawn = new Vector3(0,0,0);
+		private Vector3 offset = new Vector3(10,0,0);
+		private Vector3 levelSpawn = new Vector3(-1000,0,-1000);
 
 		// Spawn level on network and player
 		void OnServerInitialized(){

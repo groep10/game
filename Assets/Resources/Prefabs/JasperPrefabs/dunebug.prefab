@@ -7286,7 +7286,7 @@ MonoBehaviour:
   suspensionDistance: .200000003
   springs: 1000
   dampers: 2
-  wheelRadius: .25
+  wheelRadius: .649999976
   torque: 100
   brakeTorque: 500
   wheelWeight: 3
