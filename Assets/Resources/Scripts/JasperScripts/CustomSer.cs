@@ -181,7 +181,7 @@ public class CustomSer : MonoBehaviour {
 		// apply downforce
 		if (anyOnGround) {
 			//print("Het werkt");
-			rigidbody.AddForce (-transform.up * curvedSpeedFactor * downForce);
+			rigidbody.AddForce (Vector3.down * downForce);
 			//print(-transform.up * curvedSpeedFactor * downForce);
 		}
 	}
