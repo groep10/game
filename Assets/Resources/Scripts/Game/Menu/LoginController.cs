@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEditor;
 
 using Game.Web;
 
@@ -24,13 +23,43 @@ namespace Game.Menu
 
         void Start()
         {
-            if (login != null) login.onClick.AddListener(onLoginClicked);
-            if (register != null) register.onClick.AddListener(onRegisterClicked);
+            if (login != null)
+            {
+                login.onClick.AddListener(onLoginClicked);
+            }
+            if (register != null)
+            {
+                register.onClick.AddListener(onRegisterClicked);
+            }
+            if (password != null)
+            {
+                password.onEndEdit.AddListener(onPasswordEndEdit);
+            }
+        }
+
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Tab) &&
+                email != null && email.isFocused && 
+                password != null) {
+                    EventSystem.current.SetSelectedGameObject(password.gameObject);
+            }
+        }
+
+        public void onPasswordEndEdit(String action)
+        {
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                onLoginClicked();
+            }
         }
 
         public void onAvatarClicked()
         {
-            String path = EditorUtility.OpenFilePanel(
+
+			// TODO: find other method for this.
+			#if UNITY_EDITOR
+			String path = UnityEditor.EditorUtility.OpenFilePanel(
                         "Select new avatar",
                         "",
                         "*.png;*.jpg;*.gif");
@@ -49,6 +78,7 @@ namespace Game.Menu
                 }
                 updateUserPanel();
             });
+			#endif
         }
 
         public void onLoginClicked()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MiniMap : MonoBehaviour
@@ -41,7 +42,11 @@ public class MiniMap : MonoBehaviour
 		Player = transform.gameObject;
 	}
 	
-	void OnGUI () {
+	void OnGui() {
+		//RectTransform temp = new RectTransform();
+		//temp.anchoredPosition = mapCenter;
+		//temp.offsetMin = new Vector2(mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2);
+		//temp.offsetMax = new Vector2(mapCenter.x + mapWidth / 2, mapCenter.y + mapHeight / 2);
 		GUI.DrawTexture (new Rect (mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2, mapWidth, mapHeight), field);
 		drawBlip (Player, player, false);
 		DrawBlipsForOtherPlayers ();
@@ -101,7 +106,6 @@ public class MiniMap : MonoBehaviour
 	void DrawBlipsForCheckPoints(){ 
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (CheckPointTag);
-		Vector3 position = transform.position;
 		foreach (GameObject go in gos) {
 			drawBlip(go,CheckPoint, true);
 		}
@@ -112,7 +116,6 @@ public class MiniMap : MonoBehaviour
 	void DrawBlipsForEnemys (){
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (EnemyTag);
-		Vector3 position = transform.position;
 		foreach (GameObject go in gos) {
 			drawBlip(go,Enemy, false);
 		}

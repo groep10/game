@@ -44,7 +44,7 @@ public class ArenaAssetPlacement : MonoBehaviour {
 		GameObject asset = assets[assetIndex];
 
 		// instantiate the asset
-		GameObject currentAsset = (GameObject) Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f));
+		GameObject currentAsset = (GameObject) Network.Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f),0);
 		currentAsset.GetComponent<FadeBehaviour> ().setParent (this);
 		//Debug.Log("Object created");
 	}
@@ -52,10 +52,12 @@ public class ArenaAssetPlacement : MonoBehaviour {
 	// Called at the start of the game
 	void Start()
 	{
-		loadAssets();
-		for (int i = 0; i < assetsInArena; i++)
-		{
-			placeAsset();
+		if(Network.isServer){
+			loadAssets();
+			for (int i = 0; i < assetsInArena; i++)
+			{
+				placeAsset();
+			}
 		}
 	}
 
