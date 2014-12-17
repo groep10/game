@@ -19,6 +19,8 @@ public class Level : MonoBehaviour {
 	private Texture2D tex;
 	private Texture2D tex2;
 
+	private GameObject cpnt;
+
 	// edits the terrain according to the radius that is set.
 	void editTerrain(){
 		// Take the resolution of the terrain as the boundaries
@@ -110,10 +112,17 @@ public class Level : MonoBehaviour {
 		float locZ = locXZ.y;
 		Vector3 location = new Vector3(locX, 0f, locZ);
 
-		GameObject cpnt = (GameObject) Network.Instantiate (checkpoint, location, Quaternion.identity, 0);
-		Network.Destroy (cpnt, checkpointTimer);
+		cpnt = (GameObject) Network.Instantiate (checkpoint, location, Quaternion.identity, 0);
+		Invoke("destroyCP", checkpointTimer);
 		Invoke("setCheckpoint", checkpointTimer);
 	}
+
+	void destroyCP(){
+		Network.Destroy (cpnt.networkView.viewID);
+		Network.RemoveRPCs (cpnt.networkView.viewID);
+	}
+
+
 
 	/* ------------ GENETIC ALGORITHM TO PLACE THE CHECKPOINT -------------------------- */
 	// Variables
