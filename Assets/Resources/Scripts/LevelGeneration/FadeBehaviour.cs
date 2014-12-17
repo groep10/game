@@ -85,7 +85,6 @@ public class FadeBehaviour : MonoBehaviour {
 	bool isFadingOut = false;
 
 	void doDestroy() {
-		Debug.Log ("destroy cube");
 		Network.Destroy(this.gameObject.networkView.viewID);
 		Network.RemoveRPCs (this.gameObject.networkView.viewID);
 		parent.placeAsset ();
