@@ -108,7 +108,7 @@ public class Level : MonoBehaviour {
 		Vector2 locXZ = runGeneticAlgorithm ();
 		float locX = locXZ.x;
 		float locZ = locXZ.y;
-		Vector3 location = new Vector3(locX, 50f, locZ);
+		Vector3 location = new Vector3(locX, 0f, locZ);
 
 		GameObject cpnt = (GameObject) Instantiate (checkpoint, location, Quaternion.identity);
 		Destroy (cpnt, checkpointTimer);
