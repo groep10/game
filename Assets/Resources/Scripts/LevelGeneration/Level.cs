@@ -117,6 +117,7 @@ public class Level : MonoBehaviour {
 		Invoke("setCheckpoint", checkpointTimer);
 	}
 
+	// Destroys the checkpoint
 	void destroyCP(){
 		Network.Destroy (cpnt.networkView.viewID);
 		Network.RemoveRPCs (cpnt.networkView.viewID);
