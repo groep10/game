@@ -62,7 +62,6 @@ GameObject:
   - 33: {fileID: 3300002}
   - 23: {fileID: 2300000}
   - 95: {fileID: 9500000}
-  - 114: {fileID: 11400002}
   - 64: {fileID: 6400000}
   - 148: {fileID: 14800002}
   m_Layer: 0
@@ -211,18 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561b53fc3978c8449b9f28b11c75a03f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202f00fc934146b4fa018d89ecfcdd65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectRenderer: {fileID: 2300000}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1
