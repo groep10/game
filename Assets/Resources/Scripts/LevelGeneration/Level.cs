@@ -10,7 +10,7 @@ public class Level : MonoBehaviour {
 	public bool makeLarger;
 	public float terrainRadius = 200;
 	public GameObject checkpoint;
-	private float checkpointTimer = 10;
+	private float checkpointTimer = 60;
 
 	public Texture2D grass;
 	public Texture2D cliff;
