@@ -8,6 +8,7 @@ public class FadeBehaviour : MonoBehaviour {
 	private Shader transparentShader;
 	private Color currentColor;
 	private float totalLifeTime;
+	private float alp, alpha;
 
 	private ArenaAssetPlacement parent;
 
@@ -85,7 +86,6 @@ public class FadeBehaviour : MonoBehaviour {
 	bool isFadingOut = false;
 
 	void doDestroy() {
-		Debug.Log ("destroy cube");
 		Network.Destroy(this.gameObject.networkView.viewID);
 		Network.RemoveRPCs (this.gameObject.networkView.viewID);
 		parent.placeAsset ();
@@ -93,29 +93,51 @@ public class FadeBehaviour : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		currentLifeTime += Time.deltaTime;
-		if (!isFadingOut){
-			if (totalLifeTime - currentLifeTime <= fadeTime) {
-				startFadeOut();
-				isFadingOut = true;
-			}
-		}
-
-		if (currentFadeTime >= fadeTime) {
-			return;
-		}
-		currentFadeTime += Time.deltaTime;
-		if(fadeIn) {
-			// fade the object in
-			objectRenderer.material.color = Color.Lerp (setFullyTransparentColor(), setFullyOpaqueColor(), currentFadeTime / fadeTime);
-		} else {
-			// fade the object out
-			objectRenderer.material.color = Color.Lerp (setFullyOpaqueColor(), setFullyTransparentColor(), currentFadeTime / fadeTime);
-			if (currentFadeTime >= fadeTime) {
-				if(Network.isServer){
-					doDestroy ();
+		if(Network.isServer){
+			currentLifeTime += Time.deltaTime;
+			if (!isFadingOut){
+				if (totalLifeTime - currentLifeTime <= fadeTime) {
+					startFadeOut();
+					isFadingOut = true;
 				}
 			}
+
+			if (currentFadeTime >= fadeTime) {
+				return;
+			}
+			currentFadeTime += Time.deltaTime;
+			if(fadeIn) {
+				// fade the object in
+				Color color = objectRenderer.material.color;
+				color.a += 1/fadeTime*Time.deltaTime;
+				objectRenderer.material.color = color;
+			} else {
+				// fade the object out
+				Color color = objectRenderer.material.color;
+				color.a -= 1/fadeTime*Time.deltaTime;
+				objectRenderer.material.color = color;
+				if (currentFadeTime >= fadeTime) {
+					if(Network.isServer){
+						doDestroy ();
+					}
+				}
+			}
+		}
+		else{
+			Color color = objectRenderer.material.color;
+			color.a = alpha;
+			Color newColor = color;
+			objectRenderer.material.color = Color.Lerp(objectRenderer.material.color,newColor,0.25f);
+		}
+	}
+
+	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
+		if (stream.isWriting) {
+			alp = objectRenderer.material.color.a;
+			stream.Serialize(ref alp);
+		} else {
+			stream.Serialize(ref alp);
+			alpha = alp;
 		}
 	}
 
