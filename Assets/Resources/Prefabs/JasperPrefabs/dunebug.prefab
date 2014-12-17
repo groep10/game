@@ -3415,6 +3415,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 148: {fileID: 14800000}
   - 114: {fileID: 11400000}
+  - 65: {fileID: 6500000}
   m_Layer: 0
   m_Name: dunebug
   m_TagString: Untagged
@@ -7239,6 +7240,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6500000
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100444}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 3, z: 12}
+  m_Center: {x: 0, y: 3, z: 1}
 --- !u!81 &8100000
 AudioListener:
   m_ObjectHideFlags: 1
