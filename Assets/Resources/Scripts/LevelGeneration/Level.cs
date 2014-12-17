@@ -110,8 +110,8 @@ public class Level : MonoBehaviour {
 		float locZ = locXZ.y;
 		Vector3 location = new Vector3(locX, 0f, locZ);
 
-		GameObject cpnt = (GameObject) Instantiate (checkpoint, location, Quaternion.identity);
-		Destroy (cpnt, checkpointTimer);
+		GameObject cpnt = (GameObject) Network.Instantiate (checkpoint, location, Quaternion.identity, 0);
+		Network.Destroy (cpnt, checkpointTimer);
 		Invoke("setCheckpoint", checkpointTimer);
 	}
 
@@ -307,7 +307,9 @@ public class Level : MonoBehaviour {
 	void Start(){
 		// creates an arena terrain with radius 200
 		editTerrain ();
-		Invoke ("setCheckpoint", 5);
+		if(Network.isServer){
+			Invoke ("setCheckpoint", 5);
+		}
 	}
 }
 
