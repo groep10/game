@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class MiniMap : MonoBehaviour
@@ -43,11 +42,8 @@ public class MiniMap : MonoBehaviour
 	}
 	
 	void OnGui() {
-		//RectTransform temp = new RectTransform();
-		//temp.anchoredPosition = mapCenter;
-		//temp.offsetMin = new Vector2(mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2);
-		//temp.offsetMax = new Vector2(mapCenter.x + mapWidth / 2, mapCenter.y + mapHeight / 2);
 		GUI.DrawTexture (new Rect (mapCenter.x - mapWidth / 2, mapCenter.y - mapHeight / 2, mapWidth, mapHeight), field);
+		Debug.Log ("We doen dit wel");
 		drawBlip (Player, player, false);
 		DrawBlipsForOtherPlayers ();
 		DrawBlipsForCheckPoints ();
