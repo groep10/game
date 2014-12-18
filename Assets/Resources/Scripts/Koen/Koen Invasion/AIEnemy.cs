@@ -4,18 +4,23 @@ using System.Collections;
 public class AIEnemy : MonoBehaviour
 {
 	float distance, lookAtDistance = 25.0f, attackRange = 15.0f, moveSpeed = 5.0f, damping = 6.0f;
-	public Transform Target;
+	private float currentDistance = int.MaxValue;
+	public GameObject[] Targets;
+	private GameObject targ;
 
 	void Start()
 	{
-		if(!Target)
-		{
-			Target = GameObject.FindGameObjectWithTag("Player").transform;
-		}
+		Targets = GameObject.FindGameObjectsWithTag("Player");
 	}﻿
 	void Update()
 	{
-		distance = Vector3.Distance(Target.position, transform.position);
+		foreach (GameObject go in Targets){
+			distance = Vector3.Distance(go.transform.position, transform.position);
+			if(distance<currentDistance){
+				currentDistance = distance;
+				targ = go;
+			}
+		}
 		
 		if(distance < lookAtDistance)
 		{
@@ -26,13 +31,11 @@ public class AIEnemy : MonoBehaviour
 		{
 			AttackPlayer();
 		}
-
-
 	}
 	
 	void LookAt()
 	{
-		Quaternion rotation = Quaternion.LookRotation(Target.position - transform.position);
+		Quaternion rotation = Quaternion.LookRotation(targ.transform.position - transform.position);
 		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
 	}
 	

@@ -13,10 +13,12 @@ public class EnemyManage : MonoBehaviour
 		InvokeRepeating ("Spawn", spawnTime, spawnTime);
 	}
 
-	void Update ()
-	{
-		enemy = GameObject.FindGameObjectWithTag ("Enemy");
-	}
+	// mag weg??
+	/*
+		void Update ()
+		{
+			enemy = GameObject.FindGameObjectWithTag ("Enemy");
+		}*/
 	
 	void Spawn ()
 	{
@@ -24,6 +26,6 @@ public class EnemyManage : MonoBehaviour
 		int spawnPointIndex = Random.Range (0, spawnPoints.Length);
 		
 		// Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
-		Instantiate (enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+		Network.Instantiate (enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation,0);
 	}
 }
