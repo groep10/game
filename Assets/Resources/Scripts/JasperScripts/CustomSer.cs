@@ -380,7 +380,8 @@ public class CustomSer : MonoBehaviour {
 	void OnParticleCollision(GameObject other) {
 		Rigidbody body = other.rigidbody;
 		if (networkView.isMine && body.tag == "Enemy") {
-			body.networkView.RPC("Damage",RPCMode.AllBuffered,10,this.name);
+			//body.networkView.RPC("Damage",RPCMode.AllBuffered,10,this.name);
+			Network.Destroy(other.networkView.viewID);
 		}
 		else if(networkView.isMine && body.tag == "Player"){
 			//Do RPC stuff
