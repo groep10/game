@@ -4,7 +4,7 @@ public class EnemyManage : MonoBehaviour
 {
 	public GameObject enemy;              
 	public float spawnTime = 3f;            
-	public Transform[] spawnPoints;         
+	private Vector3 spawnPoint;         
 	
 	
 	void Start ()
@@ -13,17 +13,20 @@ public class EnemyManage : MonoBehaviour
 		InvokeRepeating ("Spawn", spawnTime, spawnTime);
 	}
 
-	void Update ()
-	{
-		enemy = GameObject.FindGameObjectWithTag ("Enemy");
-	}
+	// mag weg??
+	/*
+		void Update ()
+		{
+			enemy = GameObject.FindGameObjectWithTag ("Enemy");
+		}*/
 	
 	void Spawn ()
 	{
 		// Find a random index between zero and one less than the number of spawn points.
-		int spawnPointIndex = Random.Range (0, spawnPoints.Length);
-		
+		int spawnX = Random.Range (-150, 150);
+		int spawnZ = Random.Range (-150, 150);
+		spawnPoint = new Vector3 (spawnX, 0f, spawnZ);
 		// Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
-		Instantiate (enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+		Network.Instantiate (enemy, spawnPoint, Quaternion.identity,0);
 	}
 }
