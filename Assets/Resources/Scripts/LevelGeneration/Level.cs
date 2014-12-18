@@ -22,7 +22,7 @@ public class Level : MonoBehaviour {
 	private GameObject cpnt;
 
 	// edits the terrain according to the radius that is set.
-	void editTerrain(){
+	public void editTerrain(){
 		// Take the resolution of the terrain as the boundaries
 		xResolution = Arena.terrainData.heightmapWidth;
 		zResolution = Arena.terrainData.heightmapHeight;
@@ -42,6 +42,7 @@ public class Level : MonoBehaviour {
 
 		// server applies textures
 		if(Network.isServer){
+			Debug.Log ("Generating Textures");
 			float rnum = Random.value;
 			networkView.RPC("randomTextures",RPCMode.AllBuffered,rnum);
 		}

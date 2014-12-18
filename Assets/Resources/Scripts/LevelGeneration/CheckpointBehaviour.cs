@@ -6,6 +6,7 @@ using System.Collections;
 public class CheckpointBehaviour : MonoBehaviour {
 
 	private ArrayList playerOrder = new ArrayList();
+	public Terrain arena;
 
 	void OnTriggerEnter(Collider other){
 		Debug.Log ("Object entered the Checkpoint trigger");
@@ -19,5 +20,14 @@ public class CheckpointBehaviour : MonoBehaviour {
 			int rank = i + 1;
 			Debug.Log ("Player" + rank + ": " + playerOrder[i]);
 		}
+	}
+	
+	void startMinigame(){
+		Debug.Log ("Starting minigame.....");
+		arena.GetComponent<Level> ().editTerrain ();
+	}
+
+	void Start(){
+		Invoke ("startMinigame", 10);
 	}
 }
