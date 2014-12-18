@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AIEnemy : MonoBehaviour
 {
-	float distance, lookAtDistance = 25.0f, attackRange = 15.0f, moveSpeed = 5.0f, damping = 6.0f;
+	float distance, lookAtDistance = 150f, attackRange = 100f, moveSpeed = 5.0f, damping = 6.0f;
 	private float currentDistance = int.MaxValue;
 	public GameObject[] Targets;
 	private GameObject targ;
