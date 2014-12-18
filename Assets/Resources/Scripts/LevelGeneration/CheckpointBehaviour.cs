@@ -7,6 +7,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 
 	private ArrayList playerOrder = new ArrayList();
 	public Terrain arena;
+	public GameObject enemyManager;
 
 	void OnTriggerEnter(Collider other){
 		Debug.Log ("Object entered the Checkpoint trigger");
@@ -24,7 +25,13 @@ public class CheckpointBehaviour : MonoBehaviour {
 	
 	void startMinigame(){
 		Debug.Log ("Starting minigame.....");
+		// generate the arena for the minigame
 		arena.GetComponent<Level> ().editTerrain ();
+
+		// instantiate the enemies from the server
+		if(Network.isServer){
+			Instantiate(enemyManager);
+		}
 	}
 
 	void Start(){
