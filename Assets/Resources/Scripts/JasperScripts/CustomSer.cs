@@ -193,18 +193,18 @@ public class CustomSer : MonoBehaviour {
 	//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//Shoot
-	/* apply particle system to prefab
+//	apply particle system to prefab
 	void Update(){
 		if(networkView.isMine){
-			if (Input.GetKeyDown(KeyCode.Space)){
+			if (Input.GetButtonDown("Fire1")){
 				networkView.RPC("Shoting",RPCMode.All,true);
 			}
-			else if(Input.GetKeyUp(KeyCode.Space)){
-				networkView.RPC("Shoting",RPCMode.All,false);
-			}
+//			else if(Input.GetKeyUp(KeyCode.Space)){
+//				networkView.RPC("Shoting",RPCMode.All,false);
+//			}
 		}
 	}
-	*/
+
 
 	//Movements
 	void FixedUpdate () {
@@ -368,13 +368,13 @@ public class CustomSer : MonoBehaviour {
 			steerBack = sBack;
 		}
 	}
-	/* 
+
 	//When someone enters the trigger spawn an enemy (their can only be one)
-	void OnTriggerEnter(Collider other){
-		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
-			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
-		}
-	}
+//	void OnTriggerEnter(Collider other){
+//		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
+//			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
+//		}
+//	}
 
 	//When bullet particle hits something
 	void OnParticleCollision(GameObject other) {
@@ -389,13 +389,12 @@ public class CustomSer : MonoBehaviour {
 	//RPC Calls
 	[RPC]
 	void Shoting(bool fire){
-		child = transform.FindChild("Shooter");
+		Transform shooter = transform.FindChild ("Shooter");
 		if(fire){
-			child.particleSystem.Play();
+			shooter.particleSystem.Play();
 		}
 		else if(!fire){
-			child.particleSystem.Stop();
+			shooter.particleSystem.Stop();
 		}
 	}
-	*/
 }
