@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arena: {fileID: 11400004, guid: 9d9e4f84b957db248ab9936244c1ff12, type: 2}
+  enemyManager: {fileID: 100000, guid: 67975db293cebfc45967d159faad91fe, type: 2}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1
