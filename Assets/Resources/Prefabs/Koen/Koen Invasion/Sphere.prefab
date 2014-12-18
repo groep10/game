@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,8 +27,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.33999991, y: .5, z: -3.46000004}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -67,26 +67,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6377f03e08ad0448c88a0baf645f222a, type: 3}
+  m_Script: {fileID: 11500000, guid: 35be8933b0f6df043b1a0ed185bf3960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 6
-  runSpeed: 11
-  crouchSpeed: 3
-  limitDiagonalSpeed: 1
-  enableRun: 1
-  enableCrouch: 1
-  jumpSpeed: 8
-  gravity: 20
-  enableFallingDamage: 0
-  fallingDamageThreshold: 10
-  fallingDamageMultiplier: 2
-  slideWhenOverSlopeLimit: 0
-  slideOnTaggedObjects: 0
-  slideSpeed: 12
-  airControl: 0
-  antiBumpFactor: .75
-  antiBunnyHopFactor: 1
+  Targets: []
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
