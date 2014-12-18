@@ -13,7 +13,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 	private bool runningMiniGame = false;
 
 	void OnTriggerEnter(Collider other){
-		if(other.gameObject.tag = "Player"){
+		if(other.gameObject.tag == "Player"){
 			Debug.Log ("Player entered the Checkpoint trigger");
 			Debug.Log ("Player viewID is: " + other.gameObject.networkView.viewID);
 
@@ -36,7 +36,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 			// instantiate the enemies from the server
 			if(Network.isServer){
 				arena.GetComponent<Level> ().editTerrain ();
-				//Instantiate(enemyManager);
+				Instantiate(enemyManager);
 			}
 		}
 	}
