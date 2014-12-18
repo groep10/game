@@ -10,7 +10,7 @@ public class Level : MonoBehaviour {
 	public bool makeLarger;
 	public float terrainRadius = 200;
 	public GameObject checkpoint;
-	private float checkpointTimer = 10;
+	private float checkpointTimer = 60;
 
 	public Texture2D grass;
 	public Texture2D cliff;
@@ -18,6 +18,8 @@ public class Level : MonoBehaviour {
 	public Texture2D dirt;
 	private Texture2D tex;
 	private Texture2D tex2;
+
+	private GameObject cpnt;
 
 	// edits the terrain according to the radius that is set.
 	void editTerrain(){
@@ -110,10 +112,18 @@ public class Level : MonoBehaviour {
 		float locZ = locXZ.y;
 		Vector3 location = new Vector3(locX, 0f, locZ);
 
-		GameObject cpnt = (GameObject) Instantiate (checkpoint, location, Quaternion.identity);
-		Destroy (cpnt, checkpointTimer);
+		cpnt = (GameObject) Network.Instantiate (checkpoint, location, Quaternion.identity, 0);
+		Invoke("destroyCP", checkpointTimer);
 		Invoke("setCheckpoint", checkpointTimer);
 	}
+
+	// Destroys the checkpoint
+	void destroyCP(){
+		Network.Destroy (cpnt.networkView.viewID);
+		Network.RemoveRPCs (cpnt.networkView.viewID);
+	}
+
+
 
 	/* ------------ GENETIC ALGORITHM TO PLACE THE CHECKPOINT -------------------------- */
 	// Variables
@@ -307,7 +317,9 @@ public class Level : MonoBehaviour {
 	void Start(){
 		// creates an arena terrain with radius 200
 		editTerrain ();
-		Invoke ("setCheckpoint", 5);
+		if(Network.isServer){
+			Invoke ("setCheckpoint", 5);
+		}
 	}
 }
 
