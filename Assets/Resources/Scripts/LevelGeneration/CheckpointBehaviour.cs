@@ -13,16 +13,18 @@ public class CheckpointBehaviour : MonoBehaviour {
 	private bool runningMiniGame = false;
 
 	void OnTriggerEnter(Collider other){
-		Debug.Log ("Object entered the Checkpoint trigger");
-		Debug.Log ("Player viewID is: " + other.gameObject.networkView.viewID);
+		if(other.gameObject.tag = "Player"){
+			Debug.Log ("Player entered the Checkpoint trigger");
+			Debug.Log ("Player viewID is: " + other.gameObject.networkView.viewID);
 
-		if(!playerOrder.Contains(other.gameObject.networkView.viewID)){
-			playerOrder.Add(other.gameObject.networkView.viewID);		
-		}
+			if(!playerOrder.Contains(other.gameObject.networkView.viewID)){
+				playerOrder.Add(other.gameObject.networkView.viewID);		
+			}
 
-		for(int i = 0; i<playerOrder.Count; i++){
-			int rank = i + 1;
-			Debug.Log ("Player" + rank + ": " + playerOrder[i]);
+			for(int i = 0; i<playerOrder.Count; i++){
+				int rank = i + 1;
+				Debug.Log ("Player" + rank + ": " + playerOrder[i]);
+			}
 		}
 	}
 	
