@@ -8,8 +8,9 @@ public class CheckpointBehaviour : MonoBehaviour {
 	private ArrayList playerOrder = new ArrayList();
 	public Terrain arena;
 	public GameObject enemyManager;
+	private float racingTimeLimit = 60;
 
-	// private bool runningMiniGame = false;
+	private bool runningMiniGame = false;
 
 	void OnTriggerEnter(Collider other){
 		Debug.Log ("Object entered the Checkpoint trigger");
@@ -26,16 +27,26 @@ public class CheckpointBehaviour : MonoBehaviour {
 	}
 	
 	void startMinigame(){
-		Debug.Log ("Starting minigame.....");
+		if(!runningMiniGame){
+			runningMiniGame = true;
 
-		// instantiate the enemies from the server
-		if(Network.isServer){
-			arena.GetComponent<Level> ().editTerrain ();
-			Instantiate(enemyManager);
+			Debug.Log ("Starting minigame.....");
+			// instantiate the enemies from the server
+			if(Network.isServer){
+				arena.GetComponent<Level> ().editTerrain ();
+				//Instantiate(enemyManager);
+			}
 		}
 	}
 
 	void Start(){
-		Invoke ("startMinigame", 10);
+		Invoke ("startMinigame", racingTimeLimit);
 	}
+
+	void Update(){
+		if(playerOrder.Count > 1){
+			startMinigame();
+		}
+	}
+
 }
