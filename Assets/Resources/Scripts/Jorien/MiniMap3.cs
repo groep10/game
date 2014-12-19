@@ -49,6 +49,7 @@ public class MiniMap3 : MonoBehaviour
 	}
 	
 	void Update() {
+		RemoveBlips ();
 		//Maak map aan
 		setMapLocation ();
 
@@ -56,7 +57,7 @@ public class MiniMap3 : MonoBehaviour
 		DrawBlipsForOtherPlayers ();
 		DrawBlipsForCheckPoints ();
 		DrawBlipsForEnemys ();
-		RemoveBlips ();
+
 	}
 	
 	void drawBlip(GameObject go,Texture aTexture, bool check){
@@ -67,19 +68,21 @@ public class MiniMap3 : MonoBehaviour
 		float dx = centerPos.x - extPos.x;
 		float dz = centerPos.z - extPos.z; 
 
-		//float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
+		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
 
 		float bX = dx * mapScale;
 		float bY = dz * mapScale;
 
-		if(dist<=mapWidth*.5/mapScale){ 
+
+
+		if(dist<=mapWidth*0.50/mapScale){ 
 			RectTransform temp = veld.GetComponent<RectTransform> ();
 			GameObject Blip = new GameObject();
 			Blip.tag = "Recttangle";
 			RawImage img = Blip.AddComponent<RawImage>();
 			img.texture = aTexture; 
 			RectTransform blip = Blip.GetComponent<RectTransform>();
-			blip.SetParent(temp);
+			blip.SetParent(veldTr);
 			Vector2 middel = temp.localPosition; 
 			float height = temp.rect.height; 
 			float paddingf = height/2 + bX;
@@ -89,22 +92,41 @@ public class MiniMap3 : MonoBehaviour
 			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, SizePlayers);
 			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding2, SizePlayers);
 
-		}/*
-		else if (check) {
-			float bX2 = mapWidth*.45f * Mathf.Cos (deltay * Mathf.Deg2Rad);
-			float bY2 = mapWidth*.45f * Mathf.Sin (deltay * Mathf.Deg2Rad);
+		}
+		/*else if (check) {
+			RectTransform temp = veld.GetComponent<RectTransform> ();
+			GameObject Blip = new GameObject();
+			Blip.tag = "Recttangle";
+			RawImage img = Blip.AddComponent<RawImage>();
+			RectTransform blip = Blip.GetComponent<RectTransform>();
+			blip.SetParent(veldTr);
+			float bX2 = mapWidth*.5f * Mathf.Cos (deltay * Mathf.Deg2Rad);
+			float bY2 = mapWidth*.5f * Mathf.Sin (deltay * Mathf.Deg2Rad);
+			int padding = (int) bX2;
+			int padding2 = (int) bY2;
+
 			//als tussen -0.25pi en 0.25 pi dan right
 			//als tussen 0.25pi en 0.75pi dan up
 			//als tussen 0.75pi en -0.75pi dan left
 			//als tussen -0.75pi en -0.25pi dan down
+			int padding3 = (int) bX2;
+			int padding4 = (int) bY2;
 			if(Mathf.Cos (deltay * Mathf.Deg2Rad)>0.71){
-				GUI.DrawTexture(new Rect(mapCenter.x+bX2,mapCenter.y+bY2,SizePlayers,SizePlayers),CheckPointR);
+				img.texture = CheckPointR; 
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
 			}else if(Mathf.Cos (deltay * Mathf.Deg2Rad)<-0.71){
-				GUI.DrawTexture(new Rect(mapCenter.x+bX2,mapCenter.y+bY2,SizePlayers,SizePlayers),CheckPointL);
+				img.texture = CheckPointL; 
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
 			}else if(Mathf.Sin (deltay * Mathf.Deg2Rad)>0.71){
-				GUI.DrawTexture(new Rect(mapCenter.x+bX2,mapCenter.y+bY2,SizePlayers,SizePlayers),CheckPointD);
+				img.texture = CheckPointD; 
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
 			}else{
-				GUI.DrawTexture(new Rect(mapCenter.x+bX2,mapCenter.y+bY2,SizePlayers,SizePlayers),CheckPointU);
+				img.texture = CheckPointU; 
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
+				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
 			}
 		}*/
 		
@@ -142,7 +164,7 @@ public class MiniMap3 : MonoBehaviour
 		GameObject[] rects;
 		rects = GameObject.FindGameObjectsWithTag (RecttangleTag);
 		foreach (GameObject rect in rects) {
-			//rect.Destroy();
+			Destroy(rect);
 		}
 
 
@@ -150,22 +172,20 @@ public class MiniMap3 : MonoBehaviour
 	
 	void setMapLocation () {
 		RectTransform temp = veld.GetComponent<RectTransform> ();
-		float height = temp.rect.height; 
-
 		int padding = 5;
 
 		if (radarLocation == radarLocationValues.topLeft) {
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, height);
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, mapWidth);
 		} else if(radarLocation == radarLocationValues.topRight){
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, height);
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, mapWidth);
 		} else if(radarLocation == radarLocationValues.bottomLeft){
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, height);
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
 		} else if(radarLocation == radarLocationValues.bottomRight){
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, height);
-			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
 		} 
 
 
