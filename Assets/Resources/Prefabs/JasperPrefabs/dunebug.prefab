@@ -3416,6 +3416,7 @@ GameObject:
   - 148: {fileID: 14800000}
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: dunebug
   m_TagString: Player
@@ -7349,6 +7350,19 @@ MonoBehaviour:
   - 2.5
   reversingSpeedFactor: .300000012
   downForce: 80
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43615c652f9c3d0469c3cf2959e8d165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: 
+  userid: 0
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

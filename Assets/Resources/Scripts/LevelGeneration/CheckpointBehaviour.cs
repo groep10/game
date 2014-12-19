@@ -2,17 +2,40 @@
 using System.Collections.Generic;
 using System.Collections;
 
+using Game.Net;
 
 public class CheckpointBehaviour : MonoBehaviour {
 
 	private ArrayList playerOrder = new ArrayList();
 	private GameObject arena;
 	public GameObject enemyManager;
-	private float racingTimeLimit = 10;
+	private float racingTimeLimit = 100;
 
 	private bool runningMiniGame = false;
 
+    void Awake()
+    {
+        InvokeRepeating("findPlayers", 5f, 5f);   
+    }
+
+    void findPlayers()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<PlayerInfo>() == null)
+            {
+                Debug.Log("cannot find component " + player.networkView.viewID + " " + player.networkView.owner.ipAddress);
+                continue;
+            }
+            //string name = player.GetComponent<PlayerInfo>().getUsername();
+            Debug.Log(player.GetComponent<PlayerInfo>().getUsername() + "[" + player.GetComponent<PlayerInfo>().getUserId() + "] " + player.networkView.viewID + " " + player.networkView.owner.ipAddress);
+        }
+    }
+
 	void OnTriggerEnter(Collider other){
+        
 		if(other.gameObject.tag == "Player"){
 			Debug.Log ("Player entered the Checkpoint trigger");
 			Debug.Log ("Player viewID is: " + other.gameObject.networkView.viewID);
