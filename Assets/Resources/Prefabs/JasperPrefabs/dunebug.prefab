@@ -3418,7 +3418,6 @@ GameObject:
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400006}
-  - 148: {fileID: 14800004}
   - 136: {fileID: 13600000}
   m_Layer: 0
   m_Name: dunebug
@@ -7600,18 +7599,6 @@ NetworkView:
   m_Enabled: 1
   m_StateSynchronization: 0
   m_Observed: {fileID: 400446}
-  m_ViewID:
-    m_ID: 0
-    m_Type: 0
---- !u!148 &14800004
-NetworkView:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100444}
-  m_Enabled: 1
-  m_StateSynchronization: 1
-  m_Observed: {fileID: 11400004}
   m_ViewID:
     m_ID: 0
     m_Type: 0

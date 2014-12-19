@@ -21,7 +21,15 @@ namespace Game.Net
             {
                 username = AccountController.getInstance().getUser()["displayname"] as string;
                 userid = AccountController.getInstance().getUser()["id"] as string;
+                networkView.RPC("setInformation", RPCMode.AllBuffered, username, userid);
             }
+        }
+
+        [RPC]
+        public void setInformation(String username, String userid)
+        {
+            this.username = username;
+            this.userid = userid;
         }
 
         public string getUserId()
