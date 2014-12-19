@@ -7335,12 +7335,12 @@ MonoBehaviour:
   springs: 1000
   dampers: 2
   wheelRadius: 1.10000002
-  torque: 50
-  brakeTorque: 500
-  wheelWeight: 3
+  torque: 40
+  brakeTorque: 200
+  wheelWeight: 15
   shiftCentre: {x: 0, y: -.5, z: 0}
   fwdStiffness: .100000001
-  swyStiffness: .100000001
+  swyStiffness: .150000006
   maxSteerAngle: 30
   wheelDriv: 0
   shiftDownRPM: 1500
@@ -7353,7 +7353,7 @@ MonoBehaviour:
   - 3
   - 2.5
   reversingSpeedFactor: .300000012
-  downForce: 200
+  downForce: 150
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
