@@ -17,8 +17,11 @@ namespace Game.Net
         private string userid;
 
         void Awake() {
-            username = AccountController.getInstance().getUser()["displayname"] as string;
-            userid = AccountController.getInstance().getUser()["id"] as string;
+            if (networkView.isMine)
+            {
+                username = AccountController.getInstance().getUser()["displayname"] as string;
+                userid = AccountController.getInstance().getUser()["id"] as string;
+            }
         }
 
         public string getUserId()
