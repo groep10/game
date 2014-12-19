@@ -7333,8 +7333,8 @@ MonoBehaviour:
   suspensionDistance: .200000003
   springs: 1000
   dampers: 2
-  wheelRadius: .649999976
-  torque: 100
+  wheelRadius: 1.10000002
+  torque: 50
   brakeTorque: 500
   wheelWeight: 3
   shiftCentre: {x: 0, y: -.5, z: 0}
@@ -7352,7 +7352,7 @@ MonoBehaviour:
   - 3
   - 2.5
   reversingSpeedFactor: .300000012
-  downForce: 80
+  downForce: 150
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
