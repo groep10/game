@@ -10,12 +10,13 @@ public class CheckpointBehaviour : MonoBehaviour {
 	private GameObject arena;
 	public GameObject enemyManager;
 	private float racingTimeLimit = 100;
-
+	public GameObject Score;
 	private bool runningMiniGame = false;
 
     void Awake()
     {
         InvokeRepeating("findPlayers", 5f, 5f);   
+		Instantiate (Score);
     }
 
     void findPlayers()
