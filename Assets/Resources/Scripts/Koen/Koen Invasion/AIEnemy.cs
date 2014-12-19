@@ -3,49 +3,53 @@ using System.Collections;
 
 public class AIEnemy : MonoBehaviour
 {
-	float distance, lookAtDistance = 25.0f, attackRange = 15.0f, moveSpeed = 5.0f, damping = 6.0f;
-	public Transform Target;
+	float distance, lookAtDistance = 150f, attackRange = 100f, moveSpeed = 5.0f, damping = 6.0f;
+	private float currentDistance;
+	public GameObject[] Targets;
+	private GameObject targ;
+	private int health = 100;
 
-	void Start()
-	{
-		if(!Target)
-		{
-			Target = GameObject.FindGameObjectWithTag("Player").transform;
-		}
+	void Start(){
+		Targets = GameObject.FindGameObjectsWithTag("Player");
 	}﻿
 	void Update()
 	{
-		distance = Vector3.Distance(Target.position, transform.position);
-		
-		if(distance < lookAtDistance)
-		{
+		if(health <= 0 && Network.isServer){
+			Network.Destroy(this.gameObject);
+			Network.RemoveRPCs(networkView.viewID);
+		}
+		currentDistance = int.MaxValue;
+		foreach (GameObject go in Targets){
+			distance = Vector3.Distance(go.transform.position, transform.position);
+			if(distance<currentDistance){
+				currentDistance = distance;
+				targ = go;
+			}
+		}
+		if(distance < lookAtDistance){
 			LookAt();
 		}
-		
-		if (distance < attackRange)
-		{
+		if (distance < attackRange){
 			AttackPlayer();
 		}
-
-
 	}
 	
-	void LookAt()
-	{
-		Quaternion rotation = Quaternion.LookRotation(Target.position - transform.position);
+	void LookAt(){
+		Quaternion rotation = Quaternion.LookRotation(targ.transform.position - transform.position);
 		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
 	}
 	
-	void AttackPlayer()
-	{
+	void AttackPlayer(){
 		transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
 	}
 
-	void OnCollisionEnter (Collision col)
-	{
-		if(col.gameObject.name == "bullet(Clone)")
-		{
-			Destroy(col.gameObject);
+	//RPC calls
+	[RPC]
+	void damage(int dam, NetworkViewID shooter){
+		health -= dam;
+		Debug.Log("health: "+health);
+		if(health <= 0){
+			Debug.Log("killed by: "+shooter);
 		}
 	}
 }

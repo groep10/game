@@ -42,7 +42,7 @@ public class CustomSer : MonoBehaviour {
 	public float springs = 1000.0f; 
 	public float dampers = 2f; 
 	public float wheelRadius = 1.25f; 
-	public float torque = 100f; 
+	public float torque = 50f; 
 	public float brakeTorque = 500f; 
 	public float wheelWeight = 15f;
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
@@ -66,8 +66,9 @@ public class CustomSer : MonoBehaviour {
 	private float maxReversingSpeed;
 	private float maxSpeed = 60;
 	public float reversingSpeedFactor = 0.3f; 
-	public float downForce=80;
+	public float downForce=120;
 	private float CurrentSpeed;
+	private float steer = 0;
 	
 	// alle info van de wielen wordt hierin opgeslagen
 	class WheelData {
@@ -181,7 +182,7 @@ public class CustomSer : MonoBehaviour {
 		// apply downforce
 		if (anyOnGround) {
 			//print("Het werkt");
-			rigidbody.AddForce (Vector3.down * downForce);
+			rigidbody.AddForce (Vector3.down * downForce *(1+Mathf.Abs(steer)));
 			//print(-transform.up * curvedSpeedFactor * downForce);
 		}
 	}
@@ -193,18 +194,18 @@ public class CustomSer : MonoBehaviour {
 	//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//Shoot
-	/* apply particle system to prefab
+//	apply particle system to prefab
 	void Update(){
 		if(networkView.isMine){
-			if (Input.GetKeyDown(KeyCode.Space)){
+			if (Input.GetButtonDown("Fire1")){
 				networkView.RPC("Shoting",RPCMode.All,true);
 			}
-			else if(Input.GetKeyUp(KeyCode.Space)){
+			else if(Input.GetButtonUp("Fire1")){
 				networkView.RPC("Shoting",RPCMode.All,false);
 			}
 		}
 	}
-	*/
+
 
 	//Movements
 	void FixedUpdate () {
@@ -368,34 +369,16 @@ public class CustomSer : MonoBehaviour {
 			steerBack = sBack;
 		}
 	}
-	/* 
-	//When someone enters the trigger spawn an enemy (their can only be one)
-	void OnTriggerEnter(Collider other){
-		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
-			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
-		}
-	}
 
-	//When bullet particle hits something
-	void OnParticleCollision(GameObject other) {
-		Rigidbody body = other.rigidbody;
-		if (networkView.isMine && body.tag == "Enemy") {
-			body.networkView.RPC("Damage",RPCMode.AllBuffered,10,this.name);
-		}
-		else if(networkView.isMine && body.tag == "Player"){
-			//Do RPC stuff
-		}
-	}
 	//RPC Calls
 	[RPC]
 	void Shoting(bool fire){
-		child = transform.FindChild("Shooter");
+		Transform shooter = transform.FindChild ("Shooter");
 		if(fire){
-			child.particleSystem.Play();
+			shooter.particleSystem.Play();
 		}
 		else if(!fire){
-			child.particleSystem.Stop();
+			shooter.particleSystem.Stop();
 		}
 	}
-	*/
 }

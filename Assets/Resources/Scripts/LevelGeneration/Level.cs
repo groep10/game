@@ -10,7 +10,7 @@ public class Level : MonoBehaviour {
 	public bool makeLarger;
 	public float terrainRadius = 200;
 	public GameObject checkpoint;
-	private float checkpointTimer = 10;
+	private float checkpointTimer = 60;
 
 	public Texture2D grass;
 	public Texture2D cliff;
@@ -22,7 +22,7 @@ public class Level : MonoBehaviour {
 	private GameObject cpnt;
 
 	// edits the terrain according to the radius that is set.
-	void editTerrain(){
+	public void editTerrain(){
 		// Take the resolution of the terrain as the boundaries
 		xResolution = Arena.terrainData.heightmapWidth;
 		zResolution = Arena.terrainData.heightmapHeight;
@@ -103,7 +103,8 @@ public class Level : MonoBehaviour {
 
 
 	// sets the checkpoint in the arena
-	void setCheckpoint(){
+	public void setCheckpoint(){
+		//Debug.Log ("Setting new checkpoint");
 		//float x = Random.Range (-300, 300);
 		//float z = Random.Range (-300, 300);
 
@@ -118,7 +119,8 @@ public class Level : MonoBehaviour {
 	}
 
 	// Destroys the checkpoint
-	void destroyCP(){
+	public void destroyCP(){
+		//Debug.Log ("Destroying checkpoint");
 		Network.Destroy (cpnt.networkView.viewID);
 		Network.RemoveRPCs (cpnt.networkView.viewID);
 	}

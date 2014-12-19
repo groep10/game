@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace Game.Menu {
 
@@ -18,14 +19,42 @@ namespace Game.Menu {
 
 		private HostData[] hostdata;
 
+        public GameObject errorWindow;
+
 		// Use this for initialization
 		void Start ()
 		{
 			if (createServer != null) {
-				createServer.onClick.AddListener (doCreateServer);
+                createServer.onClick.AddListener(onCreateClick);
 			}
-			InvokeRepeating ("requestList", 5f, 5f);
+            InvokeRepeating("requestList", 5f, 5f);
 		}
+
+        //void onBecameVisible()
+        //{
+        //    Debug.Log("visible");
+            
+        //}
+
+        //void OnBecameInvisible()
+        //{
+        //    Debug.Log("invisible");
+        //    CancelInvoke();
+        //}
+
+        void onCreateClick()
+        {
+            string name = gameName.text;
+
+            if (name == null || !Regex.IsMatch(name, @"^[\w .\-!+&]+$", RegexOptions.IgnoreCase))
+            {
+                GameObject err = (GameObject)Instantiate(errorWindow);
+                err.GetComponentInChildren<Text>().text = "Invalid game name";
+                err.transform.SetParent(transform, false);
+                return;
+            }
+            doCreateServer();
+        }
 
 		void doCreateServer() {
 			// TODO: find more elegant way to disable menu.
