@@ -16,8 +16,8 @@ public class EnemyManage : MonoBehaviour
 	void Spawn ()
 	{
 		// Find a random index between zero and one less than the number of spawn points.
-		int spawnX = Random.Range (-150, 150);
-		int spawnZ = Random.Range (-150, 150);
+		int spawnX = Random.Range (-500, 500);
+		int spawnZ = Random.Range (-500, 500);
 		spawnPoint = new Vector3 (spawnX, 3f, spawnZ);
 		// Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
 		Network.Instantiate (enemy, spawnPoint, Quaternion.identity,0);
