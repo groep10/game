@@ -6,9 +6,9 @@ using System.Collections;
 public class CheckpointBehaviour : MonoBehaviour {
 
 	private ArrayList playerOrder = new ArrayList();
-	public Terrain arena;
+	private GameObject arena;
 	public GameObject enemyManager;
-	private float racingTimeLimit = 60;
+	private float racingTimeLimit = 5;
 
 	private bool runningMiniGame = false;
 
@@ -35,6 +35,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 			Debug.Log ("Starting minigame.....");
 			// instantiate the enemies from the server
 			if(Network.isServer){
+				arena = GameObject.FindGameObjectWithTag("Level");
 				arena.GetComponent<Level> ().editTerrain ();
 				Instantiate(enemyManager);
 			}
