@@ -3416,7 +3416,6 @@ GameObject:
   - 148: {fileID: 14800000}
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
-  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: dunebug
   m_TagString: Player
@@ -3432,8 +3431,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400446}
-  - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
+  - 198: {fileID: 19800000}
+  - 114: {fileID: 11400002}
+  - 148: {fileID: 14800002}
   m_Layer: 0
   m_Name: Shooter
   m_TagString: Untagged
@@ -6347,7 +6348,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.58000004, z: 9.31000042}
+  m_LocalPosition: {x: -.639999986, y: 1.58000004, z: 9.31000042}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400444}
@@ -7355,14 +7356,12 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100444}
+  m_GameObject: {fileID: 100446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43615c652f9c3d0469c3cf2959e8d165, type: 3}
+  m_Script: {fileID: 11500000, guid: 92728f19ae50f8a4e98ff61b264de132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: 
-  userid: 0
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -7551,24 +7550,36 @@ NetworkView:
   m_ViewID:
     m_ID: 0
     m_Type: 0
+--- !u!148 &14800002
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100446}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 400446}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100446}
-  lengthInSec: 2
+  lengthInSec: 1
   startDelay: 0
   speed: 1
   randomSeed: 0
-  looping: 0
+  looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 0
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7601,7 +7612,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: 20
+      scalar: 200
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7725,10 +7736,10 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278190331
+        rgba: 4278190335
       minMaxState: 0
     startSize:
-      scalar: 5
+      scalar: .800000012
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -7795,12 +7806,12 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 1
+    maxNumParticles: 20
   ShapeModule:
     serializedVersion: 2
     enabled: 1
-    type: 5
-    radius: .52772522
+    type: 4
+    radius: .00999999978
     angle: 0
     length: 5
     boxX: 1
@@ -7855,22 +7866,22 @@ ParticleSystem:
     time3: 0
     m_BurstCount: 0
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
+          value: 0
+          inSlope: 19.3846169
+          outSlope: 19.3846169
+          tangentMode: 10
+        - time: .0515872985
           value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-        - time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
+          inSlope: 19.3846169
+          outSlope: 19.3846169
+          tangentMode: 10
         m_PreInfinity: 2
         m_PostInfinity: 2
       minCurve:
@@ -8623,11 +8634,11 @@ ParticleSystemRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_MaxParticleSize: .5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
-  m_LengthScale: 2
+  m_LengthScale: 20
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_SortMode: 0
