@@ -4,7 +4,7 @@ using System.Collections;
 public class AIEnemy : MonoBehaviour
 {
 	float distance, lookAtDistance = 150f, attackRange = 100f, moveSpeed = 5.0f, damping = 6.0f;
-	private float currentDistance = int.MaxValue;
+	private float currentDistance;
 	public GameObject[] Targets;
 	private GameObject targ;
 	private int health = 100;
@@ -18,7 +18,7 @@ public class AIEnemy : MonoBehaviour
 			Network.Destroy(this.gameObject);
 			Network.RemoveRPCs(networkView.viewID);
 		}
-
+		currentDistance = int.MaxValue;
 		foreach (GameObject go in Targets){
 			distance = Vector3.Distance(go.transform.position, transform.position);
 			if(distance<currentDistance){
@@ -41,12 +41,6 @@ public class AIEnemy : MonoBehaviour
 	
 	void AttackPlayer(){
 		transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-	}
-
-	void OnCollisionEnter (Collision col){
-		if(col.gameObject.name == "bullet(Clone)"){
-			Destroy(col.gameObject);
-		}
 	}
 
 	//RPC calls

@@ -369,20 +369,6 @@ public class CustomSer : MonoBehaviour {
 		}
 	}
 
-	//When bullet particle hits something
-	void OnParticleCollision(GameObject other) {
-		Debug.Log ("collison detected");
-		Rigidbody body = other.rigidbody;
-		if (networkView.isMine && body.tag == "Enemy") {
-			//body.networkView.RPC("Damage",RPCMode.AllBuffered,10,this.name);
-			Debug.Log("should destroy");
-			Network.Destroy(other.networkView.viewID);
-		}
-		else if(networkView.isMine && body.tag == "Player"){
-			//Do RPC stuff
-		}
-	}
-
 	//RPC Calls
 	[RPC]
 	void Shoting(bool fire){
