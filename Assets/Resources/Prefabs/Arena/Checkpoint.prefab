@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400000}
+  - 148: {fileID: 14800004}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -210,7 +211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561b53fc3978c8449b9f28b11c75a03f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arena: {fileID: 11400004, guid: 9d9e4f84b957db248ab9936244c1ff12, type: 2}
   enemyManager: {fileID: 100000, guid: 67975db293cebfc45967d159faad91fe, type: 2}
 --- !u!148 &14800000
 NetworkView:
@@ -233,6 +233,18 @@ NetworkView:
   m_Enabled: 1
   m_StateSynchronization: 0
   m_Observed: {fileID: 400006}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
+--- !u!148 &14800004
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 400000}
   m_ViewID:
     m_ID: 0
     m_Type: 0
