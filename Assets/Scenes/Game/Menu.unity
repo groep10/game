@@ -2242,6 +2242,100 @@ MonoScript:
   m_Namespace: UnityEngine.UI
   m_AssemblyName: UnityEngine.UI.dll
   m_IsEditorScript: 0
+--- !u!1 &553521164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 553521165}
+  - 222: {fileID: 553521167}
+  - 114: {fileID: 553521166}
+  - 114: {fileID: 553521168}
+  m_Layer: 5
+  m_Name: minimap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &553521165
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 553521164}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -49}
+  m_LocalScale: {x: .300000012, y: .300000012, z: .300000012}
+  m_Children: []
+  m_Father: {fileID: 636869355}
+  m_RootOrder: 1
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 715, y: 6}
+  m_SizeDelta: {x: 400, y: 400}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &553521166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 553521164}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: .39199999}
+  m_Sprite: {fileID: 21300000, guid: 888036276f787471db03cf2baf61fcd3, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &553521167
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 553521164}
+--- !u!114 &553521168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 553521164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683bbc52ade6cc242bd1baabfb044c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCar: {fileID: 0}
+  veld: {fileID: 553521164}
+  veldTr: {fileID: 553521165}
+  size: 138
+  field: {fileID: 2800000, guid: 888036276f787471db03cf2baf61fcd3, type: 3}
+  otherPlayer: {fileID: 2800000, guid: d9cb7b62e78e27e4e815e41d36a4916e, type: 3}
+  player: {fileID: 2800000, guid: 055bbd5a7d93fec4788bb4c6733922d1, type: 3}
+  CheckPoint: {fileID: 2800000, guid: 78ee1607477c8bb41abca3c80b128678, type: 3}
+  Enemy: {fileID: 2800000, guid: b92dddfce8e7d8d4fb68900bd3119cfa, type: 3}
+  CheckPointU: {fileID: 2800000, guid: 83b75cd0b9275ca42b3f6279f66ddd07, type: 3}
+  CheckPointD: {fileID: 2800000, guid: 4b5fa7bf7c183714eb3322272ced4f59, type: 3}
+  CheckPointL: {fileID: 2800000, guid: 09e82d78866c74a4ea6d79cb65ff9c41, type: 3}
+  CheckPointR: {fileID: 2800000, guid: 00faea124ba2e19468457bc8722f9d1e, type: 3}
+  otherPlayerTag: Player
+  CheckPointTag: CheckPoint
+  EnemyTag: Enemy
+  RecttangleTag: Recttangle
+  mapScale: .400000006
+  mapSizePercent: 30
+  SizePlayers: 8
+  radarLocation: 1
 --- !u!1 &592169780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,6 +2584,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1941147232}
+  - {fileID: 553521165}
   m_Father: {fileID: 1719338333}
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}

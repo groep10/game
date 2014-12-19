@@ -8,7 +8,7 @@ public class MiniMap3 : MonoBehaviour
 	public Transform PlayerCar;
 	public GameObject veld;
 	public Transform veldTr;
-	public float size;
+    public float size = 138;
 
 	[Header ("Textures")]
 	public Texture field;
@@ -30,8 +30,8 @@ public class MiniMap3 : MonoBehaviour
 
 
 	[Header ("Appearence map")]
-	public float mapScale = 0.3f;
-	public float mapSizePercent = 15f;
+	public float mapScale = 0.4f;
+	public float mapSizePercent = 30f;
 	public float SizePlayers = 8;
 	public enum radarLocationValues {topLeft, topRight, bottomLeft, bottomRight}
 	public radarLocationValues radarLocation; 
@@ -42,18 +42,29 @@ public class MiniMap3 : MonoBehaviour
 
 	
 	void Start () {
-		Player = PlayerCar.gameObject;
+        //Player = PlayerCar.gameObject;
 		mapWidth = Screen.width * mapSizePercent / 100.0f;
 		mapHeight = mapWidth;
 	
 	}
 	
 	void Update() {
+        if (PlayerCar == null)
+        {
+            CustomSer p = GameObject.FindObjectOfType<CustomSer>();
+            if (p == null)
+            {
+                return;
+            }
+            PlayerCar = p.transform;
+            Player = p.gameObject;
+            GetComponent<Image>().enabled = true;
+        }
 		RemoveBlips ();
 		//Maak map aan
 		setMapLocation ();
 
-		drawBlip (Player, player, false);
+        drawBlip (Player, player, false);
 		DrawBlipsForOtherPlayers ();
 		DrawBlipsForCheckPoints ();
 		DrawBlipsForEnemys ();
@@ -68,12 +79,10 @@ public class MiniMap3 : MonoBehaviour
 		float dx = centerPos.x - extPos.x;
 		float dz = centerPos.z - extPos.z; 
 
-		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
+		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - PlayerCar.eulerAngles.y;
 
 		float bX = dx * mapScale;
 		float bY = dz * mapScale;
-
-
 
 		if(dist<=mapWidth*0.50/mapScale){ 
 			RectTransform temp = veld.GetComponent<RectTransform> ();
@@ -136,7 +145,11 @@ public class MiniMap3 : MonoBehaviour
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (otherPlayerTag);		
 		foreach (GameObject go in gos) {
-			drawBlip(go,otherPlayer, false);
+            if (go == Player)
+            {
+                continue;
+            }
+			drawBlip(go, otherPlayer, false);
 		}
 		
 	}
