@@ -39,7 +39,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 				arena.GetComponent<Level>().destroyCP();
 				arena.GetComponent<Level> ().editTerrain ();
 
-				Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
+				//Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
 				Instantiate(enemyManager);
 			}
 		}
