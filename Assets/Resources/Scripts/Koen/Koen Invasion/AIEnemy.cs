@@ -19,6 +19,7 @@ public class AIEnemy : MonoBehaviour
 		if(health <= 0 && Network.isServer){
 			Network.Destroy(this.gameObject);
 			Network.RemoveRPCs(networkView.viewID);
+            return;
 		}
 		currentDistance = int.MaxValue;
 		foreach (GameObject go in Targets){
@@ -52,11 +53,11 @@ public class AIEnemy : MonoBehaviour
 		Debug.Log("health: "+health);
 		if (health <= 0) {
 			Debug.Log("killed by: "+shooter);
-            networkView.RPC("minigamePoint", RPCMode.AllBuffered, NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
+            minigamePoint(NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
+            //networkView.RPC("minigamePoint", RPCMode.AllBuffered, NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
 		}
 	}
 
-    [RPC]
     void minigamePoint(string playername)
     {
         GameObject.FindObjectOfType<Level>().increasePlayerMinigameScore(playername);
