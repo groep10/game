@@ -121,6 +121,18 @@ namespace Game.Web
             });
         }
 
+        public void getUserAvatarById(String id, handleTexture callback)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("token", this.getAccessToken());
+
+            Http request = new Http("http://so.meaglin.com/api.php?action=getavatar&id=" + id + "&raw", form);
+            request.getData((www) =>
+            {
+                callback(www.texture);
+            });
+        }
+
         public void uploadAvatar(String filePath, handleHash callback)
         {
             Http req = new Http("file:///" + filePath);
