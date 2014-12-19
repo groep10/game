@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 
 using Game.Net;
+using Game.UI;
 
 public class CheckpointBehaviour : MonoBehaviour {
 
@@ -36,16 +37,17 @@ public class CheckpointBehaviour : MonoBehaviour {
     }
 
 	void OnTriggerEnter(Collider other){
-        
-		if(other.gameObject.tag == "Player"){
+        GameObject obj = other.gameObject;
+		if(obj.tag == "Player"){
 			Debug.Log ("Player entered the Checkpoint trigger");
-			Debug.Log ("Player viewID is: " + other.gameObject.networkView.viewID);
+			Debug.Log ("Player viewID is: " + obj.networkView.viewID);
 
-			if(!playerOrder.Contains(other.gameObject.networkView.viewID)){
-				playerOrder.Add(other.gameObject.networkView.viewID);		
+			if(!playerOrder.Contains(obj.networkView.viewID)){
+				playerOrder.Add(obj.networkView.viewID);
+                GameObject.FindObjectOfType<ScoreController>().addScore(obj.GetComponent<PlayerInfo>().getUsername() + ": #" + playerOrder.Count);
 			}
 
-			for(int i = 0; i<playerOrder.Count; i++){
+			for(int i = 0; i < playerOrder.Count; i++){
 				int rank = i + 1;
 				Debug.Log ("Player" + rank + ": " + playerOrder[i]);
 			}
