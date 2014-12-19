@@ -199,9 +199,9 @@ public class CustomSer : MonoBehaviour {
 			if (Input.GetButtonDown("Fire1")){
 				networkView.RPC("Shoting",RPCMode.All,true);
 			}
-//			else if(Input.GetKeyUp(KeyCode.Space)){
-//				networkView.RPC("Shoting",RPCMode.All,false);
-//			}
+			else if(Input.GetButtonUp("Fire1")){
+				networkView.RPC("Shoting",RPCMode.All,false);
+			}
 		}
 	}
 
@@ -369,13 +369,6 @@ public class CustomSer : MonoBehaviour {
 		}
 	}
 
-	//When someone enters the trigger spawn an enemy (their can only be one)
-//	void OnTriggerEnter(Collider other){
-//		if(Network.isServer && GameObject.Find("Enemy(Clone)")==null && other.tag == "EnemyTrigger"){
-//			Network.Instantiate(enemy, enemySpawn.position, Quaternion.identity, 0);
-//		}
-//	}
-
 	//When bullet particle hits something
 	void OnParticleCollision(GameObject other) {
 		Debug.Log ("collison detected");
@@ -389,6 +382,7 @@ public class CustomSer : MonoBehaviour {
 			//Do RPC stuff
 		}
 	}
+
 	//RPC Calls
 	[RPC]
 	void Shoting(bool fire){

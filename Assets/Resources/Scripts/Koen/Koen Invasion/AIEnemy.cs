@@ -7,13 +7,18 @@ public class AIEnemy : MonoBehaviour
 	private float currentDistance = int.MaxValue;
 	public GameObject[] Targets;
 	private GameObject targ;
+	private int health = 100;
 
-	void Start()
-	{
+	void Start(){
 		Targets = GameObject.FindGameObjectsWithTag("Player");
 	}﻿
 	void Update()
 	{
+		if(health <= 0 && Network.isServer){
+			Network.Destroy(this.gameObject);
+			Network.RemoveRPCs(networkView.viewID);
+		}
+
 		foreach (GameObject go in Targets){
 			distance = Vector3.Distance(go.transform.position, transform.position);
 			if(distance<currentDistance){
@@ -21,34 +26,36 @@ public class AIEnemy : MonoBehaviour
 				targ = go;
 			}
 		}
-		
-		if(distance < lookAtDistance)
-		{
+		if(distance < lookAtDistance){
 			LookAt();
 		}
-		
-		if (distance < attackRange)
-		{
+		if (distance < attackRange){
 			AttackPlayer();
 		}
 	}
 	
-	void LookAt()
-	{
+	void LookAt(){
 		Quaternion rotation = Quaternion.LookRotation(targ.transform.position - transform.position);
 		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
 	}
 	
-	void AttackPlayer()
-	{
+	void AttackPlayer(){
 		transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
 	}
 
-	void OnCollisionEnter (Collision col)
-	{
-		if(col.gameObject.name == "bullet(Clone)")
-		{
+	void OnCollisionEnter (Collision col){
+		if(col.gameObject.name == "bullet(Clone)"){
 			Destroy(col.gameObject);
+		}
+	}
+
+	//RPC calls
+	[RPC]
+	void damage(int dam, NetworkViewID shooter){
+		health -= dam;
+		Debug.Log("health: "+health);
+		if(health <= 0){
+			Debug.Log("killed by: "+shooter);
 		}
 	}
 }
