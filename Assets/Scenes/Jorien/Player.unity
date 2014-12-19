@@ -6975,9 +6975,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCar: {fileID: 1735789622}
-  Field: {fileID: 1364032586}
+  veld: {fileID: 1364032586}
+  veldTr: {fileID: 1364032587}
   size: 138
-  field: {fileID: 2800000, guid: 8f659dae80dc92b478cfe85a4976e4ca, type: 3}
+  field: {fileID: 2800000, guid: 888036276f787471db03cf2baf61fcd3, type: 3}
   otherPlayer: {fileID: 2800000, guid: 01fb7147cf1b10c4cad2fcfde8f116f1, type: 3}
   player: {fileID: 2800000, guid: 055bbd5a7d93fec4788bb4c6733922d1, type: 3}
   CheckPoint: {fileID: 2800000, guid: 78ee1607477c8bb41abca3c80b128678, type: 3}
@@ -31202,11 +31203,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1781674071}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 237, y: 57}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: .5, y: .5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1107.80005, y: -28.2999992}
+  m_SizeDelta: {x: 400, y: 400}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1364032588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42207,7 +42208,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 2
   m_RenderMode: 0
-  m_Camera: {fileID: 323009370}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 60
   m_PixelPerfect: 0
   m_ReceivesEvents: 1

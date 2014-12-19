@@ -42,7 +42,7 @@ public class CustomSer : MonoBehaviour {
 	public float springs = 1000.0f; 
 	public float dampers = 2f; 
 	public float wheelRadius = 1.25f; 
-	public float torque = 100f; 
+	public float torque = 50f; 
 	public float brakeTorque = 500f; 
 	public float wheelWeight = 15f;
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
@@ -66,8 +66,9 @@ public class CustomSer : MonoBehaviour {
 	private float maxReversingSpeed;
 	private float maxSpeed = 60;
 	public float reversingSpeedFactor = 0.3f; 
-	public float downForce=80;
+	public float downForce=120;
 	private float CurrentSpeed;
+	private float steer = 0;
 	
 	// alle info van de wielen wordt hierin opgeslagen
 	class WheelData {
@@ -181,7 +182,7 @@ public class CustomSer : MonoBehaviour {
 		// apply downforce
 		if (anyOnGround) {
 			//print("Het werkt");
-			rigidbody.AddForce (Vector3.down * downForce);
+			rigidbody.AddForce (Vector3.down * downForce *(1+Mathf.Abs(steer)));
 			//print(-transform.up * curvedSpeedFactor * downForce);
 		}
 	}
