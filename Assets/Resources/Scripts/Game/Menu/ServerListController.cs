@@ -26,10 +26,18 @@ namespace Game.Menu {
 		{
 			if (createServer != null) {
                 createServer.onClick.AddListener(onCreateClick);
-			}
-			InvokeRepeating ("requestList", 5f, 5f);
+			}			
 		}
 
+        void onBecameVisible()
+        {
+            InvokeRepeating("requestList", 5f, 5f);
+        }
+
+        void onBecameInvisible()
+        {
+            CancelInvoke();
+        }
 
         void onCreateClick()
         {
