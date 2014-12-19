@@ -6,7 +6,8 @@ public class MiniMap3 : MonoBehaviour
 {
 
 	public Transform PlayerCar;
-	public GameObject Field;
+	public GameObject veld;
+	public Transform veldTr;
 	public float size;
 
 	[Header ("Textures")]
@@ -25,6 +26,7 @@ public class MiniMap3 : MonoBehaviour
 	public string otherPlayerTag = "OtherPlayer";
 	public string CheckPointTag = "CheckPoint";
 	public string EnemyTag = "Enemy";
+	public string RecttangleTag = "Recttangle";
 
 
 	[Header ("Appearence map")]
@@ -40,44 +42,53 @@ public class MiniMap3 : MonoBehaviour
 
 	
 	void Start () {
-		setMapLocation ();
-		Player = transform.gameObject;
+		Player = PlayerCar.gameObject;
+		mapWidth = Screen.width * mapSizePercent / 100.0f;
+		mapHeight = mapWidth;
+	
 	}
 	
 	void Update() {
+		//Maak map aan
+		setMapLocation ();
+
 		drawBlip (Player, player, false);
 		DrawBlipsForOtherPlayers ();
 		DrawBlipsForCheckPoints ();
 		DrawBlipsForEnemys ();
+		RemoveBlips ();
 	}
 	
-	void drawBlip(GameObject go,Texture aTexture, bool check){/*
+	void drawBlip(GameObject go,Texture aTexture, bool check){
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
 
 		float dist = Vector3.Distance (centerPos, extPos);
 		float dx = centerPos.x - extPos.x;
 		float dz = centerPos.z - extPos.z; 
-		
-		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
 
-		float bX = dist * Mathf.Cos (deltay * Mathf.Deg2Rad);
-		float bY = dist * Mathf.Sin (deltay * Mathf.Deg2Rad);
-		
-		bX = bX * mapScale; 
-		bY = bY * mapScale;
-		
+		//float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
+
+		float bX = dx * mapScale;
+		float bY = dz * mapScale;
+
 		if(dist<=mapWidth*.5/mapScale){ 
-			//RectTransform temp = Field.GetComponent<RectTransform> ();
+			RectTransform temp = veld.GetComponent<RectTransform> ();
 			GameObject Blip = new GameObject();
-			Blip = Field;
+			Blip.tag = "Recttangle";
+			RawImage img = Blip.AddComponent<RawImage>();
+			img.texture = aTexture; 
 			RectTransform blip = Blip.GetComponent<RectTransform>();
-			blip.anchorMax = temp.anchorMin = new Vector2 (0, 1);
-			blip.offsetMin = new Vector2 (mapCenter.x - mapWidth, mapCenter.y - mapHeight);
-			blip.offsetMax = new Vector2 (mapCenter.x + mapWidth, mapCenter.y + mapHeight);
+			blip.SetParent(temp);
+			Vector2 middel = temp.localPosition; 
+			float height = temp.rect.height; 
+			float paddingf = height/2 + bX;
+			float padding2f = height/2 + bY;
+			int padding = (int) paddingf;
+			int padding2 = (int) padding2f;
+			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, SizePlayers);
+			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding2, SizePlayers);
 
-
-			GUI.DrawTexture(new Rect(mapCenter.x+bX,mapCenter.y+bY,SizePlayers,SizePlayers),aTexture);
 		}/*
 		else if (check) {
 			float bX2 = mapWidth*.45f * Mathf.Cos (deltay * Mathf.Deg2Rad);
@@ -126,26 +137,37 @@ public class MiniMap3 : MonoBehaviour
 		}
 
 	}
+
+	void RemoveBlips(){
+		GameObject[] rects;
+		rects = GameObject.FindGameObjectsWithTag (RecttangleTag);
+		foreach (GameObject rect in rects) {
+			//rect.Destroy();
+		}
+
+
+		}
 	
 	void setMapLocation () {
-		mapWidth = Screen.width * mapSizePercent / 100.0f;
-		mapHeight = mapWidth;
-		RectTransform temp = Field.GetComponent<RectTransform> ();
+		RectTransform temp = veld.GetComponent<RectTransform> ();
+		float height = temp.rect.height; 
+
+		int padding = 5;
 
 		if (radarLocation == radarLocationValues.topLeft) {
-			    //mapCenter = new Vector2(mapWidth/2, mapHeight/2);
-				temp.anchorMax = new Vector2 (0, 1/2);
-				temp.anchorMin = new Vector2 (0, 1/2);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, height);
 		} else if(radarLocation == radarLocationValues.topRight){
-				temp.anchorMax = temp.anchorMin = new Vector2 (1, 1);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, height);
 		} else if(radarLocation == radarLocationValues.bottomLeft){
-				temp.anchorMax = temp.anchorMin = new Vector2 (0, 0);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, height);
 		} else if(radarLocation == radarLocationValues.bottomRight){
-			temp.anchorMax = temp.anchorMin = new Vector2 (1, 0);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, height);
+			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, height);
 		} 
 
-		temp.offsetMin = new Vector2 (0,0);
-		temp.offsetMax = new Vector2 (mapCenter.x + mapWidth/2, mapCenter.y + mapHeight/2);
-		print (mapCenter);
+
 	}
 }
