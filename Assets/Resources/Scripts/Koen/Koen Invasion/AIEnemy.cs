@@ -10,6 +10,7 @@ public class AIEnemy : MonoBehaviour
 	public GameObject[] Targets;
 	private GameObject targ;
 	private int health = 100;
+    private bool dead = false;
 
 	void Start(){
 		Targets = GameObject.FindGameObjectsWithTag("Player");
@@ -50,11 +51,12 @@ public class AIEnemy : MonoBehaviour
 	[RPC]
 	void damage(int dam, NetworkViewID shooter){
 		health -= dam;
-		Debug.Log("health: "+health);
-		if (health <= 0) {
-			Debug.Log("killed by: "+shooter);
-            minigamePoint(NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
-            //networkView.RPC("minigamePoint", RPCMode.AllBuffered, NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
+		Debug.Log("health: " + health);
+		if (health <= 0 && Network.isServer && !dead) {
+            dead = true;
+			Debug.Log("killed by: " + shooter);
+            //minigamePoint(NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
+            networkView.RPC("minigamePoint", RPCMode.AllBuffered, NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
 		}
 	}
 

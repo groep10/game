@@ -10,7 +10,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 	private ArrayList playerOrder = new ArrayList();
 	private GameObject arena;
 	public GameObject enemyManager;
-	private float racingTimeLimit = 10;
+	private float racingTimeLimit = 60;
 
 	private bool runningMiniGame = false;
 
@@ -93,7 +93,7 @@ public class CheckpointBehaviour : MonoBehaviour {
     }
 
 	void Update(){
-		if(playerOrder.Count > 1){
+		if((playerOrder.Count - 1) >= Network.connections.Length){
 			startMinigame();
 		}
 	}
