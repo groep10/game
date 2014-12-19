@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using Game.Net;
+
 public class AIEnemy : MonoBehaviour
 {
 	float distance, lookAtDistance = 150f, attackRange = 100f, moveSpeed = 5.0f, damping = 6.0f;
@@ -48,8 +50,15 @@ public class AIEnemy : MonoBehaviour
 	void damage(int dam, NetworkViewID shooter){
 		health -= dam;
 		Debug.Log("health: "+health);
-		if(health <= 0){
+		if (health <= 0) {
 			Debug.Log("killed by: "+shooter);
+            networkView.RPC("minigamePoint", RPCMode.AllBuffered, NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
 		}
 	}
+
+    [RPC]
+    void minigamePoint(string playername)
+    {
+        GameObject.FindObjectOfType<Level>().increasePlayerMinigameScore(playername);
+    }
 }

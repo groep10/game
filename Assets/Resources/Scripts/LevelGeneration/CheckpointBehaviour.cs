@@ -10,14 +10,19 @@ public class CheckpointBehaviour : MonoBehaviour {
 	private ArrayList playerOrder = new ArrayList();
 	private GameObject arena;
 	public GameObject enemyManager;
-	private float racingTimeLimit = 100;
-	public GameObject Score;
+	private float racingTimeLimit = 10;
+
 	private bool runningMiniGame = false;
+
+    private ScoreController scores;
 
     void Awake()
     {
-        InvokeRepeating("findPlayers", 5f, 5f);   
-		Instantiate (Score);
+        //InvokeRepeating("findPlayers", 5f, 5f);   
+        scores = GameObject.FindObjectOfType<ScoreController>();
+        scores.addScore("Mode: racing");
+
+        Invoke("startMinigame", racingTimeLimit);
     }
 
     void findPlayers()
@@ -43,8 +48,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 			Debug.Log ("Player viewID is: " + obj.networkView.viewID);
 
 			if(!playerOrder.Contains(obj.networkView.viewID)){
-				playerOrder.Add(obj.networkView.viewID);
-                GameObject.FindObjectOfType<ScoreController>().addScore(obj.GetComponent<PlayerInfo>().getUsername() + ": #" + playerOrder.Count);
+                networkView.RPC("playerReachedCheckpoint", RPCMode.AllBuffered, obj.networkView.viewID);
 			}
 
 			for(int i = 0; i < playerOrder.Count; i++){
@@ -53,27 +57,40 @@ public class CheckpointBehaviour : MonoBehaviour {
 			}
 		}
 	}
-	
-	void startMinigame(){
-		if(!runningMiniGame){
-			runningMiniGame = true;
 
-			Debug.Log ("Starting minigame.....");
-			// instantiate the enemies from the server
-			if(Network.isServer){
-				arena = GameObject.FindGameObjectWithTag("Level");
-				arena.GetComponent<Level>().destroyCP();
-				arena.GetComponent<Level> ().editTerrain ();
+    [RPC]
+    public void playerReachedCheckpoint(NetworkViewID id)
+    {
+        playerOrder.Add(id);
+        scores.addScore(NetworkView.Find(id).gameObject.GetComponent<PlayerInfo>().getUsername() + ": #" + playerOrder.Count);
+    }
 
-				//Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
-				Instantiate(enemyManager);
-			}
-		}
-	}
+    void startMinigame()
+    {
+        if (!runningMiniGame)
+        {
+            runningMiniGame = true;
 
-	void Start(){
-		Invoke ("startMinigame", racingTimeLimit);
-	}
+            Debug.Log("Starting minigame.....");
+            // instantiate the enemies from the server
+            if (Network.isServer)
+            {
+                arena = GameObject.FindGameObjectWithTag("Level");
+                arena.GetComponent<Level>().destroyCP();
+                arena.GetComponent<Level>().editTerrain();
+
+                networkView.RPC("minigameStart", RPCMode.AllBuffered);
+                //Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
+                Instantiate(enemyManager);
+            }
+        }
+    }
+
+    [RPC]
+    public void minigameStart()
+    {
+        GameObject.FindObjectOfType<Level>().updateMiniGameScores();
+    }
 
 	void Update(){
 		if(playerOrder.Count > 1){

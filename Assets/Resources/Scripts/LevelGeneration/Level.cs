@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Game.UI;
+
 public class Level : MonoBehaviour {
 
 	public Terrain Arena;
@@ -121,6 +123,7 @@ public class Level : MonoBehaviour {
 	// Destroys the checkpoint
 	public void destroyCP(){
 		//Debug.Log ("Destroying checkpoint");
+        CancelInvoke();
 		Network.Destroy (cpnt.networkView.viewID);
 		Network.RemoveRPCs (cpnt.networkView.viewID);
 	}
@@ -323,6 +326,30 @@ public class Level : MonoBehaviour {
 			Invoke ("setCheckpoint", 5);
 		}
 	}
+
+    private Hashtable table = new Hashtable();
+
+    public void increasePlayerMinigameScore(string playername)
+    {
+        if (!table.ContainsKey(playername))
+        {
+            table[playername] = 0;
+        }
+        table[playername] = (int)table[playername] + 1;
+        updateMiniGameScores();
+    }
+
+    public void updateMiniGameScores()
+    {
+        ScoreController scores = GameObject.FindObjectOfType<ScoreController>();
+        scores.reset();
+        scores.addScore("Mode: zombie");
+
+        foreach (DictionaryEntry de in table)
+        {
+            scores.addScore(de.Key + ": " + de.Value);
+        }
+    }
 }
 
 

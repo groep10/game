@@ -9,9 +9,10 @@ public class BulletCollision : MonoBehaviour {
 			Rigidbody body = other.rigidbody;
 			if (networkView.isMine && body.tag == "Enemy") {
 				Debug.Log("destroying " +other.tag );
-				other.networkView.RPC("damage",RPCMode.AllBuffered,10,transform.parent.networkView.viewID);
-			}
-			else if(networkView.isMine && body.tag == "Player"){
+				other.networkView.RPC("damage", RPCMode.AllBuffered, 10, transform.parent.gameObject.networkView.viewID);
+
+
+			} else if(networkView.isMine && body.tag == "Player"){
 				//Do RPC stuff
 			}
 		}
