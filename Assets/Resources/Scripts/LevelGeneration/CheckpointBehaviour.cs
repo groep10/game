@@ -8,7 +8,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 	private ArrayList playerOrder = new ArrayList();
 	private GameObject arena;
 	public GameObject enemyManager;
-	private float racingTimeLimit = 5;
+	private float racingTimeLimit = 10;
 
 	private bool runningMiniGame = false;
 
@@ -36,7 +36,10 @@ public class CheckpointBehaviour : MonoBehaviour {
 			// instantiate the enemies from the server
 			if(Network.isServer){
 				arena = GameObject.FindGameObjectWithTag("Level");
+				arena.GetComponent<Level>().destroyCP();
 				arena.GetComponent<Level> ().editTerrain ();
+
+				Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
 				Instantiate(enemyManager);
 			}
 		}

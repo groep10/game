@@ -42,7 +42,6 @@ public class Level : MonoBehaviour {
 
 		// server applies textures
 		if(Network.isServer){
-			Debug.Log ("Generating Textures");
 			float rnum = Random.value;
 			networkView.RPC("randomTextures",RPCMode.AllBuffered,rnum);
 		}
@@ -104,7 +103,8 @@ public class Level : MonoBehaviour {
 
 
 	// sets the checkpoint in the arena
-	void setCheckpoint(){
+	public void setCheckpoint(){
+		//Debug.Log ("Setting new checkpoint");
 		//float x = Random.Range (-300, 300);
 		//float z = Random.Range (-300, 300);
 
@@ -119,7 +119,8 @@ public class Level : MonoBehaviour {
 	}
 
 	// Destroys the checkpoint
-	void destroyCP(){
+	public void destroyCP(){
+		//Debug.Log ("Destroying checkpoint");
 		Network.Destroy (cpnt.networkView.viewID);
 		Network.RemoveRPCs (cpnt.networkView.viewID);
 	}
