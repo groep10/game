@@ -76,16 +76,23 @@ public class CheckpointBehaviour : MonoBehaviour {
             if (Network.isServer)
             {
                 arena = GameObject.FindGameObjectWithTag("Level");
-                arena.GetComponent<Level>().destroyCP();
-                arena.GetComponent<Level>().editTerrain();
+				MeshRenderer mesh = transform.parent.gameObject.GetComponentInChildren<MeshRenderer>();
+				mesh.enabled = false;
+				MeshCollider mcol = transform.parent.gameObject.GetComponentInChildren<MeshCollider>();
+				mcol.enabled = false;
+				ParticleSystem part = transform.parent.gameObject.GetComponentInChildren<ParticleSystem>();
+				part.Stop();
+				arena.GetComponent<Level>().editTerrain();
 
                 networkView.RPC("minigameStart", RPCMode.AllBuffered);
                 //Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
                 Instantiate(enemyManager);
+                Invoke("endZombie", 20);
             }
         }
     }
 
+    // Starts the minigame when the criteria are met
     [RPC]
     public void minigameStart()
     {
@@ -97,5 +104,26 @@ public class CheckpointBehaviour : MonoBehaviour {
 			startMinigame();
 		}
 	}
+
+    // Ends the zombie-minigame and starts a new checkpoint race
+    void endZombie()
+    {
+        Debug.Log("Ending zombie-minigame...");
+        // Destroy the enemyManager to prevent the generation of new enemies
+        Network.Destroy(enemyManager);
+
+        // Find all enemies and destroy them
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            Network.Destroy(enemy);
+            Debug.Log("Enemy removed from zombie-minigame");
+        }
+
+        // 
+        arena = GameObject.FindGameObjectWithTag("Level");
+		arena.GetComponent<Level>().destroyCP();
+        arena.GetComponent<Level>().setCheckpoint();
+    }
 
 }
