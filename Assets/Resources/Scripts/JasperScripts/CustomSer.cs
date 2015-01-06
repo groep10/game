@@ -209,6 +209,7 @@ public class CustomSer : MonoBehaviour {
 
 	//Movements
 	void FixedUpdate () {
+		EngineSound ();
 		//check if you are controller the object
 		if (networkView.isMine) {	
 			// camera 
@@ -376,9 +377,17 @@ public class CustomSer : MonoBehaviour {
 		Transform shooter = transform.FindChild ("Shooter");
 		if(fire){
 			shooter.particleSystem.Play();
+			shooter.audio.Play();
 		}
 		else if(!fire){
 			shooter.particleSystem.Stop();
 		}
+	}
+
+	//Engine sound
+
+	void EngineSound() {
+		float enginePitch = (rigidbody.velocity.magnitude/100) + 1f;
+		audio.pitch = enginePitch;
 	}
 }
