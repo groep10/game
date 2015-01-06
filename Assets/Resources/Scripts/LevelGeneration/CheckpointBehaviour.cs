@@ -76,8 +76,13 @@ public class CheckpointBehaviour : MonoBehaviour {
             if (Network.isServer)
             {
                 arena = GameObject.FindGameObjectWithTag("Level");
-                arena.GetComponent<Level>().destroyCP();
-                arena.GetComponent<Level>().editTerrain();
+				MeshRenderer mesh = transform.parent.gameObject.GetComponentInChildren<MeshRenderer>();
+				mesh.enabled = false;
+				MeshCollider mcol = transform.parent.gameObject.GetComponentInChildren<MeshCollider>();
+				mcol.enabled = false;
+				ParticleSystem part = transform.parent.gameObject.GetComponentInChildren<ParticleSystem>();
+				part.Stop();
+				arena.GetComponent<Level>().editTerrain();
 
                 networkView.RPC("minigameStart", RPCMode.AllBuffered);
                 //Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
@@ -117,6 +122,7 @@ public class CheckpointBehaviour : MonoBehaviour {
 
         // 
         arena = GameObject.FindGameObjectWithTag("Level");
+		arena.GetComponent<Level>().destroyCP();
         arena.GetComponent<Level>().setCheckpoint();
     }
 
