@@ -40,7 +40,9 @@ public class AIEnemy : MonoBehaviour
 	
 	void LookAt(){
 		Quaternion rotation = Quaternion.LookRotation(targ.transform.position - transform.position);
-		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+		Vector3 eulerRot = new Vector3 (0, rotation.eulerAngles.y, 0);
+		transform.rotation = Quaternion.Euler (eulerRot);
+			//(transform.rotation.eulerAngles, eulerRot, Time.deltaTime * damping);
 	}
 	
 	void AttackPlayer(){
