@@ -82,10 +82,12 @@ public class CheckpointBehaviour : MonoBehaviour {
                 networkView.RPC("minigameStart", RPCMode.AllBuffered);
                 //Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
                 Instantiate(enemyManager);
+                Invoke("endZombie", 20);
             }
         }
     }
 
+    // Starts the minigame when the criteria are met
     [RPC]
     public void minigameStart()
     {
@@ -97,5 +99,23 @@ public class CheckpointBehaviour : MonoBehaviour {
 			startMinigame();
 		}
 	}
+
+    // Ends the zombie-minigame and starts a new checkpoint race
+    void endZombie()
+    {
+        // Destroy the enemyManager to prevent the generation of new enemies
+        Network.Destroy(enemyManager);
+
+        // Find all enemies and destroy them
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            Network.Destroy(enemy);
+        }
+
+        // 
+        arena = GameObject.FindGameObjectWithTag("Level");
+        arena.GetComponent<Level>().setCheckpoint();
+    }
 
 }
