@@ -103,6 +103,7 @@ public class CheckpointBehaviour : MonoBehaviour {
     // Ends the zombie-minigame and starts a new checkpoint race
     void endZombie()
     {
+        Debug.Log("Ending zombie-minigame...");
         // Destroy the enemyManager to prevent the generation of new enemies
         Network.Destroy(enemyManager);
 
@@ -111,6 +112,7 @@ public class CheckpointBehaviour : MonoBehaviour {
         foreach(GameObject enemy in enemies)
         {
             Network.Destroy(enemy);
+            Debug.Log("Enemy removed from zombie-minigame");
         }
 
         // 
