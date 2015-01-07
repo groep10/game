@@ -78,14 +78,7 @@ namespace Game.Level {
                 if (Network.isServer)
                 {
                     arena = GameObject.FindGameObjectWithTag("Level");
-    				MeshRenderer mesh = transform.parent.gameObject.GetComponentInChildren<MeshRenderer>();
-    				mesh.enabled = false;
-    				MeshCollider mcol = transform.parent.gameObject.GetComponentInChildren<MeshCollider>();
-    				mcol.enabled = false;
-    				ParticleSystem part = transform.parent.gameObject.GetComponentInChildren<ParticleSystem>();
-    				part.Stop();
     				arena.GetComponent<Manager>().editTerrain();
-
                     networkView.RPC("minigameStart", RPCMode.AllBuffered);
                     //Invoke("arena.GetComponent<Level>().setCheckpoint", 10);
                     Instantiate(enemyManager);
@@ -98,6 +91,12 @@ namespace Game.Level {
         [RPC]
         public void minigameStart()
         {
+			//hide checkpoint
+			for(int i=0;i<transform.parent.childCount;i++) {
+				if(transform.parent.transform.GetChild(i).name != "Trigger"){
+					transform.parent.transform.GetChild(i).gameObject.SetActive(false);
+				}
+			}
 			GameObject.FindObjectOfType<Manager>().updateMiniGameScores();
         }
 
