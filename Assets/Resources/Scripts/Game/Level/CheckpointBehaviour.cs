@@ -21,7 +21,7 @@ namespace Game.Level {
         void Awake()
         {
             //InvokeRepeating("findPlayers", 5f, 5f);   
-            scores = GameObject.FindObjectOfType<ScoreController>();
+            scores = Game.Controller.getInstance().minigameScores;
             scores.addScore("Mode: racing");
 
             Invoke("startMinigame", racingTimeLimit);
