@@ -12,7 +12,7 @@ public class PlaneRenderer : MonoBehaviour
 
     public int xTiles = 10, zTiles = 10;
 
-    bool[,] hide;
+    public bool[,] hide;
 
     public int randomHoleCnt = 5;
 
