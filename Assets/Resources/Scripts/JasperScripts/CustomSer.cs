@@ -3,7 +3,7 @@ using System.Collections;
 
 // wheel car------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-public enum wheelDriv {
+public enum Wheeldrivers {
 	Front = 0,
 	Back = 1,
 	All = 2
@@ -49,7 +49,7 @@ public class CustomSer : MonoBehaviour {
 	public float fwdStiffness = 0.1f; //stijfheid wielen wordt slip mee bepaald
 	public float swyStiffness = 0.1f; 	
 	public float maxSteerAngle = 30.0f; 
-	public wheelDriv wheelDriv = wheelDriv.Front; 
+	public Wheeldrivers Wheeldrivers = Wheeldrivers.Front; 
 	
 	//Schakel voorwaarden
 	public float shiftDownRPM = 1500.0f; 
@@ -114,8 +114,8 @@ public class CustomSer : MonoBehaviour {
 		
 		//De wielen in een WheelData array plaatsen en de settings maken
 		wheels = new WheelData[4];		
-		bool frontDrive = (wheelDriv == wheelDriv.Front) || (wheelDriv == wheelDriv.All);
-		bool backDrive = (wheelDriv == wheelDriv.Back) || (wheelDriv == wheelDriv.All);	
+		bool frontDrive = (Wheeldrivers == Wheeldrivers.Front) || (Wheeldrivers == Wheeldrivers.All);
+		bool backDrive = (Wheeldrivers == Wheeldrivers.Back) || (Wheeldrivers == Wheeldrivers.All);	
 		wheels[0] = SetWheelParams(wheelFR, maxSteerAngle, frontDrive);
 		wheels[1] = SetWheelParams(wheelFL, maxSteerAngle, frontDrive);
 		wheels[2] = SetWheelParams(wheelBR, 0.0f, backDrive);
