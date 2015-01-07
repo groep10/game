@@ -8,7 +8,11 @@ public class PlaneRenderer : MonoBehaviour
     MeshCollider meshCollider;
     MeshFilter filter;
 
-    public float tileXSize = 10, tileZSize = 10;
+    public GameObject ramp;
+    private int[] rampOrientation = new int[] {0, 90, 180, 270};
+    private float locationCorrection = 3.5f;
+
+    private float tileXSize = 50, tileZSize = 50;
 
     public int xTiles = 10, zTiles = 10;
 
@@ -32,8 +36,47 @@ public class PlaneRenderer : MonoBehaviour
             hide[Random.Range(1, xTiles - 1), Random.Range(1, zTiles - 2)] = true;
         }
         createMesh();
+        createRamps();
     }
 
+    // generates the ramp planes at the location of the holes of the planes
+    void createRamps()
+    {
+        for (int z = 0; z < (zTiles - 1); z += 1)
+        {
+            for (int x = 0; x < xTiles; x += 1)
+            {
+                if(hide[x, z])
+                {
+                    Vector3 location = new Vector3(transform.position.x + ((float)x) * tileXSize + tileXSize/2,
+                                                     transform.position.y - 25,
+                                                     transform.position.z + ((float)z) * tileZSize + tileZSize/2);
+
+                    int orientation = rampOrientation[Random.Range(0, rampOrientation.Length)];
+
+                    switch(orientation)
+                    {
+                        case 0:
+                            location.x += locationCorrection;
+                            break;
+                        case 90:
+                            location.z -= locationCorrection;
+                            break;
+                        case 180:
+                            location.x -= locationCorrection;
+                            break;
+                        case 270:
+                            location.z += locationCorrection;
+                            break;
+                    }
+
+                    Instantiate(ramp, location, Quaternion.Euler(new Vector3(0, orientation, 0)));
+                }
+            }
+        }
+    }
+
+    // generates the mesh with holes
     Vector3[] vertices, normals;
     int[] triangles;
     void createMesh()

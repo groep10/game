@@ -12,6 +12,8 @@ namespace Game.Level {
     	private ArrayList playerOrder = new ArrayList();
     	private GameObject arena;
     	public GameObject enemyManager;
+        public GameObject raceToTheTop;
+
     	private float racingTimeLimit = 60;
 
     	private bool runningMiniGame = false;
@@ -25,6 +27,8 @@ namespace Game.Level {
             scores.addScore("Mode: racing");
 
             Invoke("startMinigame", racingTimeLimit);
+
+            Instantiate(raceToTheTop, new Vector3(0, 0, 0), Quaternion.identity);
         }
 
         void findPlayers()
