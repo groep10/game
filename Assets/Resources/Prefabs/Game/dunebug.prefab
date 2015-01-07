@@ -7327,6 +7327,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085db23871f7a194291224b4e992dc44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pos: {x: 0, y: 0, z: 0}
+  realpos: {x: 0, y: 0, z: 0}
+  velo: {x: 0, y: 0, z: 0}
+  realvelo: {x: 0, y: 0, z: 0}
+  rot: {x: 0, y: 0, z: 0, w: 0}
+  realrot: {x: 0, y: 0, z: 0, w: 0}
+  sFront: {x: 0, y: 0, z: 0, w: 0}
+  steerFront: {x: 0, y: 0, z: 0, w: 0}
+  sBack: {x: 0, y: 0, z: 0, w: 0}
+  steerBack: {x: 0, y: 0, z: 0, w: 0}
   wheelFR: {fileID: 400390}
   wheelFL: {fileID: 400392}
   wheelBR: {fileID: 400394}
@@ -7352,8 +7362,44 @@ MonoBehaviour:
   - 4.5
   - 3
   - 2.5
+  efficiencyTable:
+  - .600000024
+  - .649999976
+  - .699999988
+  - .75
+  - .800000012
+  - .850000024
+  - .899999976
+  - 1
+  - 1
+  - .949999988
+  - .800000012
+  - .699999988
+  - .600000024
+  - .5
+  - .449999988
+  - .400000006
+  - .360000014
+  - .330000013
+  - .300000012
+  - .200000003
+  - .100000001
+  - .0500000007
+  efficiencyTableStep: 250
+  currentGear: 1
+  anyOnGround: 0
+  curvedSpeedFactor: 0
+  reversing: 0
+  maxReversingSpeed: 0
+  maxSpeed: 60
   reversingSpeedFactor: .300000012
   downForce: 150
+  CurrentSpeed: 0
+  steer: 0
+  shiftDelay: 0
+  wantedRPM: 0
+  motorRPM: 0
+  <SpeedFactor>k__BackingField: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
