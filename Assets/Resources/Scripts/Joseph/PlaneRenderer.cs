@@ -8,7 +8,9 @@ public class PlaneRenderer : MonoBehaviour
     MeshCollider meshCollider;
     MeshFilter filter;
 
-    public float tileXSize = 10, tileZSize = 10;
+    public GameObject ramp;
+
+    private float tileXSize = 200, tileZSize = 200;
 
     public int xTiles = 10, zTiles = 10;
 
@@ -32,8 +34,28 @@ public class PlaneRenderer : MonoBehaviour
             hide[Random.Range(1, xTiles - 1), Random.Range(1, zTiles - 2)] = true;
         }
         createMesh();
+        createRamps();
     }
 
+    // generates the ramp planes at the location of the holes of the planes
+    void createRamps()
+    {
+        for (int z = 0; z < (zTiles - 1); z += 1)
+        {
+            for (int x = 0; x < xTiles; x += 1)
+            {
+                if(hide[x, z])
+                {
+                    Vector3 location = new Vector3(transform.position.x + x * tileXSize + tileXSize/2 + 13,
+                                                     transform.position.y - 100,
+                                                     transform.position.z + z * tileZSize + tileZSize/2);
+                    Instantiate(ramp, location, Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    // generates the mesh with holes
     Vector3[] vertices, normals;
     int[] triangles;
     void createMesh()
