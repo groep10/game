@@ -10,9 +10,9 @@ public class PlaneRenderer : MonoBehaviour
 
     public GameObject ramp;
     private int[] rampOrientation = new int[] {0, 90, 180, 270};
-    private int locationCorrection = 13;
+    private float locationCorrection = 3.5f;
 
-    private float tileXSize = 200, tileZSize = 200;
+    private float tileXSize = 50, tileZSize = 50;
 
     public int xTiles = 10, zTiles = 10;
 
@@ -48,9 +48,9 @@ public class PlaneRenderer : MonoBehaviour
             {
                 if(hide[x, z])
                 {
-                    Vector3 location = new Vector3(transform.position.x + x * tileXSize + tileXSize/2,
-                                                     transform.position.y - 100,
-                                                     transform.position.z + z * tileZSize + tileZSize/2);
+                    Vector3 location = new Vector3(transform.position.x + ((float)x) * tileXSize + tileXSize/2,
+                                                     transform.position.y - 25,
+                                                     transform.position.z + ((float)z) * tileZSize + tileZSize/2);
 
                     int orientation = rampOrientation[Random.Range(0, rampOrientation.Length)];
 

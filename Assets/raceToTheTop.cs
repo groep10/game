@@ -4,7 +4,7 @@ using System.Collections;
 public class raceToTheTop : MonoBehaviour {
 
 	int numberOfPlanes = 10;
-	int planeSpacing = 100;
+	int planeSpacing = 25;
 
 	public GameObject plane;
 

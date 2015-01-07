@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyManager: {fileID: 100000, guid: 67975db293cebfc45967d159faad91fe, type: 2}
+  raceToTheTop: {fileID: 134172, guid: 657d6e0bb3e8f3c40b66e3ae1f04d33c, type: 2}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1
