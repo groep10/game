@@ -9,6 +9,8 @@ public class PlaneRenderer : MonoBehaviour
     MeshFilter filter;
 
     public GameObject ramp;
+    private int[] rampOrientation = new int[] {0, 90, 180, 270};
+    private int locationCorrection = 13;
 
     private float tileXSize = 200, tileZSize = 200;
 
@@ -46,10 +48,29 @@ public class PlaneRenderer : MonoBehaviour
             {
                 if(hide[x, z])
                 {
-                    Vector3 location = new Vector3(transform.position.x + x * tileXSize + tileXSize/2 + 13,
+                    Vector3 location = new Vector3(transform.position.x + x * tileXSize + tileXSize/2,
                                                      transform.position.y - 100,
                                                      transform.position.z + z * tileZSize + tileZSize/2);
-                    Instantiate(ramp, location, Quaternion.identity);
+
+                    int orientation = rampOrientation[Random.Range(0, rampOrientation.Length)];
+
+                    switch(orientation)
+                    {
+                        case 0:
+                            location.x += locationCorrection;
+                            break;
+                        case 90:
+                            location.z -= locationCorrection;
+                            break;
+                        case 180:
+                            location.x -= locationCorrection;
+                            break;
+                        case 270:
+                            location.z += locationCorrection;
+                            break;
+                    }
+
+                    Instantiate(ramp, location, Quaternion.Euler(new Vector3(0, orientation, 0)));
                 }
             }
         }
