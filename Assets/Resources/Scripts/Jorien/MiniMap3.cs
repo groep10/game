@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+using Game;
 public class MiniMap3 : MonoBehaviour
 {
 
@@ -51,7 +51,7 @@ public class MiniMap3 : MonoBehaviour
 	void Update() {
         if (PlayerCar == null)
         {
-            CustomSer p = GameObject.FindObjectOfType<CustomSer>();
+			CarController p = GameObject.FindObjectOfType<CarController>();
             if (p == null)
             {
                 return;

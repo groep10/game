@@ -7,7 +7,7 @@ namespace Game.Net {
 		public GameObject player2;
 		public GameObject level;
 
-		private string IP = "IP";
+		// private string IP = "IP";
 		public int port = 21234;
 
 		private bool connected;
