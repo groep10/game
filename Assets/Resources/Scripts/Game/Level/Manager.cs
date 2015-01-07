@@ -283,7 +283,7 @@ namespace Game.Level {
 					overallBestFitness = generationBestFitness;
 					overallBestChrom = currentGeneration[fitnesses.IndexOf(generationBestFitness)];
 				}
-				float generationAverage = average(fitnesses);
+				//float generationAverage = average(fitnesses);
 
 				//Debug.Log("generationAverage:" + generationAverage);
 				//Debug.Log("generationBestFitness:" + generationBestFitness);
@@ -343,13 +343,12 @@ namespace Game.Level {
 
 	    public void updateMiniGameScores()
 	    {
-	        ScoreController scores = GameObject.FindObjectOfType<ScoreController>();
-	        scores.reset();
-	        scores.addScore("Mode: zombie");
+			Game.Controller.getInstance().minigameScores.reset();
+			Game.Controller.getInstance().minigameScores.addScore("Mode: zombie");
 
 	        foreach (DictionaryEntry de in table)
 	        {
-	            scores.addScore(de.Key + ": " + de.Value);
+				Game.Controller.getInstance().minigameScores.addScore(de.Key + ": " + de.Value);
 	        }
 	    }
 	}

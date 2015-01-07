@@ -42,7 +42,7 @@ namespace Game.Level {
 			float rotationY = Random.Range (0, 360);
 
 			// randomise the asset to be placed
-			int assetIndex = Mathf.RoundToInt(Random.Range(0, getAmountOfAssets()));
+			int assetIndex = Random.Range(0, getAmountOfAssets());
 			GameObject asset = assets[assetIndex];
 
 			// instantiate the asset
