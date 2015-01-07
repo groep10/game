@@ -377,7 +377,7 @@ public class CustomSer : MonoBehaviour {
 		Transform shooter = transform.FindChild ("Shooter");
 		if(fire){
 			shooter.particleSystem.Play();
-			shooter.audio.Play();
+			//shooter.audio.Play();
 		}
 		else if(!fire){
 			shooter.particleSystem.Stop();
@@ -388,6 +388,6 @@ public class CustomSer : MonoBehaviour {
 
 	void EngineSound() {
 		float enginePitch = (rigidbody.velocity.magnitude/100) + 1f;
-		audio.pitch = enginePitch;
+		//audio.pitch = enginePitch;
 	}
 }
