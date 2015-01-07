@@ -70,6 +70,7 @@ public class CustomSer : MonoBehaviour {
 	private float CurrentSpeed;
 	private float steer = 0;
 	
+
 	// alle info van de wielen wordt hierin opgeslagen
 	class WheelData {
 		public Transform transform;
