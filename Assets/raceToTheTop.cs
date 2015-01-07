@@ -3,7 +3,7 @@ using System.Collections;
 
 public class raceToTheTop : MonoBehaviour {
 
-	int numberOfPlanes = 5;
+	int numberOfPlanes = 10;
 	int planeSpacing = 100;
 
 	public GameObject plane;
@@ -18,7 +18,6 @@ public class raceToTheTop : MonoBehaviour {
 			Instantiate(plane, location, Quaternion.identity);
 		}
 	}
-
 
 	// Use this for initialization
 	void Start () {
