@@ -13,7 +13,7 @@ namespace Game.Level {
 		void loadAssets()
 		{
 	        assets = new List<GameObject>();
-			foreach (Object o in Resources.LoadAll("Prefabs/Arena/ArenaAssets"))
+			foreach (Object o in Resources.LoadAll("Prefabs/Game/Arena/ArenaAssets"))
 			{
 				if (!(o is GameObject)) {
 					continue;
