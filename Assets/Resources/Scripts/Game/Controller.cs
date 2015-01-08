@@ -9,7 +9,7 @@ namespace Game {
 /* ==================================== VARIABLES ======================================================= */
 
 		public ScoreController minigameScores;
-		public ScoreController globalScores;
+		public ScoreController overallScores;
 
 		private Mode activeMode;
 
