@@ -7306,7 +7306,7 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 527f3a81536884862b12eb43e7116c81, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: .773000002
+  m_Volume: .814999998
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -7493,7 +7493,6 @@ MonoBehaviour:
   springs: 1000
   dampers: 2
   wheelRadius: 1.10000002
-  torque: 40
   brakeTorque: 200
   wheelWeight: 15
   shiftCentre: {x: 0, y: -.5, z: 0}
@@ -7511,7 +7510,6 @@ MonoBehaviour:
   - 3
   - 2.5
   reversingSpeedFactor: .300000012
-  downForce: 150
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
