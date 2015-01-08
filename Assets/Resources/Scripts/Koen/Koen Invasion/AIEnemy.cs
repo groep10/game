@@ -65,6 +65,6 @@ public class AIEnemy : MonoBehaviour
     [RPC]
     void minigamePoint(string playername)
     {
-    	Game.Controller.getInstance().minigamescores.increasePlayerZombieScore(playername);
+    	Game.Controller.getInstance().minigameScores.increasePlayerZombieScore(playername);
     }
 }

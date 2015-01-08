@@ -42,10 +42,10 @@ namespace Game {
 				table[playername] = 0;
 			}
 			table[playername] = (int)table[playername] + 1;
-			updateMiniGameScores();
+			updateZombieScores();
 		}
 
-		public void updateMiniGameScores() {
+		public void updateZombieScores() {
 			Game.Controller.getInstance().minigameScores.reset();
 			Game.Controller.getInstance().minigameScores.addScore("Mode: zombie");
 

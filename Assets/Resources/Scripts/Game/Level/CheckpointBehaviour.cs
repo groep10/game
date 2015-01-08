@@ -101,7 +101,7 @@ namespace Game.Level {
 					transform.parent.transform.GetChild(i).gameObject.SetActive(false);
 				}
 			}
-			GameObject.FindObjectOfType<Manager>().updateMiniGameScores();
+			Game.Controller.getInstance().updateZombieScores();
         }
 
     	void Update(){
