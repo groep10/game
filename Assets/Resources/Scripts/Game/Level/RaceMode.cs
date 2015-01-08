@@ -78,7 +78,7 @@ namespace Game.Level {
 			
 			// server applies textures
 			if (Network.isServer) {
-				float rnum = Random.value;
+				float rnum = UnityEngine.Random.value;
 				networkView.RPC("randomTextures", RPCMode.AllBuffered, rnum);
 			}
 		}
