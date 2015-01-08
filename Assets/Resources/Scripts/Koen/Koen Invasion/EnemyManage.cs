@@ -15,6 +15,7 @@ public class EnemyManage : MonoBehaviour
 	
 	void Spawn ()
 	{
+		
 		if(GameObject.FindGameObjectsWithTag ("Enemy").Length < 30){
 			// Find a random index between zero and one less than the number of spawn points.
 			int spawnX = Random.Range (-500, 500);

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Game.Level {
+namespace Game.Level.Race {
 
-	public class checkpoint : MonoBehaviour {
+	public class CheckpointRotation : MonoBehaviour {
 
 		// Update is called once per frame
 		void Update () {

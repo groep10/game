@@ -1,23 +1,37 @@
-using System;
 using UnityEngine;
 
 namespace Game.Level
 {
 	public abstract class BaseMode : MonoBehaviour, Game.Mode  {
 			
-		protected bool running = false;
+		protected bool isRunning = false;
+		protected System.Action onDone;
 		public BaseMode() {
 				
 		}
 
-		public abstract void beginMode(EventHandler finishHandler);
+		public virtual void beginMode(System.Action finishHandler) {
+			isRunning = true;
+			onDone = finishHandler;
+			reset();
+		}
+
+		public virtual void endMode() {
+			CancelInvoke();
+			isRunning = false;
+			onDone();
+		}
+
+		public virtual void reset() {
+			CancelInvoke();
+		}
 		
 		public abstract void onTick();
 		
 		public abstract string getName();
 
 		public bool isActive() {
-			return running;
+			return isRunning;
 		}
 	}
 }

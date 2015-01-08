@@ -1,199 +1,151 @@
 using UnityEngine;
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
 
 using Game.UI;
+using Game.Level.Race;
 
 namespace Game.Level {
 	public class RaceMode : BaseMode {
-
-		public Terrain referenceTerrain;
-		
-		private Terrain Arena;
-		
-		public float terrainRadius = 200;
 		// Prefab for the checkpoint
-		public GameObject checkpoint;
-		
-		private int xResolution;
-		private int zResolution;
-		
-		private float checkpointTimer = 60;
-		
-		public Texture2D grass;
-		public Texture2D cliff;
-		public Texture2D rocks;
-		public Texture2D dirt;
-		
-		private Texture2D tex;
-		private Texture2D tex2;
-		
-		private GameObject cpnt;
-		
+		public GameObject checkpointPrefab;
+		private GameObject activeCheckpoint;
+
 		public static GeneticPlacement algorithm = new GeneticPlacement();
 
-		private EventHandler onDone;
-		
-		public override void beginMode(EventHandler finishHandler) {
-			running = true;
-			onDone = finishHandler;
+		private List<GameObject> assets;
+		private int assetsInArena = 10;
 
-			Arena = this.gameObject.AddComponent<Terrain> ();
-			
-			TerrainData terrainData = new TerrainData ();
-			CopyTerrainDataFromTo(referenceTerrain.terrainData, ref terrainData);
-			
-			Arena.terrainData = terrainData;
-			GetComponent<TerrainCollider> ().terrainData = Arena.terrainData;
-			
-			editTerrain ();
-			randomTextures (0.5f);
+		public float checkpointMoveTimer = 30f;
+		public float finishTimer = 120f;
+
+		private bool finished;
+
+		public override void beginMode(System.Action finishHandler) {
+			base.beginMode (finishHandler);
+
+			Debug.Log("Starting Race");
+
+			Game.Controller.getInstance().terrainManager.updateTerrain();
+
 			if (Network.isServer) {
-				Invoke ("setCheckpoint", 5);
+				loadAssets();
+				for (int i = 0; i < assetsInArena; i++) {
+					placeAsset();
+				}
+				Invoke ("placeCheckpoint", 5);
+				Invoke ("onGameEnd", finishTimer);
 			}
 		}
-		
-		// edits the terrain according to the radius that is set.
-		public void editTerrain() {
-			// Take the resolution of the terrain as the boundaries
-			xResolution = Arena.terrainData.heightmapWidth;
-			zResolution = Arena.terrainData.heightmapHeight;
-			
-			// Debug.Log (Arena.terrainData.size.x + " " + Arena.terrainData.size.y + " " + Arena.terrainData.size.z);
-			// Debug.Log (xResolution + " " + zResolution);
-			// Retrieve the heightmap of the terrain
-			float[,] heights = Arena.terrainData.GetHeights (0, 0, xResolution, zResolution);
-			// Loop through all values and create a circle with the set radius
-			for (int z = -zResolution / 2; z < zResolution / 2; z++) {
-				for (int x = -xResolution / 2; x < xResolution / 2; x++) {
-					if (Mathf.Sqrt(Mathf.Pow(x , 2) + Mathf.Pow(z , 2)) >= terrainRadius) {
-						heights[x + xResolution / 2, z + zResolution / 2] = 0.5f;
-					} else {
-						heights[x + xResolution / 2, z + zResolution / 2] = 0;
-					}
+
+		// returns an ArrayList of all GameObjects with tag "ArenaAsset"
+		void loadAssets() {
+			assets = new List<GameObject>();
+			foreach (Object o in Resources.LoadAll("Prefabs/Game/Arena/ArenaAssets")) {
+				if (!(o is GameObject)) {
+					continue;
+				}
+				GameObject go = (GameObject) o;
+				if (go.tag == "ArenaAsset") {
+					assets.Add(go);
 				}
 			}
-			Arena.terrainData.SetHeights (0, 0, heights);
-			
-			// server applies textures
-			if (Network.isServer) {
-				float rnum = Random.value;
-				networkView.RPC("randomTextures", RPCMode.AllBuffered, rnum);
-			}
 		}
-		
-		[RPC]
-		void randomTextures(float num) {
-			// assign 2 textures to terrain
-			SplatPrototype[] arenaTexture = new SplatPrototype[2];
-			arenaTexture [0] = new SplatPrototype ();
-			arenaTexture [1] = new SplatPrototype ();
-			
-			if (num < 0.25) {
-				tex = rocks;
-				tex2 = grass;
-			} else if (num >= 0.25 && num < 0.5) {
-				tex = cliff;
-				tex2 = grass;
-			} else if (num >= 0.5 && num < 0.75) {
-				tex = rocks;
-				tex2 = dirt;
-			} else {
-				tex = cliff;
-				tex2 = dirt;
-			}
-			arenaTexture [0].texture = tex;
-			arenaTexture [1].texture = tex2;
-			Arena.terrainData.splatPrototypes = arenaTexture;
-			applyTextures ();
+
+		public void placeAsset() {
+			// randomise the location within x and z boundaries
+			float x = Random.Range (-500, 500);
+			float z = Random.Range (-500, 500);
+			Vector3 location = new Vector3(x, 0f, z);
+
+			float rotationY = Random.Range (0, 360);
+
+			// randomise the asset to be placed
+			int assetIndex = Random.Range(0, assets.Count);
+			GameObject asset = assets[assetIndex];
+
+			// instantiate the asset
+			GameObject currentAsset = (GameObject) Network.Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f), 0);
+			currentAsset.GetComponent<FadeBehaviour> ().setOnDone(() => {
+				placeAsset();
+			});
 		}
-		
-		void applyTextures() {
-			float[, ,] map = new float[Arena.terrainData.alphamapWidth, Arena.terrainData.alphamapHeight, 2];
-			
-			// For each point on the alphamap...
-			for (var y = 0; y < Arena.terrainData.alphamapHeight; y++) {
-				for (var x = 0; x < Arena.terrainData.alphamapWidth; x++) {
-					// Get the normalized terrain coordinate that
-					// corresponds to the the point.
-					var normX = x * 1.0 / (Arena.terrainData.alphamapWidth - 1);
-					var normY = y * 1.0 / (Arena.terrainData.alphamapHeight - 1);
-					
-					// Get the steepness value at the normalized coordinate.
-					var angle = Arena.terrainData.GetSteepness((float)normX, (float)normY);
-					
-					// Steepness is given as an angle, 0..90 degrees. Divide
-					// by 90 to get an alpha blending value in the range 0..1.
-					var frac = angle / 90.0;
-					map[x, y, 0] = (float)frac;
-					map[x, y, 1] = 1 - (float)frac;
-				}
-			}
-			
-			Arena.terrainData.SetAlphamaps(0, 0, map);
-		}
-		
-		
+
 		// sets the checkpoint in the arena
-		public void setCheckpoint() {
-			//Debug.Log ("Setting new checkpoint");
-			//float x = Random.Range (-300, 300);
-			//float z = Random.Range (-300, 300);
-			
+		public void placeCheckpoint() {
 			Vector2 locXZ = algorithm.runGeneticAlgorithm ();
 			float locX = locXZ.x;
 			float locZ = locXZ.y;
 			Vector3 location = new Vector3(locX, 0f, locZ);
-			
-			cpnt = (GameObject) Network.Instantiate (checkpoint, location, Quaternion.identity, 0);
-			Invoke("destroyCP", checkpointTimer);
-			Invoke("setCheckpoint", checkpointTimer);
-		}
-		
-		// Destroys the checkpoint
-		public void destroyCP() {
-			//Debug.Log ("Destroying checkpoint");
-			CancelInvoke();
-			Network.Destroy (cpnt.networkView.viewID);
-			Network.RemoveRPCs (cpnt.networkView.viewID);
-		}
-		
-		private Hashtable table = new Hashtable();
-		
-		public void increasePlayerMinigameScore(string playername) {
-			if (!table.ContainsKey(playername)) {
-				table[playername] = 0;
-			}
-			table[playername] = (int)table[playername] + 1;
-			updateMiniGameScores();
-		}
-		
-		public void updateMiniGameScores() {
-			Game.Controller.getInstance().minigameScores.reset();
-			Game.Controller.getInstance().minigameScores.addScore("Mode: zombie");
-			
-			foreach (DictionaryEntry de in table) {
-				Game.Controller.getInstance().minigameScores.addScore(de.Key + ": " + de.Value);
-			}
-		}
-		
-		void CopyTerrainDataFromTo(TerrainData tDataFrom, ref TerrainData tDataTo)
-		{
-			tDataTo.SetDetailResolution(tDataFrom.detailResolution, 8);
-			tDataTo.heightmapResolution = tDataFrom.heightmapResolution;
-			tDataTo.alphamapResolution = tDataFrom.alphamapResolution;
-			tDataTo.baseMapResolution = tDataFrom.baseMapResolution;
-			tDataTo.size = tDataFrom.size;
-			tDataTo.splatPrototypes = tDataFrom.splatPrototypes;
-		}
-		
-		public override void onTick() {
 
+			activeCheckpoint = (GameObject) Network.Instantiate (checkpointPrefab, location, Quaternion.identity, 0);
+			Invoke("refreshCheckpoint", checkpointMoveTimer);
+		}
+
+		public void refreshCheckpoint() {
+			destroyCheckpoint();
+			placeCheckpoint();
+		}
+
+		// Destroys the checkpoint
+		public void destroyCheckpoint() {
+			Network.Destroy (activeCheckpoint.networkView.viewID);
+			Network.RemoveRPCs (activeCheckpoint.networkView.viewID);
+		}
+
+		public override void onTick() {
+			if(finished) {
+				return;
+			}
+
+			if(!Network.isServer) {
+				return;
+			}
+
+			if(activeCheckpoint != null) {
+				int cnt = activeCheckpoint.GetComponent<CheckpointBehaviour>().getReachedCount();
+				if(cnt > 0 && cnt >= (Network.connections.Length - 1)) {
+					onGameFinish();
+				}
+			}
+		}
+
+		public void onGameEnd() {
+			if(finished) {
+				return;
+			}
+
+			finished = true;
+			Invoke("endMode", 5);
+		}
+
+		public void onGameFinish() {
+			if(finished) {
+				return;
+			}
+
+			finished = true;
+			Invoke("endMode", 5);
+		}
+
+		public override void endMode() {
+			destroyCheckpoint();
+
+			Debug.Log("Ending Race");
+
+			base.endMode();
+		}
+
+		public override void reset() {
+			finished = false;
+			activeCheckpoint = null;
+
+			base.reset();
 		}
 
 		public override string getName() {
-			return "race";
+			return "Race";
 		}
 	}
 }
