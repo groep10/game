@@ -60,6 +60,7 @@ namespace Game {
 		int currentGear = 1; 
 		
 		private bool anyOnGround;
+		private bool onGround;
 		//private float curvedSpeedFactor;
 		private bool reversing;
 		public float SpeedFactor { get;  private set; }
@@ -180,7 +181,7 @@ namespace Game {
 		void ApplyDownforce ()
 		{
 			// apply downforce
-			if (anyOnGround) {
+			if (onGround) {
 				//print("Het werkt");
 				rigidbody.AddForce (-1 * transform.up * downForce *(Mathf.Abs(rigidbody.velocity.magnitude)));
 				//print(-transform.up * curvedSpeedFactor * downForce);
@@ -226,6 +227,7 @@ namespace Game {
 				float steer = 0; // sturen
 				float accel = 0; // versnellen
 				bool brake = false; // remmen
+				onGround = false;
 				steer = Input.GetAxis("Horizontal");
 				accel = Input.GetAxis("Vertical");
 				brake = Input.GetButton("Jump");
@@ -296,6 +298,10 @@ namespace Game {
 						lp.y = w.startPos.y - suspensionDistance;
 					}
 					w.transform.localPosition = lp;
+				}
+				if(anyOnGround){
+					onGround = true;
+					anyOnGround= false;
 				}
 				// Toerental berkenen, onafhankelijk van gear.
 				if (motorizedWheels > 1) {
