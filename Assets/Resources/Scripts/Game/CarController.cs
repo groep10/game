@@ -42,7 +42,7 @@ namespace Game {
 		public float springs = 1000.0f; 
 		public float dampers = 2f; 
 		public float wheelRadius = 1.25f; 
-		public float torque = 50f; 
+		private float torque = 50f; 
 		public float brakeTorque = 500f; 
 		public float wheelWeight = 15f;
 		public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
@@ -66,7 +66,7 @@ namespace Game {
 		private float maxReversingSpeed;
 		private float maxSpeed = 60;
 		public float reversingSpeedFactor = 0.3f; 
-		public float downForce=120;
+		private float downForce=5;
 		private float CurrentSpeed;
 		private float steer = 0;
 		
@@ -182,7 +182,7 @@ namespace Game {
 			// apply downforce
 			if (anyOnGround) {
 				//print("Het werkt");
-				rigidbody.AddForce (Vector3.down * downForce *(1+Mathf.Abs(steer)));
+				rigidbody.AddForce (-1 * transform.up * downForce *(Mathf.Abs(rigidbody.velocity.magnitude)));
 				//print(-transform.up * curvedSpeedFactor * downForce);
 			}
 		}
@@ -217,7 +217,12 @@ namespace Game {
 				playercam.SetActive(true);
 
 				float delta = Time.fixedDeltaTime;
-				
+				if(rigidbody.velocity.magnitude < 10){
+					torque = 80f;
+				}
+				else{
+					torque = 50f;
+				}
 				float steer = 0; // sturen
 				float accel = 0; // versnellen
 				bool brake = false; // remmen
