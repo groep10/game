@@ -19,10 +19,13 @@ namespace Game.UI
 
         List<GameObject> scores = new List<GameObject>();
 
-        private Hashtable table = new Hashtable();
+        private Hashtable minigame = new Hashtable();
+        private Hashtable overall = new Hashtable();
 
 /* ============================================== FUNCTIONS ===================================== */
 
+/* -------------------------------------- GENERAL FUNCTIONS ------------------------------ */
+        // Adds a score entry to the menulist of the ScoreController
         public void addScore(String text)
         {
             GameObject obj = Instantiate(prefab) as GameObject;
@@ -32,6 +35,7 @@ namespace Game.UI
             GetComponent<MenuList>().addItem(obj);
         }
 
+        // resets the ScoreController
         public void reset()
         {
             scores.Clear();
@@ -40,23 +44,69 @@ namespace Game.UI
 
 /* ------------------------------------ OVERALL SCORES  ----------------------------------- */
 
+// Increases the overall score of a player by 1
+    public void increaseOverallScore(string playername) 
+    {
+        if (!overall.ContainsKey(playername)) 
+        {
+            overall[playername] = 0;
+        }
+        overall[playername] = (int)overall[playername] + 1;
+        updateOverallScores();
+    }
+
+    // Updates the Overall Scores of all players
+    public void updateOverallScores() 
+    {
+        Game.Controller.getInstance().overallScores.reset();
+        Game.Controller.getInstance().overallScores.addScore("Mode: Overall");
+
+        foreach (DictionaryEntry de in minigame) 
+        {
+            Game.Controller.getInstance().overallScores.addScore(de.Key + ": " + de.Value);
+        }
+    }
+
+
+
 /* ------------------------------------ ZOMBIE MINIGAME ----------------------------------- */
 
-        public void increasePlayerZombieScore(string playername) {
-            if (!table.ContainsKey(playername)) {
-                table[playername] = 0;
+        // Increases the score of a player by 1
+        public void increasePlayerZombieScore(string playername) 
+        {
+            if (!minigame.ContainsKey(playername)) 
+            {
+                minigame[playername] = 0;
             }
-            table[playername] = (int)table[playername] + 1;
+            minigame[playername] = (int)minigame[playername] + 1;
             updateZombieScores();
         }
 
-        public void updateZombieScores() {
+        // Updates the zombieScores of all players
+        public void updateZombieScores() 
+        {
             Game.Controller.getInstance().minigameScores.reset();
             Game.Controller.getInstance().minigameScores.addScore("Mode: zombie");
 
-            foreach (DictionaryEntry de in table) {
+            foreach (DictionaryEntry de in minigame) 
+            {
                 Game.Controller.getInstance().minigameScores.addScore(de.Key + ": " + de.Value);
             }
+        }
+
+        // Ends the zombie minigame and resets the minigamescore hashtable
+        public void endZombieGame()
+        {
+            DictionaryEntry highest = new DictionaryEntry("hoi", -1);
+            foreach(DictionaryEntry de in minigame)
+            {
+                if((int)highest.Value == -1 || (int)highest.Value < (int)de.Value) {
+                    highest = de;
+                }
+            }
+
+            // empty the minigame hastable
+            minigame.Clear();
         }
 
 /* ------------------------------------ RACE-TO-THE-TOP MINIGAME ----------------------------------- */
