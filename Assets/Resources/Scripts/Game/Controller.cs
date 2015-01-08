@@ -2,13 +2,15 @@
 using System.Collections;
 
 using Game.UI;
+using Game.Menu;
 using Game.Level; 
 
 namespace Game {
 	public class Controller : MonoBehaviour {
 
-		public ScoreController minigameScores;
-		public ScoreController globalScores;
+		public ScoreController scores;
+		public MenuList minigameScores;
+		public MenuList overalScores;
 
 		public TerrainManager terrainManager;
 
@@ -34,15 +36,26 @@ namespace Game {
 		public void startGame() {
 			activeMode = mainMode;
 			activeMode.beginMode(() => {
-				startMiniGame();
+				if(Network.isServer) {
+					// Remove previous start games from buffer.
+					Network.RemoveRPCs(networkView.viewID);
+
+					// Server decides what minigame to play next.
+					networkView.RPC("startMiniGame", RPCMode.AllBuffered, Random.Range(0, miniModes.Length));
+				}
 			});
 		}
 
 		[RPC]
-		public void startMiniGame() {
-			activeMode = miniModes[Random.Range(0, miniModes.Length)];
+		public void startMiniGame(int minigame) {
+			activeMode = miniModes[minigame];
 			activeMode.beginMode(() => {
-				startGame();
+				if(Network.isServer) {
+					// Remove previous start games from buffer.
+					Network.RemoveRPCs(networkView.viewID);
+
+					networkView.RPC("startGame", RPCMode.AllBuffered);
+				}
 			});
 		}
 

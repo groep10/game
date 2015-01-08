@@ -26,7 +26,12 @@ namespace Game.Level {
 
 			Debug.Log("Starting Zombie");
 
-			InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
+			Game.Controller.getInstance().scores.updateZombieScores();
+
+			if (Network.isServer) {
+				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
+			}
+			Invoke("onGameEnd", finishTimer);
 		}
 
 		public override void onTick() {
@@ -41,32 +46,44 @@ namespace Game.Level {
 			}
 		}
 
+		// Called when game ends by timer
 		public void onGameEnd() {
 			if(finished) {
 				return;
 			}
-
-			finished = true;
-			Invoke("endMode", 5);
+			onGameDone();
 		}
 
+		// TODO: Called when game ends by some1 reaching max score.
 		public void onGameFinish() {
 			if(finished) {
 				return;
 			}
+			onGameDone();
+		}
 
+		private void onGameDone() {
 			finished = true;
+
+			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach(GameObject enemy in enemies)
+            {
+                Network.Destroy(enemy);
+                Debug.Log("Enemy removed from zombie-minigame");
+            }
+
 			Invoke("endMode", 5);
 		}
 
 		public override void endMode() {
 			Debug.Log("Finish Zombie");
-
+			
 			base.endMode();
 		}
 
 		public override void reset() {
 			finished = false;
+
 			base.reset();
 		}
 

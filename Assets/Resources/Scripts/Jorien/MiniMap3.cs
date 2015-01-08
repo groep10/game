@@ -79,7 +79,7 @@ public class MiniMap3 : MonoBehaviour
 		float dx = centerPos.x - extPos.x;
 		float dz = centerPos.z - extPos.z; 
 
-		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - PlayerCar.eulerAngles.y;
+		// float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - PlayerCar.eulerAngles.y;
 
 		float bX = dx * mapScale;
 		float bY = dz * mapScale;

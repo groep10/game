@@ -26,8 +26,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 409754}
+  - 148: {fileID: 14808342}
   m_Layer: 0
-  m_Name: PlaneToPlaneRamp
+  m_Name: TopRaceRamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,6 +170,18 @@ MeshCollider:
   m_SmoothSphereCollisions: 0
   m_Convex: 0
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!148 &14808342
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109754}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 409754}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

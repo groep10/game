@@ -12,8 +12,9 @@ GameObject:
   - 64: {fileID: 6432188}
   - 23: {fileID: 2332188}
   - 114: {fileID: 11432188}
+  - 148: {fileID: 14893418}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: TopRacePlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,6 +87,18 @@ MonoBehaviour:
   xTiles: 10
   zTiles: 10
   randomHoleCnt: 5
+--- !u!148 &14893418
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132188}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 11432188}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

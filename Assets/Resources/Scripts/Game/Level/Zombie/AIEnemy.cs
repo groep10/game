@@ -19,7 +19,7 @@ namespace Game.Level.Zombie {
 		void Start() {
 			Targets = Game.Controller.getInstance ().getPlayers ();
 		}﻿
-		
+
 		void Update() {
 			if (health <= 0 && Network.isServer) {
 				Network.Destroy(this.gameObject);
@@ -67,6 +67,7 @@ namespace Game.Level.Zombie {
 
 		[RPC]
 		void minigamePoint(string playername) {
+			Game.Controller.getInstance().scores.increasePlayerZombieScore(playername);
 			// GameObject.FindObjectOfType<Game.Level.Manager>().increasePlayerMinigameScore(playername);
 		}
 	}

@@ -199,10 +199,10 @@ namespace Game {
 		void Update(){
 			if(networkView.isMine){
 				if (Input.GetButtonDown("Fire1")){
-					networkView.RPC("Shoting",RPCMode.All,true);
+					networkView.RPC("Shooting",RPCMode.All,true);
 				}
 				else if(Input.GetButtonUp("Fire1")){
-					networkView.RPC("Shoting",RPCMode.All,false);
+					networkView.RPC("Shooting",RPCMode.All,false);
 				}
 			}
 		}
@@ -384,7 +384,7 @@ namespace Game {
 
 		//RPC Calls
 		[RPC]
-		void Shoting(bool fire){
+		void Shooting(bool fire){
 			Transform shooter = transform.FindChild ("Shooter");
 			if(fire){
 				shooter.particleSystem.Play();
