@@ -13,8 +13,6 @@ namespace Game {
 
 		private Mode activeMode;
 
-		private Hashtable table = new Hashtable();
-
 /* ===================================== FUNCTIONS ======================================================= */
 
 		// Returns a list of all the players in the game
@@ -35,23 +33,6 @@ namespace Game {
 		// Returns the current working Controller instance
 		public static Controller getInstance() {
 			return GameObject.FindObjectOfType<Game.Controller>();
-		}
-
-		public void increasePlayerZombieScore(string playername) {
-			if (!table.ContainsKey(playername)) {
-				table[playername] = 0;
-			}
-			table[playername] = (int)table[playername] + 1;
-			updateZombieScores();
-		}
-
-		public void updateZombieScores() {
-			Game.Controller.getInstance().minigameScores.reset();
-			Game.Controller.getInstance().minigameScores.addScore("Mode: zombie");
-
-			foreach (DictionaryEntry de in table) {
-				Game.Controller.getInstance().minigameScores.addScore(de.Key + ": " + de.Value);
-			}
 		}
 
 /* ==================================== AWAKE, START & UPDATE ============================================== */
