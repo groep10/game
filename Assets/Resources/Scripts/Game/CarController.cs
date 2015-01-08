@@ -42,7 +42,7 @@ namespace Game {
 		public float springs = 1000.0f; 
 		public float dampers = 2f; 
 		public float wheelRadius = 1.25f; 
-		public float torque = 50f; 
+		private float torque = 50f; 
 		public float brakeTorque = 500f; 
 		public float wheelWeight = 15f;
 		public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
@@ -60,13 +60,14 @@ namespace Game {
 		int currentGear = 1; 
 		
 		private bool anyOnGround;
+		private bool onGround;
 		//private float curvedSpeedFactor;
 		private bool reversing;
 		public float SpeedFactor { get;  private set; }
 		private float maxReversingSpeed;
 		private float maxSpeed = 60;
 		public float reversingSpeedFactor = 0.3f; 
-		public float downForce=120;
+		private float downForce=5;
 		private float CurrentSpeed;
 		private float steer = 0;
 		
@@ -180,9 +181,9 @@ namespace Game {
 		void ApplyDownforce ()
 		{
 			// apply downforce
-			if (anyOnGround) {
+			if (onGround) {
 				//print("Het werkt");
-				rigidbody.AddForce (Vector3.down * downForce *(1+Mathf.Abs(steer)));
+				rigidbody.AddForce (-1 * transform.up * downForce *(Mathf.Abs(rigidbody.velocity.magnitude)));
 				//print(-transform.up * curvedSpeedFactor * downForce);
 			}
 		}
@@ -217,10 +218,16 @@ namespace Game {
 				playercam.SetActive(true);
 
 				float delta = Time.fixedDeltaTime;
-				
+				if(rigidbody.velocity.magnitude < 10){
+					torque = 80f;
+				}
+				else{
+					torque = 50f;
+				}
 				float steer = 0; // sturen
 				float accel = 0; // versnellen
 				bool brake = false; // remmen
+				onGround = false;
 				steer = Input.GetAxis("Horizontal");
 				accel = Input.GetAxis("Vertical");
 				brake = Input.GetButton("Jump");
@@ -291,6 +298,10 @@ namespace Game {
 						lp.y = w.startPos.y - suspensionDistance;
 					}
 					w.transform.localPosition = lp;
+				}
+				if(anyOnGround){
+					onGround = true;
+					anyOnGround= false;
 				}
 				// Toerental berkenen, onafhankelijk van gear.
 				if (motorizedWheels > 1) {
