@@ -185,10 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6017803f076e948b7986464feca559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Arena: {fileID: 11400004}
-  xResolution: 0
-  zResolution: 0
-  makeLarger: 0
+  referenceTerrain: {fileID: 11400004}
   terrainRadius: 200
   checkpoint: {fileID: 100002, guid: bc3390180e140604991c5ad3c9c3d71e, type: 2}
   grass: {fileID: 2800000, guid: d928ad8b3f2491c4c9b69cd2ca954171, type: 3}
