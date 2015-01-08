@@ -30,5 +30,6 @@ namespace Game.UI
             scores.Clear();
             GetComponent<MenuList>().setItems(new GameObject[0]);
         }
+
     }
 }

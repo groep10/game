@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -152,25 +153,6 @@ namespace Game.Level {
 			CancelInvoke();
 			Network.Destroy (cpnt.networkView.viewID);
 			Network.RemoveRPCs (cpnt.networkView.viewID);
-		}
-
-		private Hashtable table = new Hashtable();
-
-		public void increasePlayerMinigameScore(string playername) {
-			if (!table.ContainsKey(playername)) {
-				table[playername] = 0;
-			}
-			table[playername] = (int)table[playername] + 1;
-			updateMiniGameScores();
-		}
-
-		public void updateMiniGameScores() {
-			Game.Controller.getInstance().minigameScores.reset();
-			Game.Controller.getInstance().minigameScores.addScore("Mode: zombie");
-
-			foreach (DictionaryEntry de in table) {
-				Game.Controller.getInstance().minigameScores.addScore(de.Key + ": " + de.Value);
-			}
 		}
 
 		void CopyTerrainDataFromTo(TerrainData tDataFrom, ref TerrainData tDataTo)
