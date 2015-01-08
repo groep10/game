@@ -35,7 +35,7 @@ namespace Game.Level {
 
 		private EventHandler onDone;
 		
-		void beginMode(EventHandler finishHandler) {
+		public override void beginMode(EventHandler finishHandler) {
 			running = true;
 			onDone = finishHandler;
 
