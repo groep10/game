@@ -27,7 +27,7 @@ public class ControllerA : MonoBehaviour {
 	Vector3 startPosRL = new Vector3(0.0f,0.0f,0.0f);
 	Vector3 startPosRR = new Vector3(0.0f,0.0f,0.0f);
 	Vector3 startPosFR = new Vector3(0.0f,0.0f,0.0f);
-	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
+	public Vector3 shiftCentre = new Vector3(0.0f, 12f, 0.0f); 
 
 	// Use this for initialization
 	void Start () {
@@ -56,6 +56,7 @@ public class ControllerA : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 
 		float v = Input.GetAxis ("Vertical") * MotorForce;
 		float h = Input.GetAxis ("Horizontal") * SteerForce;
