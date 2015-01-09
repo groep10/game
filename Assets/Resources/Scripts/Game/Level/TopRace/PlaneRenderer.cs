@@ -29,10 +29,6 @@ namespace Game.Level.TopRace {
 
 		// Use this for initialization
 		void Start() {
-			filter = GetComponent<MeshFilter>();
-			filter.mesh = mesh;
-			meshCollider = GetComponent<MeshCollider>();
-
 			if (Network.isServer) {
 				for (int i = 0; i < randomHoleCnt; i += 1) {
 					networkView.RPC("createHole", RPCMode.AllBuffered, Random.Range(1, xTiles - 1), Random.Range(1, zTiles - 2));
@@ -92,6 +88,10 @@ namespace Game.Level.TopRace {
 		Vector3[] vertices, normals;
 		int[] triangles;
 		void createMesh() {
+			filter = GetComponent<MeshFilter>();
+			filter.mesh = mesh;
+			meshCollider = GetComponent<MeshCollider>();
+			
 			Vector3 start = Vector3.zero;
 
 			int idx, xSize = xTiles + 1;

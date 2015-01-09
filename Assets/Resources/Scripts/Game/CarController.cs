@@ -69,7 +69,7 @@ namespace Game {
 		public float reversingSpeedFactor = 0.3f; 
 		private float downForce=5;
 		private float CurrentSpeed;
-		private float steer = 0;
+		// private float steer = 0;
 		
 		// alle info van de wielen wordt hierin opgeslagen
 		class WheelData {

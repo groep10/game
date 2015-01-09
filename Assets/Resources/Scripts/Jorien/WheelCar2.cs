@@ -39,7 +39,7 @@ public class WheelCar2 : MonoBehaviour {
 	int currentGear = 1; 
 
 	private bool anyOnGround;
-	private float curvedSpeedFactor;
+	// private float curvedSpeedFactor;
 	private bool reversing;
 	public float SpeedFactor { get;  private set; }
 	private float maxReversingSpeed;
@@ -224,7 +224,7 @@ public class WheelCar2 : MonoBehaviour {
 
 		CurrentSpeed = transform.InverseTransformDirection (rigidbody.velocity).z;
 		SpeedFactor = Mathf.InverseLerp (0, reversing ? maxReversingSpeed : maxSpeed, Mathf.Abs (CurrentSpeed));
-		curvedSpeedFactor = reversing ? 0 : CurveFactor (SpeedFactor);
+		// curvedSpeedFactor = reversing ? 0 : CurveFactor (SpeedFactor);
 
 		// Toerental van de wielen berekenen
 		foreach (WheelData w in wheels) {
