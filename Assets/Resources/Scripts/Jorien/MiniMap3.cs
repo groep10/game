@@ -36,7 +36,7 @@ public class MiniMap3 : MonoBehaviour
 	public enum radarLocationValues {topLeft, topRight, bottomLeft, bottomRight}
 	public radarLocationValues radarLocation; 
 	private float mapWidth;
-	private float mapHeight;
+	// private float mapHeight;
 	private Vector2 mapCenter;
 	private GameObject Player;
 
@@ -45,7 +45,7 @@ public class MiniMap3 : MonoBehaviour
 
         //Player = PlayerCar.gameObject;
 		mapWidth = Screen.width * mapSizePercent / 100.0f;
-		mapHeight = mapWidth;
+		// mapHeight = mapWidth;
 	
 	}
 	
@@ -76,7 +76,7 @@ public class MiniMap3 : MonoBehaviour
 	}
 
 	void RotateMap(){
-		RectTransform temp = veld.GetComponent<RectTransform> ();
+		// RectTransform temp = veld.GetComponent<RectTransform> ();
 //		temp.RotateAround(Player.transform.forward);
 	}
 	
