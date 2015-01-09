@@ -34,6 +34,10 @@ namespace Game {
 
 		[RPC]
 		public void startGame() {
+			if(Network.isServer) {
+				Network.RemoveRPCs(terrainManager.networkView.viewID);
+				terrainManager.networkView.RPC("updateTerrain", RPCMode.AllBuffered, Random.value);
+			}
 			Debug.Log("starting main");
 			activeMode = mainMode;
 			activeMode.beginMode(() => {
@@ -49,6 +53,10 @@ namespace Game {
 
 		[RPC]
 		public void startMiniGame(int minigame) {
+			if(Network.isServer) {
+				Network.RemoveRPCs(terrainManager.networkView.viewID);
+				terrainManager.networkView.RPC("updateTerrain", RPCMode.AllBuffered, Random.value);
+			}
 			Debug.Log("starting mini");
 			activeMode = miniModes[minigame];
 			activeMode.beginMode(() => {

@@ -33,7 +33,8 @@ namespace Game.Level {
 		}
 
 		// edits the terrain according to the radius that is set.
-		public void updateTerrain() {
+		[RPC]
+		public void updateTerrain(float num) {
 			if (!Arena.enabled) {
 				Arena.enabled = true;
 			}
@@ -56,15 +57,9 @@ namespace Game.Level {
 				}
 			}
 			Arena.terrainData.SetHeights (0, 0, heights);
-
-			// server applies textures
-			if (Network.isServer) {
-				float rnum = Random.value;
-				networkView.RPC("randomTextures", RPCMode.AllBuffered, rnum);
-			}
+			randomTextures(num);
 		}
 
-		[RPC]
 		public void randomTextures(float num) {
 			// assign 2 textures to terrain
 			SplatPrototype[] arenaTexture = new SplatPrototype[2];
