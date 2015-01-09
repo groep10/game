@@ -67,8 +67,8 @@ namespace Game.Level.Race {
 				distances.Add(Vector2.Distance (chrom, players[i]));
 			}
 
-			float min = Mathf.Min (distances[0], distances[1], distances[2], distances[3]);
-			float max = Mathf.Max (distances[0], distances[1], distances[2], distances[3]);
+			float min = Mathf.Min (distances.ToArray());
+			float max = Mathf.Max (distances.ToArray());
 			float difference = max - min;
 			if(difference == 0) {
 				return 0;

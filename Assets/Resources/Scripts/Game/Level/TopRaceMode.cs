@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Game.UI;
-using Game.Level.Race;
+using Game.Level.TopRace;
 
 namespace Game.Level {
 	public class TopRaceMode : BaseMode {
