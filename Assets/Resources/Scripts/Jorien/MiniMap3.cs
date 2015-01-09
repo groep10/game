@@ -12,10 +12,10 @@ public class MiniMap3 : MonoBehaviour
 
 	[Header ("Textures")]
 	//public Texture field;
-	public Sprite otherPlayer;
-	public Sprite player;
-	public Sprite CheckPoint;
-	public Sprite Enemy;
+	public Texture otherPlayer;
+	public Texture player;
+	public Texture CheckPoint;
+	public Texture Enemy;
 	public Texture CheckPointU;
 	public Texture CheckPointD;
 	public Texture CheckPointL;
@@ -80,7 +80,7 @@ public class MiniMap3 : MonoBehaviour
 //		temp.RotateAround(Player.transform.forward);
 	}
 	
-	void drawBlip(GameObject go,Sprite aSprite, bool check){
+	void drawBlip(GameObject go,Texture aTexture, bool check){
 
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
@@ -110,18 +110,18 @@ public class MiniMap3 : MonoBehaviour
 			//Blip = (GameObject) Instantiate(Resources.Load("PlayerMM") );
 			Blip.tag = "Recttangle";
 
-			//SpriteRenderer sprit = Blip.AddComponent<SpriteRenderer>();
-			//sprit.sprite = aSprite;
-			//GetComponent(SpriteRenderer).sprite = aSprite;
-		    //Image img = Blip.AddComponent<Image>();
-			//img.sprite = aSprite; 
+			//TextureRenderer sprit = Blip.AddComponent<TextureRenderer>();
+			//sprit.sprite = aTexture;
+			//GetComponent(TextureRenderer).sprite = aTexture;
+		    RawImage img = Blip.AddComponent<RawImage>();
+			img.texture = aTexture; 
 
 			RectTransform blip = Blip.AddComponent<RectTransform>();
-			Blip.AddComponent<SpriteRenderer>();
-			Blip.GetComponent<SpriteRenderer>().sprite = aSprite;
+			//Blip.AddComponent<TextureRenderer>();
+			//Blip.GetComponent<TextureRenderer>().sprite = aTexture;
 
-			//SpriteRenderer blub = Blip.AddComponent<SpriteRenderer>();
-			//blub.sprite = aSprite;
+			//TextureRenderer blub = Blip.AddComponent<TextureRenderer>();
+			//blub.sprite = aTexture;
 
 
 			blip.SetParent(veldTr);
