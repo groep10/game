@@ -18,7 +18,7 @@ namespace Game.Level.TopRace {
 
 		public bool[,] hide;
 
-		public int randomHoleCnt = 5;
+		public int randomHoleCnt = 4;
 		private int createdHoles = 0;
 
 		private List<GameObject> children = new List<GameObject>();

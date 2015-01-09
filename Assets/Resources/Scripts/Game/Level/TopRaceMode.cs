@@ -11,7 +11,7 @@ namespace Game.Level {
 
 		public GameObject planePrefab;
 
-		int numberOfPlanes = 10;
+		int numberOfPlanes = 6;
 		int planeSpacing = 25;
 
 		public float finishTimer = 120f;
