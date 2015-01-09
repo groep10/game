@@ -34,6 +34,7 @@ namespace Game {
 
 		[RPC]
 		public void startGame() {
+			Debug.Log("starting main");
 			activeMode = mainMode;
 			activeMode.beginMode(() => {
 				if(Network.isServer) {
@@ -48,6 +49,7 @@ namespace Game {
 
 		[RPC]
 		public void startMiniGame(int minigame) {
+			Debug.Log("starting mini");
 			activeMode = miniModes[minigame];
 			activeMode.beginMode(() => {
 				if(Network.isServer) {

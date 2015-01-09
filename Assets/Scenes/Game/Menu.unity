@@ -974,7 +974,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 243686312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b47049e5941549c408b0b1d3c3746a12, type: 3}
+  m_Script: {fileID: 11500000, guid: e58ce1a725793f94f945b8af93730d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player1Prefab: {fileID: 100444, guid: 02cf93231590c6c4c8706aba2d6e2270, type: 2}
@@ -6026,8 +6026,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: .666666687
-  m_Size: .999999762
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
