@@ -18,6 +18,7 @@ public class PlaneRenderer : MonoBehaviour {
 	public bool[,] hide;
 
 	public int randomHoleCnt = 5;
+	public int createdHoles = 0;
 
 	private List<GameObject> children = new List<GameObject>();
 
@@ -35,9 +36,6 @@ public class PlaneRenderer : MonoBehaviour {
 			for (int i = 0; i < randomHoleCnt; i += 1) {
 				networkView.RPC("createHole", RPCMode.AllBuffered, Random.Range(1, xTiles - 1), Random.Range(1, zTiles - 2));
 			}
-		}
-		createMesh();
-		if (Network.isServer) {
 			createRamps();
 		}
 	}
@@ -45,6 +43,10 @@ public class PlaneRenderer : MonoBehaviour {
 	[RPC]
 	public void createHole(int x, int y) {
 		hide[x, y] = true;
+		createdHoles++;
+		if(createdHoles >= randomHoleCnt) {
+			createMesh();
+		}
 	}
 
 	public void cleanupChildren() {
