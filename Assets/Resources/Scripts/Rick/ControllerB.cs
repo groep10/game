@@ -22,12 +22,12 @@ public class ControllerB : MonoBehaviour {
 	
 	Vector3 startRotFL = new Vector3(0.0f,0.0f,0.0f);
 	Vector3 startRotFR = new Vector3(0.0f,0.0f,0.0f);
-	Vector3 startRotRL = new Vector3(0.0f,0.0f,0.0f); 
-	Vector3 startRotRR = new Vector3(0.0f,0.0f,0.0f);
-	Vector3 startPosFL = new Vector3(0.0f,0.0f,0.0f);
-	Vector3 startPosRL = new Vector3(0.0f,0.0f,0.0f);
-	Vector3 startPosRR = new Vector3(0.0f,0.0f,0.0f);
-	Vector3 startPosFR = new Vector3(0.0f,0.0f,0.0f);
+	// Vector3 startRotRL = new Vector3(0.0f,0.0f,0.0f); 
+	// Vector3 startRotRR = new Vector3(0.0f,0.0f,0.0f);
+	// Vector3 startPosFL = new Vector3(0.0f,0.0f,0.0f);
+	// Vector3 startPosRL = new Vector3(0.0f,0.0f,0.0f);
+	// Vector3 startPosRR = new Vector3(0.0f,0.0f,0.0f);
+	// Vector3 startPosFR = new Vector3(0.0f,0.0f,0.0f);
 	public Vector3 shiftCentre = new Vector3(0.0f, -0.5f, 0.0f); 
 	
 	// Use this for initialization
@@ -35,13 +35,13 @@ public class ControllerB : MonoBehaviour {
 		
 		startRotFL = wheelFL.localRotation.eulerAngles;
 		startRotFR = wheelFR.localRotation.eulerAngles;
-		startRotRL = wheelRL.localRotation.eulerAngles;
-		startRotRR = wheelRR.localRotation.eulerAngles;
+		// startRotRL = wheelRL.localRotation.eulerAngles;
+		// startRotRR = wheelRR.localRotation.eulerAngles;
 		
-		startPosFL = wheelFL.localPosition;
-		startPosFR = wheelFR.localPosition;
-		startPosRL = wheelRL.localPosition;
-		startPosRR = wheelRR.localPosition;
+		// startPosFL = wheelFL.localPosition;
+		// startPosFR = wheelFR.localPosition;
+		// startPosRL = wheelRL.localPosition;
+		// startPosRR = wheelRR.localPosition;
 		
 		rigidbody.centerOfMass += shiftCentre;
 		
