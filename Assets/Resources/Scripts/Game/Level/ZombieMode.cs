@@ -30,8 +30,8 @@ namespace Game.Level {
 
 			if (Network.isServer) {
 				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
+				Invoke("onTimerEnd", finishTimer);
 			}
-			Invoke("onGameEnd", finishTimer);
 		}
 
 		public override void onTick() {
@@ -46,7 +46,12 @@ namespace Game.Level {
 			}
 		}
 
+		public void onTimerEnd() {
+			networkView.RPC("onGameFinish",  RPCMode.All);
+		}
+
 		// Called when game ends by timer
+		[RPC]
 		public void onGameEnd() {
 			if(finished) {
 				return;
@@ -55,6 +60,7 @@ namespace Game.Level {
 		}
 
 		// TODO: Called when game ends by some1 reaching max score.
+		[RPC]
 		public void onGameFinish() {
 			if(finished) {
 				return;
