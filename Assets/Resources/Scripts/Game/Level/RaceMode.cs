@@ -27,7 +27,6 @@ namespace Game.Level {
 
 			Debug.Log("Starting Race");
 
-			Game.Controller.getInstance().terrainManager.updateTerrain();
 			Game.Controller.getInstance().scores.updateRaceScores();
 
 			if (Network.isServer) {
