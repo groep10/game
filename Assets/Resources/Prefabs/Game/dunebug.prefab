@@ -7348,7 +7348,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0
+      value: .219444439
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -7730,7 +7730,8 @@ SkinnedMeshRenderer:
   m_UpdateWhenOffscreen: 1
   m_Mesh: {fileID: 4300112, guid: f226fd48d0858c14793c0a5fae04eda4, type: 3}
   m_Bones: []
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: .00251305103, y: 0, z: 28.3563919}
