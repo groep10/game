@@ -1,21 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Game;
+
 public class MiniMap3 : MonoBehaviour
 {
 
-	public Transform PlayerCar;
+	private Transform PlayerCar;
 	public GameObject veld;
 	public Transform veldTr;
     public float size = 138;
 
 	[Header ("Textures")]
-	public Texture field;
-	public Texture otherPlayer;
-	public Texture player;
-	public Texture CheckPoint;
-	public Texture Enemy;
+	//public Texture field;
+	public Sprite otherPlayer;
+	public Sprite player;
+	public Sprite CheckPoint;
+	public Sprite Enemy;
 	public Texture CheckPointU;
 	public Texture CheckPointD;
 	public Texture CheckPointL;
@@ -42,6 +42,7 @@ public class MiniMap3 : MonoBehaviour
 
 	
 	void Start () {
+
         //Player = PlayerCar.gameObject;
 		mapWidth = Screen.width * mapSizePercent / 100.0f;
 		mapHeight = mapWidth;
@@ -49,17 +50,19 @@ public class MiniMap3 : MonoBehaviour
 	}
 	
 	void Update() {
-        if (PlayerCar == null)
-        {
-			CarController p = GameObject.FindObjectOfType<CarController>();
-            if (p == null)
-            {
-                return;
-            }
-            PlayerCar = p.transform;
-            Player = p.gameObject;
-            GetComponent<Image>().enabled = true;
-        }
+		if(PlayerCar==null){
+			GameObject[] gos;
+		gos = GameObject.FindGameObjectsWithTag (otherPlayerTag);		
+		foreach (GameObject p in gos) {
+			if (p.networkView.isMine)
+			{
+				PlayerCar = p.transform;
+				Player = p.gameObject;
+				GetComponent<Image>().enabled = true;
+			}
+		}
+		}else{
+       	//RotateMap ();
 		RemoveBlips ();
 		//Maak map aan
 		setMapLocation ();
@@ -68,38 +71,68 @@ public class MiniMap3 : MonoBehaviour
 		DrawBlipsForOtherPlayers ();
 		DrawBlipsForCheckPoints ();
 		DrawBlipsForEnemys ();
+		}
 
 	}
+
+	void RotateMap(){
+		RectTransform temp = veld.GetComponent<RectTransform> ();
+//		temp.RotateAround(Player.transform.forward);
+	}
 	
-	void drawBlip(GameObject go,Texture aTexture, bool check){
+	void drawBlip(GameObject go,Sprite aSprite, bool check){
+
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
-
+			
 		float dist = Vector3.Distance (centerPos, extPos);
 		float dx = centerPos.x - extPos.x;
 		float dz = centerPos.z - extPos.z; 
 
-		// float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - PlayerCar.eulerAngles.y;
+		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
+		
+		float bX = dist * Mathf.Cos (deltay * Mathf.Deg2Rad);
+		float bY = dist * Mathf.Sin (deltay * Mathf.Deg2Rad);
+		
+		bX = bX * mapScale; 
+		bY = bY * mapScale;
 
-		float bX = dx * mapScale;
-		float bY = dz * mapScale;
+
+		//float bX = dx * mapScale;
+		//float bY = dz * mapScale;
 
 		if(dist<=mapWidth*0.50/mapScale){ 
 			RectTransform temp = veld.GetComponent<RectTransform> ();
 			GameObject Blip = new GameObject();
+
+			//Blip.AddComponent<Object>();
+			//Object blipobject = Blip.GetComponent<Object>();
+			//Blip = (GameObject) Instantiate(Resources.Load("PlayerMM") );
 			Blip.tag = "Recttangle";
-			RawImage img = Blip.AddComponent<RawImage>();
-			img.texture = aTexture; 
-			RectTransform blip = Blip.GetComponent<RectTransform>();
+
+			//SpriteRenderer sprit = Blip.AddComponent<SpriteRenderer>();
+			//sprit.sprite = aSprite;
+			//GetComponent(SpriteRenderer).sprite = aSprite;
+		    //Image img = Blip.AddComponent<Image>();
+			//img.sprite = aSprite; 
+
+			RectTransform blip = Blip.AddComponent<RectTransform>();
+			Blip.AddComponent<SpriteRenderer>();
+			Blip.GetComponent<SpriteRenderer>().sprite = aSprite;
+
+			//SpriteRenderer blub = Blip.AddComponent<SpriteRenderer>();
+			//blub.sprite = aSprite;
+
+
 			blip.SetParent(veldTr);
-			Vector2 middel = temp.localPosition; 
+			//Vector2 middel = temp.localPosition; 
 			float height = temp.rect.height; 
 			float paddingf = height/2 + bX;
 			float padding2f = height/2 + bY;
 			int padding = (int) paddingf;
 			int padding2 = (int) padding2f;
-			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, SizePlayers);
-			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding2, SizePlayers);
+			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, SizePlayers);
+			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding2, SizePlayers);
 
 		}
 		/*else if (check) {
@@ -145,11 +178,13 @@ public class MiniMap3 : MonoBehaviour
 		GameObject[] gos;
 		gos = GameObject.FindGameObjectsWithTag (otherPlayerTag);		
 		foreach (GameObject go in gos) {
-            if (go == Player)
+            if (go.networkView.isMine)
             {
                 continue;
             }
+
 			drawBlip(go, otherPlayer, false);
+
 		}
 		
 	}
@@ -159,6 +194,7 @@ public class MiniMap3 : MonoBehaviour
 		gos = GameObject.FindGameObjectsWithTag (CheckPointTag);
 		foreach (GameObject go in gos) {
 			drawBlip(go,CheckPoint, true);
+
 		}
 
 
