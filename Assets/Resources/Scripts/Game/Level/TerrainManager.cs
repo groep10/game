@@ -22,14 +22,14 @@ namespace Game.Level {
 		private Texture2D tex2;
 
 		public void Start() {
-			Arena = this.gameObject.AddComponent<Terrain>();
+			Arena = this.GetComponent<Terrain>();
 			Arena.enabled = false;
 
-			TerrainData terrainData = new TerrainData ();
-			CopyTerrainDataFromTo(referenceTerrain.terrainData, ref terrainData);
+			// TerrainData terrainData = new TerrainData ();
+			// CopyTerrainDataFromTo(referenceTerrain.terrainData, ref terrainData);
 
-			Arena.terrainData = terrainData;
-			GetComponent<TerrainCollider> ().terrainData = Arena.terrainData;
+			// Arena.terrainData = terrainData;
+			// GetComponent<TerrainCollider> ().terrainData = Arena.terrainData;
 		}
 
 		// edits the terrain according to the radius that is set.
@@ -115,14 +115,14 @@ namespace Game.Level {
 			Arena.terrainData.SetAlphamaps(0, 0, map);
 		}
 
-		void CopyTerrainDataFromTo(TerrainData tDataFrom, ref TerrainData tDataTo) {
-			tDataTo.SetDetailResolution(tDataFrom.detailResolution, 8);
-			tDataTo.heightmapResolution = tDataFrom.heightmapResolution;
-			tDataTo.alphamapResolution = tDataFrom.alphamapResolution;
-			tDataTo.baseMapResolution = tDataFrom.baseMapResolution;
-			tDataTo.size = tDataFrom.size;
-			tDataTo.splatPrototypes = tDataFrom.splatPrototypes;
-		}
+		// void CopyTerrainDataFromTo(TerrainData tDataFrom, ref TerrainData tDataTo) {
+		// 	tDataTo.SetDetailResolution(tDataFrom.detailResolution, 8);
+		// 	tDataTo.heightmapResolution = tDataFrom.heightmapResolution;
+		// 	tDataTo.alphamapResolution = tDataFrom.alphamapResolution;
+		// 	tDataTo.baseMapResolution = tDataFrom.baseMapResolution;
+		// 	tDataTo.size = tDataFrom.size;
+		// 	// tDataTo.splatPrototypes = tDataFrom.splatPrototypes;
+		// }
 	}
 
 }
