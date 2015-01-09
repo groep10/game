@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Game.Level.TopRace {
 	public class PlaneRenderer : MonoBehaviour {
-		Mesh mesh;
+		Mesh mesh = new Mesh();
 		MeshCollider meshCollider;
 		MeshFilter filter;
 
@@ -23,15 +23,15 @@ namespace Game.Level.TopRace {
 
 		private List<GameObject> children = new List<GameObject>();
 
+	 	PlaneRenderer() {
+			hide = new bool[xTiles, zTiles];
+		}
+
 		// Use this for initialization
 		void Start() {
-			mesh = new Mesh();
-
 			filter = GetComponent<MeshFilter>();
 			filter.mesh = mesh;
 			meshCollider = GetComponent<MeshCollider>();
-
-			hide = new bool[xTiles, zTiles];
 
 			if (Network.isServer) {
 				for (int i = 0; i < randomHoleCnt; i += 1) {
