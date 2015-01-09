@@ -36,7 +36,7 @@ namespace Game.Level {
 					placeAsset();
 				}
 				Invoke ("placeCheckpoint", 5);
-				Invoke ("onGameEnd", finishTimer);
+				Invoke ("onTimerEnd", finishTimer);
 			}
 		}
 
@@ -91,7 +91,11 @@ namespace Game.Level {
 
 		// Destroys the checkpoint
 		public void destroyCheckpoint() {
-			Network.Destroy (activeCheckpoint.networkView.viewID);
+			if(!Network.isServer) {
+				return;
+			}
+
+			Network.Destroy (activeCheckpoint);
 			Network.RemoveRPCs (activeCheckpoint.networkView.viewID);
 		}
 
@@ -107,11 +111,16 @@ namespace Game.Level {
 			if(activeCheckpoint != null) {
 				int cnt = activeCheckpoint.GetComponent<CheckpointBehaviour>().getReachedCount();
 				if(cnt > 0 && cnt >= (Network.connections.Length - 1)) {
-					onGameFinish();
+					networkView.RPC("onGameFinish",  RPCMode.All);
 				}
 			}
 		}
 
+		public void onTimerEnd() {
+			networkView.RPC("onGameEnd",  RPCMode.All);
+		}
+
+		[RPC]
 		public void onGameEnd() {
 			if(finished) {
 				return;
@@ -121,6 +130,7 @@ namespace Game.Level {
 			Invoke("endMode", 5);
 		}
 
+		[RPC]
 		public void onGameFinish() {
 			if(finished) {
 				return;

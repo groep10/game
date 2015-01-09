@@ -4808,6 +4808,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 932176123}
   - 114: {fileID: 932176124}
+  - 148: {fileID: 932176125}
   m_Layer: 0
   m_Name: ZombieMode
   m_TagString: Untagged
@@ -4842,6 +4843,18 @@ MonoBehaviour:
   spawnTime: 3
   maxScore: 30
   finishTimer: 120
+--- !u!148 &932176125
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 932176122}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 932176124}
+  m_ViewID:
+    m_ID: 5
+    m_Type: 1
 --- !u!1 &932768078
 GameObject:
   m_ObjectHideFlags: 0
@@ -6767,6 +6780,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1769633862}
   - 114: {fileID: 1769633863}
+  - 148: {fileID: 1769633864}
   m_Layer: 0
   m_Name: TopRaceMode
   m_TagString: Untagged
@@ -6799,6 +6813,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planePrefab: {fileID: 132188, guid: c2efa6ba34460604bb3bf91173352393, type: 2}
   finishTimer: 120
+--- !u!148 &1769633864
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1769633861}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 1769633863}
+  m_ViewID:
+    m_ID: 6
+    m_Type: 1
 --- !u!1 &1820524163
 GameObject:
   m_ObjectHideFlags: 0
@@ -7147,6 +7173,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2052614327}
   - 114: {fileID: 2052614326}
+  - 148: {fileID: 2052614328}
   m_Layer: 0
   m_Name: RaceMode
   m_TagString: Untagged
@@ -7180,6 +7207,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 180029314}
   m_RootOrder: 0
+--- !u!148 &2052614328
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2052614325}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 2052614326}
+  m_ViewID:
+    m_ID: 4
+    m_Type: 1
 --- !u!1 &2057102244
 GameObject:
   m_ObjectHideFlags: 0

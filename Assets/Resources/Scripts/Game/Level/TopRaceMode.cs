@@ -4,14 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Game.UI;
-using Game.Level.Race;
+using Game.Level.TopRace;
 
 namespace Game.Level {
 	public class TopRaceMode : BaseMode {
 
 		public GameObject planePrefab;
 
-		int numberOfPlanes = 10;
+		int numberOfPlanes = 6;
 		int planeSpacing = 25;
 
 		public float finishTimer = 120f;
@@ -27,8 +27,8 @@ namespace Game.Level {
 
 			Game.Controller.getInstance().scores.updateRaceToTheTopScores();
 
-			Invoke("onGameEnd", finishTimer);
 			if(Network.isServer) {
+				Invoke("onGameEnd", finishTimer);
 				generatePlanes();
 			}
 		}
@@ -48,7 +48,12 @@ namespace Game.Level {
 			}
 		}
 
+		public void onTimerEnd() {
+			networkView.RPC("onGameFinish",  RPCMode.All);
+		}
+
 		// Called when game ends by timer
+		[RPC]
 		public void onGameEnd() {
 			if(finished) {
 				return;
@@ -57,6 +62,7 @@ namespace Game.Level {
 		}
 
 		// TODO: Called when game ends by some1 reaching the top?
+		[RPC]
 		public void onGameFinish() {
 			if(finished) {
 				return;
