@@ -36,11 +36,18 @@ namespace Game.Net {
 		// Instantiate player1 on network
 		void spawnPlayer1(){
 			Network.Instantiate(player1Prefab, spawn, Quaternion.identity, 0);
+			setCanvas ();
 		}
 
 		// Instantiate player2 on network
 		void spawnPlayer2(){
 			Network.Instantiate(player2Prefab, spawn, Quaternion.identity, 0);
+			setCanvas ();
+		}
+
+		void setCanvas(){
+			CanvasController canvascontroller = GameObject.Find ("Canvas").GetComponent<CanvasController>();
+			canvascontroller.setCanvasCamera ();
 		}
 		
 		// Spawn players next to each other
