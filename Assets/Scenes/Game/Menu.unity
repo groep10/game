@@ -4366,7 +4366,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 704191279}
-  - 114: {fileID: 704191280}
   m_Layer: 0
   m_Name: PauseMenuObjects
   m_TagString: Untagged
@@ -4387,17 +4386,6 @@ Transform:
   - {fileID: 1345646515}
   m_Father: {fileID: 0}
   m_RootOrder: 4
---- !u!114 &704191280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 704191278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 672021472a0c04965b4f092769559409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &710120497
 GameObject:
   m_ObjectHideFlags: 0
@@ -8770,8 +8758,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: 0
-  m_Size: .999999642
+  m_Value: 1
+  m_Size: .999999762
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8912,7 +8900,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1345646514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e06aeb573254fa645bfc192a11b00cec, type: 3}
+  m_Script: {fileID: 11500000, guid: 63746d1bb89ac44fa8cf356aae2f2f26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentMenu: {fileID: 1845857023}
@@ -9705,7 +9693,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: NaN}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1676961921
