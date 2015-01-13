@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Game.Web;
 using Game.Menu;
+using Game.Net;
 
 namespace Game.UI {
 	public class ScoreController : MonoBehaviour {
@@ -45,11 +46,6 @@ namespace Game.UI {
 			Game.Controller.getInstance().overallScores.addItem(obj);
 		}
 
-		// resets the overallcores
-		public void resetOverallScores() {
-			Game.Controller.getInstance().overallScores.setItems(new GameObject[0]);
-		}
-
 		// checks if a player has reached the winning overall score
 		public void endGameByOverallScore() {
 			foreach (DictionaryEntry de in overall) {
@@ -78,6 +74,20 @@ namespace Game.UI {
 
 		/* ------------------------------------ OVERALL SCORES  ----------------------------------- */
 
+		// Sets the overallScores of all players in the game to 0
+		public void initializeOverallScores(){
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach(GameObject player in players) {
+					PlayerInfo inf = player.GetComponent<PlayerInfo>();
+					overall[inf.getUsername()] = 0;
+			}
+		}
+
+		// resets the overallcores
+		public void resetOverallScores() {
+			Game.Controller.getInstance().overallScores.setItems(new GameObject[0]);
+		}
+
 		// Increases the overall score of a player by 1
 		public void increaseOverallScore(string playername) {
 			if (!overall.ContainsKey(playername)) {
@@ -90,7 +100,7 @@ namespace Game.UI {
 		// Updates the Overall Scores of all players
 		public void updateOverallScores() {
 			resetOverallScores();
-			addOverallScore("Mode: Overall");
+			addOverallScore("Overall");
 
 			foreach (DictionaryEntry de in overall) {
 				addOverallScore(de.Key + ": " + de.Value);
@@ -98,10 +108,51 @@ namespace Game.UI {
 		}
 
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
-        // Increases the zombie score of a player by 1
+        
+		public int rank = 0;
+
+        // initializes the race minigame hashtable
+        public void initializeRaceScores(){
+        	GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach(GameObject player in players) {
+					PlayerInfo inf = player.GetComponent<PlayerInfo>();
+					minigame[inf.getUsername()] = "not finished yet";
+			}
+        }
+
+        // Add player to the score line
         public void raceAddFinishedPlayer(string playername) {
-            // TODO: implement
+            rank++;
+
+            Debug.Log("Rank = " + rank);
+
+            string text;
+            switch (rank)
+            {
+            	case 1: 
+            		text = "1st";
+            		break;
+            	case 2: 
+            		text = "2nd";
+            		break;
+            	case 3: 
+            		text = "3rd";
+            		break;
+            	case 4: 
+            		text = "4th";
+            		break;
+            	default:
+            		text = "not finished yet";
+            		break;
+            }
+            minigame[playername] = text;
+
             updateRaceScores();
+        }
+
+        // resets the rank tracker to 0
+        public void resetRank(){
+        	rank = 0;
         }
 
         // Updates the Scores of all players
@@ -112,6 +163,10 @@ namespace Game.UI {
             foreach (DictionaryEntry de in minigame) {
                 addMinigameScore(de.Key + ": " + de.Value);
             }
+        }
+
+        public void endRaceMode(){
+        	minigame.Clear();
         }
 
 		/* ------------------------------------ ZOMBIE MINIGAME ----------------------------------- */
@@ -157,6 +212,16 @@ namespace Game.UI {
 		}
 
 		/* ------------------------------------ TRON MINIGAME ----------------------------------- */
+
+
+
+
+		/* ------------------------------------ AWAKE, START & UPDATE ----------------------------------- */
+
+		void Start(){
+			Debug.Log("Starting ScoreController");
+
+		}
 
 	}
 }

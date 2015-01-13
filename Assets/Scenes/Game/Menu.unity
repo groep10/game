@@ -416,6 +416,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 66757135}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -1116,7 +1117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scores: {fileID: 246629554}
   minigameScores: {fileID: 1941147233}
-  overallScores: {fileID: 0}
+  overallScores: {fileID: 432083848}
   terrainManager: {fileID: 65306373}
   mainMode: {fileID: 2052614326}
   miniModes:
@@ -2212,6 +2213,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 325885607}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -4019,7 +4021,6 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
@@ -4327,6 +4328,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 681760131}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -4366,13 +4368,14 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 704191279}
+  - 114: {fileID: 704191280}
   m_Layer: 0
   m_Name: PauseMenuObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &704191279
 Transform:
   m_ObjectHideFlags: 0
@@ -4386,6 +4389,17 @@ Transform:
   - {fileID: 1345646515}
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &704191280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 704191278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 672021472a0c04965b4f092769559409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &710120497
 GameObject:
   m_ObjectHideFlags: 0
@@ -5934,6 +5948,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 792092798}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -6657,7 +6672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd3e93aabd038a4f911bc58be7f77fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 100000, guid: 2b29531c334584649b692bd88114ba13, type: 2}
+  enemyPrefab: {fileID: 127748, guid: e6bb9fdcb753c594a9f4b5368da78e39, type: 2}
   spawnTime: 3
   maxScore: 30
   finishTimer: 120
@@ -7329,7 +7344,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -347.5, y: 86}
+  m_AnchoredPosition: {x: -10, y: 86}
   m_SizeDelta: {x: 145, y: -528}
   m_Pivot: {x: 1, y: .5}
 --- !u!1 &1048323043
@@ -8585,6 +8600,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1277186346}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -8759,7 +8775,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
   m_Value: 0
-  m_Size: .999999702
+  m_Size: .999999881
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8915,7 +8931,6 @@ MonoBehaviour:
   m_Script: {fileID: 1195299961}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
@@ -9323,6 +9338,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1553469935}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -10436,6 +10452,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1845857021}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -10508,6 +10525,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1882777153}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -10625,7 +10643,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1437.5, y: 16}
+  m_AnchoredPosition: {x: -1120, y: -193}
   m_SizeDelta: {x: 145, y: 300}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &1925750374
@@ -10881,6 +10899,7 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1957101805}
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -11011,7 +11030,6 @@ MonoBehaviour:
   m_Script: {fileID: 1195299961}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
