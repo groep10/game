@@ -27,6 +27,7 @@ namespace Game.Level {
 
 			Debug.Log("Starting Race");
 
+			Game.Controller.getInstance().scores.initializeRaceScores();
 			Game.Controller.getInstance().scores.updateRaceScores();
 
 			if (Network.isServer) {
