@@ -49,6 +49,7 @@ namespace Game {
 					networkView.RPC("startMiniGame", RPCMode.AllBuffered, Random.Range(0, miniModes.Length));
 				}
 			});
+
 		}
 
 		[RPC]

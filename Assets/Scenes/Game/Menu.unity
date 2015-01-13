@@ -785,7 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scores: {fileID: 246629554}
   minigameScores: {fileID: 1941147233}
-  overallScores: {fileID: 0}
+  overallScores: {fileID: 432083848}
   terrainManager: {fileID: 65306373}
   mainMode: {fileID: 2052614326}
   miniModes:
