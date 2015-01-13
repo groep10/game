@@ -25,8 +25,14 @@ namespace Game.Level {
 
 			Debug.Log("Starting TopRace");
 
-			Game.Controller.getInstance().scores.updateRaceToTheTopScores();
+			//CountDown ();
+			Invoke ("Starting",4);
 
+		}
+
+		void Starting(){
+			Game.Controller.getInstance().scores.updateRaceToTheTopScores();
+			
 			if(Network.isServer) {
 				Invoke("onGameEnd", finishTimer);
 				generatePlanes();
