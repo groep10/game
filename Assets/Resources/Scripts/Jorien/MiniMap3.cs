@@ -8,7 +8,7 @@ public class MiniMap3 : MonoBehaviour
 	private Transform PlayerCar;
 	public GameObject veld;
 	public Transform veldTr;
-    public float size = 138;
+    public float size = 1;
 
 	[Header ("Textures")]
 	//public Texture field;
@@ -45,6 +45,7 @@ public class MiniMap3 : MonoBehaviour
 
         //Player = PlayerCar.gameObject;
 		mapWidth = Screen.width * mapSizePercent / 100.0f;
+
 		// mapHeight = mapWidth;
 	
 	}
@@ -62,7 +63,7 @@ public class MiniMap3 : MonoBehaviour
 			}
 		}
 		}else{
-       	//RotateMap ();
+		
 		RemoveBlips ();
 		//Maak map aan
 		setMapLocation ();
@@ -84,16 +85,19 @@ public class MiniMap3 : MonoBehaviour
 
 		Vector3 centerPos = PlayerCar.position;
 		Vector3 extPos = go.transform.position;
+
+		//print ("centerPos=" + centerPos);
+		//print ("extPos=" + extPos);
 			
 		float dist = Vector3.Distance (centerPos, extPos);
 		float dx = centerPos.x - extPos.x;
 		float dz = centerPos.z - extPos.z; 
-
 		float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
-		
+
 		float bX = dist * Mathf.Cos (deltay * Mathf.Deg2Rad);
 		float bY = dist * Mathf.Sin (deltay * Mathf.Deg2Rad);
-		
+
+
 		bX = bX * mapScale; 
 		bY = bY * mapScale;
 
@@ -104,35 +108,37 @@ public class MiniMap3 : MonoBehaviour
 		if(dist<=mapWidth*0.50/mapScale){ 
 			RectTransform temp = veld.GetComponent<RectTransform> ();
 			GameObject Blip = new GameObject();
+			Blip.tag = "Recttangle";
+			RawImage img = Blip.AddComponent<RawImage>();
+			img.texture = aTexture; 
+			RectTransform blip = Blip.GetComponent<RectTransform>();
+			blip.SetParent(veldTr);
+			float height = temp.rect.height; 
+			//print (height);
+			float paddingf = height/2 + bX;
+			float padding2f = height/2 + bY;
+			//print(blip.GetComponentInParent<Transform>());
+			//int padding = (int) paddingf;
+			//int padding2 = (int) padding2f;
+			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, paddingf, SizePlayers);
+			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding2f, SizePlayers);
 
 			//Blip.AddComponent<Object>();
 			//Object blipobject = Blip.GetComponent<Object>();
 			//Blip = (GameObject) Instantiate(Resources.Load("PlayerMM") );
-			Blip.tag = "Recttangle";
-
 			//TextureRenderer sprit = Blip.AddComponent<TextureRenderer>();
 			//sprit.sprite = aTexture;
 			//GetComponent(TextureRenderer).sprite = aTexture;
-		    RawImage img = Blip.AddComponent<RawImage>();
-			img.texture = aTexture; 
-
-			RectTransform blip = Blip.AddComponent<RectTransform>();
-			//Blip.AddComponent<TextureRenderer>();
+		    //Blip.AddComponent<TextureRenderer>();
 			//Blip.GetComponent<TextureRenderer>().sprite = aTexture;
 
 			//TextureRenderer blub = Blip.AddComponent<TextureRenderer>();
 			//blub.sprite = aTexture;
 
 
-			blip.SetParent(veldTr);
+
 			//Vector2 middel = temp.localPosition; 
-			float height = temp.rect.height; 
-			float paddingf = height/2 + bX;
-			float padding2f = height/2 + bY;
-			int padding = (int) paddingf;
-			int padding2 = (int) padding2f;
-			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, SizePlayers);
-			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding2, SizePlayers);
+
 
 		}
 		/*else if (check) {
@@ -221,7 +227,7 @@ public class MiniMap3 : MonoBehaviour
 	
 	void setMapLocation () {
 		RectTransform temp = veld.GetComponent<RectTransform> ();
-		int padding = 5;
+		float padding = size;
 
 		if (radarLocation == radarLocationValues.topLeft) {
 			temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
