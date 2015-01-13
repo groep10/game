@@ -7,7 +7,7 @@ namespace Game.Net {
 		public GameObject player1Prefab;
 		public GameObject player2Prefab;
 
-		private Vector3 spawn = new Vector3(20, 1, 0);
+		private Vector3 spawn = new Vector3(40, 1, 0);
 		private Vector3 offset = new Vector3(15, 0, 0);
 
 		// Spawn level on network and player

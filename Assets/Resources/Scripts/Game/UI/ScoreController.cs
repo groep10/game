@@ -46,12 +46,6 @@ namespace Game.UI {
 			Game.Controller.getInstance().overallScores.addItem(obj);
 		}
 
-		// resets the overallcores
-		public void resetOverallScores() {
-			Game.Controller.getInstance().overallScores.setItems(new GameObject[0]);
-		}
-		
-
 		// checks if a player has reached the winning overall score
 		public void endGameByOverallScore() {
 			foreach (DictionaryEntry de in overall) {
@@ -82,14 +76,16 @@ namespace Game.UI {
 
 		// Sets the overallScores of all players in the game to 0
 		public void initializeOverallScores(){
-			Debug.Log("Initializing overallScores");
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
-			Debug.Log("players = " + players);
 			foreach(GameObject player in players) {
-					Debug.Log("going through initializeOverallScores loop");
 					PlayerInfo inf = player.GetComponent<PlayerInfo>();
 					overall[inf.getUsername()] = 0;
 			}
+		}
+
+		// resets the overallcores
+		public void resetOverallScores() {
+			Game.Controller.getInstance().overallScores.setItems(new GameObject[0]);
 		}
 
 		// Increases the overall score of a player by 1
@@ -103,22 +99,60 @@ namespace Game.UI {
 
 		// Updates the Overall Scores of all players
 		public void updateOverallScores() {
-			Debug.Log("updating overallScores");
-
 			resetOverallScores();
 			addOverallScore("Overall");
 
 			foreach (DictionaryEntry de in overall) {
-				Debug.Log("going through overall update loop");
 				addOverallScore(de.Key + ": " + de.Value);
 			}
 		}
 
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
+        
+		public int rank = 0;
+
+        // initializes the race minigame hashtable
+        public void initializeRaceScores(){
+        	GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach(GameObject player in players) {
+					PlayerInfo inf = player.GetComponent<PlayerInfo>();
+					minigame[inf.getUsername()] = "not finished yet";
+			}
+        }
+
         // Add player to the score line
         public void raceAddFinishedPlayer(string playername) {
-            // TODO: implement
+            rank++;
+
+            Debug.Log("Rank = " + rank);
+
+            string text;
+            switch (rank)
+            {
+            	case 1: 
+            		text = "1st";
+            		break;
+            	case 2: 
+            		text = "2nd";
+            		break;
+            	case 3: 
+            		text = "3rd";
+            		break;
+            	case 4: 
+            		text = "4th";
+            		break;
+            	default:
+            		text = "not finished yet";
+            		break;
+            }
+            minigame[playername] = text;
+
             updateRaceScores();
+        }
+
+        // resets the rank tracker to 0
+        public void resetRank(){
+        	rank = 0;
         }
 
         // Updates the Scores of all players
@@ -129,6 +163,10 @@ namespace Game.UI {
             foreach (DictionaryEntry de in minigame) {
                 addMinigameScore(de.Key + ": " + de.Value);
             }
+        }
+
+        public void endRaceMode(){
+        	minigame.Clear();
         }
 
 		/* ------------------------------------ ZOMBIE MINIGAME ----------------------------------- */
