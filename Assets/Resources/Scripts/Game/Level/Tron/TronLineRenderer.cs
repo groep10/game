@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,80 +15,67 @@ namespace Game.Level.Tron {
 
 		GameObject segment;
 
-        // Keep track off all segments
-        List<GameObject> segments = new List<GameObject>();
+		// Keep track off all segments
+		List<GameObject> segments = new List<GameObject>();
 
-        // Minimum distance between line and car
-        public float minDistance = 10f;
-        // Minimum distance between render 'points'.
-        public float minStepSize = 0.05f;
-        // Center offset, a way to tweak the offset of the center
-        public float centerOffset = -2.5f;
+		// Minimum distance between line and car
+		public float minDistance = 10f;
+		// Minimum distance between render 'points'.
+		public float minStepSize = 0.05f;
+		// Center offset, a way to tweak the offset of the center
+		public float centerOffset = -2.5f;
 
-        // Height of the line
-        public float lineHeight = 5f;
-        // Width of the line
-        public float lineWidth = 4f;
+		// Height of the line
+		public float lineHeight = 5f;
+		// Width of the line
+		public float lineWidth = 4f;
 
-        // Length of the current segment
-        public float currentSegment = 0;
-        // Length needed before we split off the segment.
-        public float segmentSplitoff = 200;
+		// Length of the current segment
+		public float currentSegment = 0;
+		// Length needed before we split off the segment.
+		public float segmentSplitoff = 200;
 
-        // Distance between segments
-        public float segmentWaitDistance = 30;
-        // Current distance needing to wait before starting next segment
-        public float currentSegmentDistance = 0;
+		// Distance between segments
+		public float segmentWaitDistance = 30;
+		// Current distance needing to wait before starting next segment
+		public float currentSegmentDistance = 0;
 
 		// Material to render the line with
-		public Material lineMat;
+		public Material material;
 
 		void Start () {
-			createMaterials ();
-            initializeSegment();
+			material = Resources.Load<Material> ("Materials/test");
+			initializeSegment();
 		}
 
-		void createMaterials() {
-			Material lineMat = new Material("Transparent/Diffuse");
-			setColor (lineMat);
-			
-		}
+		void initializeSegment() {
+			start = previous = transform.position;
 
-		void setColor(Material lineMat) {
-			List<Color> playerColors = new List<Color>();
-			playerColors.Add (Color.red);
-			playerColors.Add (Color.blue);
-			playerColors.Add (Color.yellow);
-			playerColors.Add (Color.green);
-			lineMat.color = playerColors [0];
-		}
+			segment = new GameObject(this.name + "-line#" + segments.Count);
+			segment.transform.SetParent (transform.parent, true);
+			segment.transform.position = transform.position;
+			segment.tag = "TronLineSegment";
 
+			mesh = new Mesh ();
+			mesh.MarkDynamic();
 
-        void initializeSegment() {
-            start = previous = transform.position;
-
-            segment = new GameObject(this.name + "-line#" + segments.Count);
-            segment.transform.SetParent (transform.parent, true);
-            segment.transform.position = transform.position;
-
-            mesh = new Mesh ();
-            mesh.MarkDynamic();
-    
 			MeshRenderer graphics = segment.AddComponent<MeshRenderer> ();
-			graphics.material = lineMat;
+			graphics.material = material;
 
-            filter = segment.AddComponent<MeshFilter> ();
-            meshCollider = segment.AddComponent<MeshCollider> ();
+			filter = segment.AddComponent<MeshFilter> ();
+			meshCollider = segment.AddComponent<MeshCollider> ();
 
-            filter.mesh = mesh;
-            spots.Clear();
-            spots.Add (new Vector3(0,0,0));
+			filter.mesh = mesh;
+			spots.Clear();
+			spots.Add (new Vector3(0, 0, 0));
 
-            segments.Add(segment);
-        }
+			segments.Add(segment);
+		}
 
-		void OnCollisionEnter() {
-			print("Collision");
+		void OnDestroy() {
+			foreach (GameObject segment in segments) {
+				Destroy(segment);
+			}
 		}
 
 		// Update is called once per frame
@@ -96,34 +83,34 @@ namespace Game.Level.Tron {
 			Vector3 current = transform.position;
 			float diff = Vector3.Distance(previous, transform.position);
 
-            // When starting 2nd+ segment we want to create a 'gap'
-            if(currentSegmentDistance > 0) {
-                currentSegmentDistance -= diff;
-                if(currentSegmentDistance <= 0) {
-                    start = previous = transform.position;
-                    segment.transform.position = transform.position;
-                }
-                return;
-            }
+			// When starting 2nd+ segment we want to create a 'gap'
+			if (currentSegmentDistance > 0) {
+				currentSegmentDistance -= diff;
+				if (currentSegmentDistance <= 0) {
+					start = previous = transform.position;
+					segment.transform.position = transform.position;
+				}
+				return;
+			}
 
 			if (diff < minStepSize) {
 				return;
 			}
 
-            currentSegment += diff;
+			currentSegment += diff;
 
-            // Normalize
+			// Normalize
 			spots.Add(current - start);
-            previous = current;
+			previous = current;
 
 			updateMesh();
 
-            // Start next segment
-            if(currentSegment >= segmentSplitoff) {
-                initializeSegment();
-                currentSegmentDistance = segmentWaitDistance;
-                currentSegment = 0;
-            }
+			// Start next segment
+			if (currentSegment >= segmentSplitoff) {
+				initializeSegment();
+				currentSegmentDistance = segmentWaitDistance;
+				currentSegment = 0;
+			}
 		}
 
 		Vector3[] vertices;
@@ -134,7 +121,7 @@ namespace Game.Level.Tron {
 				return;
 			}
 			int offset = 2;
-            Vector3 current = transform.position - start;
+			Vector3 current = transform.position - start;
 			for (int i = spots.Count - offset; i >= 0; i -= 1) {
 				if (Vector3.Distance(spots[i], current) > minDistance) {
 					offset = spots.Count - i;
@@ -169,7 +156,7 @@ namespace Game.Level.Tron {
 			triangles[0] = 4;
 			triangles[1] = 2;
 			triangles[2] = 3;
-			
+
 			triangles[3] = 4;
 			triangles[4] = 1;
 			triangles[5] = 2;
@@ -192,22 +179,22 @@ namespace Game.Level.Tron {
 			mesh.RecalculateBounds();
 			mesh.Optimize();
 
-            if(meshCollider != null) {
-    			meshCollider.sharedMesh = null;
-    			meshCollider.sharedMesh = mesh;
-            }
+			if (meshCollider != null) {
+				meshCollider.sharedMesh = null;
+				meshCollider.sharedMesh = mesh;
+			}
 		}
 
 		void calculateVertice(int index, Vector3 a, Vector3 b) {
 			Vector3 ba = b - a;
 			Vector3 up = Vector3.up * lineHeight;
-            
-            Vector3 cross = Vector3.Cross(up, ba).normalized;
-            Vector3 offset = cross * centerOffset;
-            a = a + offset;
 
-            vertices[index] = a;
-            vertices[index + 1] = a + up;
+			Vector3 cross = Vector3.Cross(up, ba).normalized;
+			Vector3 offset = cross * centerOffset;
+			a = a + offset;
+
+			vertices[index] = a;
+			vertices[index + 1] = a + up;
 
 			vertices[index + 3] = cross * lineWidth + a;
 			vertices[index + 2] = vertices[index + 3] + up;
@@ -215,7 +202,7 @@ namespace Game.Level.Tron {
 
 		void calculateTriangle(int index) {
 			// front
-            // 1 offset for the front line triangles (start of the line)
+			// 1 offset for the front line triangles (start of the line)
 			int i3 = (index + 1) * 2 * 3;
 			triangles[i3] = index;
 			triangles[i3 + 1] = index + 4;
@@ -280,9 +267,9 @@ namespace Game.Level.Tron {
 		    normals[i2 + 1] = normals[i2];
 		}*/
 
-        /**
-            Create a new vector with an dx, dy and dz offset;
-        */
+		/**
+		    Create a new vector with an dx, dy and dz offset;
+		*/
 		static Vector3 mod(Vector3 v, float dx, float dy, float dz) {
 			return new Vector3(v.x + dx, v.y + dy, v.z + dz);
 		}
