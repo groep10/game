@@ -10,7 +10,7 @@ namespace Game {
 
 		public ScoreController scores;
 		public MenuList minigameScores;
-		public MenuList overalScores;
+		public MenuList overallScores;
 
 		public TerrainManager terrainManager;
 
@@ -49,6 +49,7 @@ namespace Game {
 					networkView.RPC("startMiniGame", RPCMode.AllBuffered, Random.Range(0, miniModes.Length));
 				}
 			});
+
 		}
 
 		[RPC]

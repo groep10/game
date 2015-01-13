@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Game.Web;
 using Game.Menu;
+using Game.Net;
 
 namespace Game.UI {
 	public class ScoreController : MonoBehaviour {
@@ -23,6 +24,7 @@ namespace Game.UI {
 		/* ============================================== FUNCTIONS ===================================== */
 
 		/* -------------------------------------- GENERAL FUNCTIONS ------------------------------ */
+		
 		// Adds a score entry to the menulist of the minigamescores
 		public void addMinigameScore(String text) {
 			GameObject obj = Instantiate(prefab) as GameObject;
@@ -36,18 +38,19 @@ namespace Game.UI {
 			Game.Controller.getInstance().minigameScores.setItems(new GameObject[0]);
 		}
 
-		// Adds a score entry to the menulist of the overalscores
-		public void addOveralScore(String text) {
+		// Adds a score entry to the menulist of the overallscores
+		public void addOverallScore(String text) {
 			GameObject obj = Instantiate(prefab) as GameObject;
 			obj.GetComponent<Text>().text = text;
 
-			Game.Controller.getInstance().overalScores.addItem(obj);
+			Game.Controller.getInstance().overallScores.addItem(obj);
 		}
 
-		// resets the overalscores
-		public void resetOveralScores() {
-			Game.Controller.getInstance().overalScores.setItems(new GameObject[0]);
+		// resets the overallcores
+		public void resetOverallScores() {
+			Game.Controller.getInstance().overallScores.setItems(new GameObject[0]);
 		}
+		
 
 		// checks if a player has reached the winning overall score
 		public void endGameByOverallScore() {
@@ -77,6 +80,18 @@ namespace Game.UI {
 
 		/* ------------------------------------ OVERALL SCORES  ----------------------------------- */
 
+		// Sets the overallScores of all players in the game to 0
+		public void initializeOverallScores(){
+			Debug.Log("Initializing overallScores");
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			Debug.Log("players = " + players);
+			foreach(GameObject player in players) {
+					Debug.Log("going through initializeOverallScores loop");
+					PlayerInfo inf = player.GetComponent<PlayerInfo>();
+					overall[inf.getUsername()] = 0;
+			}
+		}
+
 		// Increases the overall score of a player by 1
 		public void increaseOverallScore(string playername) {
 			if (!overall.ContainsKey(playername)) {
@@ -88,16 +103,19 @@ namespace Game.UI {
 
 		// Updates the Overall Scores of all players
 		public void updateOverallScores() {
-			resetOveralScores();
-			addOveralScore("Mode: Overall");
+			Debug.Log("updating overallScores");
+
+			resetOverallScores();
+			addOverallScore("Overall");
 
 			foreach (DictionaryEntry de in overall) {
-				addOveralScore(de.Key + ": " + de.Value);
+				Debug.Log("going through overall update loop");
+				addOverallScore(de.Key + ": " + de.Value);
 			}
 		}
 
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
-        // Increases the zombie score of a player by 1
+        // Add player to the score line
         public void raceAddFinishedPlayer(string playername) {
             // TODO: implement
             updateRaceScores();
@@ -156,6 +174,16 @@ namespace Game.UI {
 		}
 
 		/* ------------------------------------ TRON MINIGAME ----------------------------------- */
+
+
+
+
+		/* ------------------------------------ AWAKE, START & UPDATE ----------------------------------- */
+
+		void Start(){
+			Debug.Log("Starting ScoreController");
+
+		}
 
 	}
 }
