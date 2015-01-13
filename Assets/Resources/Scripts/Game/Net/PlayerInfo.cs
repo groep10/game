@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 
 using Game.Web;
+using Game.UI;
 
 namespace Game.Net
 {
@@ -30,6 +31,11 @@ namespace Game.Net
         {
             this.username = username;
             this.userid = userid;
+
+            // set the scores
+            ScoreController scores = GameObject.Find("scores").GetComponent<ScoreController>();
+            scores.initializeOverallScores();
+            scores.updateOverallScores();
         }
 
         public string getUserId()
