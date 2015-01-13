@@ -5,7 +5,7 @@ using Game.Net;
 
 public class AIEnemy : MonoBehaviour
 {
-	float distance, lookAtDistance = 150f, attackRange = 100f, moveSpeed = 20.0f, damping = 6.0f;
+	float distance, lookAtDistance = 150f, attackRange = 100f, moveSpeed = 20.0f;
 	private float currentDistance;
 	public GameObject[] Targets;
 	private GameObject targ;
@@ -65,6 +65,6 @@ public class AIEnemy : MonoBehaviour
     [RPC]
     void minigamePoint(string playername)
     {
-    	Game.Controller.getInstance().minigameScores.increasePlayerZombieScore(playername);
+    	Game.Controller.getInstance().scores.increasePlayerZombieScore(playername);
     }
 }

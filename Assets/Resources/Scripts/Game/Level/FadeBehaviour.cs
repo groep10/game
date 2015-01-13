@@ -12,10 +12,10 @@ namespace Game.Level {
 		private float totalLifeTime;
 		private float alp, alpha;
 
-		private ArenaAssetPlacement parent;
+		private System.Action ondone;
 
-		public void setParent(ArenaAssetPlacement parent) {
-			this.parent = parent;
+		public void setOnDone(System.Action ondone) {
+			this.ondone = ondone;
 		}
 
 		// creates the transparent shader
@@ -90,7 +90,9 @@ namespace Game.Level {
 		void doDestroy() {
 			Network.Destroy(this.gameObject.networkView.viewID);
 			Network.RemoveRPCs (this.gameObject.networkView.viewID);
-			parent.placeAsset ();
+			if(ondone != null) {
+				ondone();
+			}
 		}
 
 		// Update is called once per frame

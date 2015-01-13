@@ -1,9 +1,11 @@
-using System;
 namespace Game {
 	public interface Mode {
-		void beginMode(EventHandler finishHandler);
+		void beginMode(System.Action finishHandler);
+		void endMode();
 
 		void onTick();
+
+		void reset();
 
 		bool isActive();
 

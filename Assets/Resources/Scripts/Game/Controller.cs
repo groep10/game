@@ -2,25 +2,27 @@
 using System.Collections;
 
 using Game.UI;
+using Game.Menu;
+using Game.Level; 
 
 namespace Game {
 	public class Controller : MonoBehaviour {
 
-/* ==================================== VARIABLES ======================================================= */
+		public ScoreController scores;
+		public MenuList minigameScores;
+		public MenuList overalScores;
 
-		public ScoreController minigameScores;
-		public ScoreController overallScores;
+		public TerrainManager terrainManager;
 
 		private Mode activeMode;
 
-/* ===================================== FUNCTIONS ======================================================= */
+		public BaseMode mainMode;
+		public BaseMode[] miniModes;
 
-		// Returns a list of all the players in the game
 		public GameObject[] getPlayers() {
 			return GameObject.FindGameObjectsWithTag("Player");
 		}
 
-		// Returns the active player GameObject
 		public GameObject getActivePlayer() {
 			foreach(GameObject player in getPlayers()) {
 				if(player.networkView.isMine) {
@@ -30,18 +32,51 @@ namespace Game {
 			return null;
 		}
 
-		// Returns the current working Controller instance
-		public static Controller getInstance() {
-			return GameObject.FindObjectOfType<Game.Controller>();
+		[RPC]
+		public void startGame() {
+			if(Network.isServer) {
+				Network.RemoveRPCs(terrainManager.networkView.viewID);
+				terrainManager.networkView.RPC("updateTerrain", RPCMode.AllBuffered, Random.value);
+			}
+			Debug.Log("starting main");
+			activeMode = mainMode;
+			activeMode.beginMode(() => {
+				if(Network.isServer) {
+					// Remove previous start games from buffer.
+					Network.RemoveRPCs(networkView.viewID);
+
+					// Server decides what minigame to play next.
+					networkView.RPC("startMiniGame", RPCMode.AllBuffered, Random.Range(0, miniModes.Length));
+				}
+			});
 		}
 
-/* ==================================== AWAKE, START & UPDATE ============================================== */
+		[RPC]
+		public void startMiniGame(int minigame) {
+			if(Network.isServer) {
+				Network.RemoveRPCs(terrainManager.networkView.viewID);
+				terrainManager.networkView.RPC("updateTerrain", RPCMode.AllBuffered, Random.value);
+			}
+			Debug.Log("starting mini");
+			activeMode = miniModes[minigame];
+			activeMode.beginMode(() => {
+				if(Network.isServer) {
+					// Remove previous start games from buffer.
+					Network.RemoveRPCs(networkView.viewID);
 
-		// Called every frame
+					networkView.RPC("startGame", RPCMode.AllBuffered);
+				}
+			});
+		}
+
 		void Update() {
 			if (activeMode != null && activeMode.isActive()) {
 				activeMode.onTick();
 			}
+		}
+
+		public static Controller getInstance() {
+			return GameObject.FindObjectOfType<Game.Controller>();
 		}
 		
 	}
