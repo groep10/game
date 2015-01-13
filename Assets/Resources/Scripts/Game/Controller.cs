@@ -10,7 +10,7 @@ namespace Game {
 
 		public ScoreController scores;
 		public MenuList minigameScores;
-		public MenuList overalScores;
+		public MenuList overallScores;
 
 		public TerrainManager terrainManager;
 
