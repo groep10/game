@@ -57,18 +57,27 @@ namespace Game {
 		public float[] gears = { -10f, 9f, 6f, 4.5f, 3f, 2.5f };
 		float[] efficiencyTable = { 0.6f, 0.65f, 0.7f, 0.75f, 0.8f, 0.85f, 0.9f, 1.0f, 1.0f, 0.95f, 0.80f, 0.70f, 0.60f, 0.5f, 0.45f, 0.40f, 0.36f, 0.33f, 0.30f, 0.20f, 0.10f, 0.05f };
 		float efficiencyTableStep = 250.0f;
-		int currentGear = 1;
+
+
+		[HideInInspector]
+		public int currentGear = 1;
+		[HideInInspector]
+		public bool reversing;
+		[HideInInspector]
+		public float CurrentSpeed;
 
 		private bool anyOnGround;
 		private bool onGround;
 		//private float curvedSpeedFactor;
-		private bool reversing;
+
+
 		public float SpeedFactor { get;  private set; }
 		private float maxReversingSpeed;
 		private float maxSpeed = 60;
 		public float reversingSpeedFactor = 0.3f;
 		private float downForce = 5;
-		private float CurrentSpeed;
+
+
 		// private float steer = 0;
 
 		// alle info van de wielen wordt hierin opgeslagen
