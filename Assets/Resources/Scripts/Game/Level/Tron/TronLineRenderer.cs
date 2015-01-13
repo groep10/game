@@ -42,10 +42,25 @@ namespace Game.Level.Tron {
 
 		// Material to render the line with
 		public Material material;
+		public List<Color> playerColors = new List<Color>(4);
 
 		void Start () {
-			material = Resources.Load<Material> ("Materials/test");
+			CreateMaterial ();
 			initializeSegment();
+		}
+
+		void CreateMaterial (){
+			material = new Material ("Transparent/Diffues");
+			PickColor (material);
+		}
+
+		void PickColor (Material material) {
+			playerColors.Add (Color.red);
+			playerColors.Add (Color.yellow);
+			playerColors.Add (Color.blue);
+			playerColors.Add (Color.green);
+
+			material.color = playerColors [0];
 		}
 
 		void initializeSegment() {

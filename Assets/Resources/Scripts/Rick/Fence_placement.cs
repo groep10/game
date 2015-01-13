@@ -41,3 +41,5 @@ public class Fence_placement : MonoBehaviour {
 		parts.Add (fence_end);
 	}
 }
+
+
