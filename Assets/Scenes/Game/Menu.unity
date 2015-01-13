@@ -785,7 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scores: {fileID: 246629554}
   minigameScores: {fileID: 1941147233}
-  overalScores: {fileID: 432083848}
+  overallScores: {fileID: 0}
   terrainManager: {fileID: 65306373}
   mainMode: {fileID: 2052614326}
   miniModes:
@@ -5220,7 +5220,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -347.5, y: 86}
+  m_AnchoredPosition: {x: -10, y: 86}
   m_SizeDelta: {x: 145, y: -528}
   m_Pivot: {x: 1, y: .5}
 --- !u!1 &1048323043
@@ -6227,8 +6227,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: 0
-  m_Size: .999999881
+  m_Value: 1
+  m_Size: .99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7075,7 +7075,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1437.5, y: 16}
+  m_AnchoredPosition: {x: -1128, y: 52}
   m_SizeDelta: {x: 145, y: 300}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &1925750374
