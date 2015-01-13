@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -41,12 +41,28 @@ namespace Game.Level.Tron {
         public float currentSegmentDistance = 0;
 
 		// Material to render the line with
-		public Material material;
+		public Material lineMat;
 
 		void Start () {
-			material = Resources.Load<Material> ("Materials/test");
+			createMaterials ();
             initializeSegment();
 		}
+
+		void createMaterials() {
+			Material lineMat = new Material("Transparent/Diffuse");
+			setColor (lineMat);
+			
+		}
+
+		void setColor(Material lineMat) {
+			List<Color> playerColors = new List<Color>();
+			playerColors.Add (Color.red);
+			playerColors.Add (Color.blue);
+			playerColors.Add (Color.yellow);
+			playerColors.Add (Color.green);
+			lineMat.color = playerColors [0];
+		}
+
 
         void initializeSegment() {
             start = previous = transform.position;
@@ -59,7 +75,7 @@ namespace Game.Level.Tron {
             mesh.MarkDynamic();
     
 			MeshRenderer graphics = segment.AddComponent<MeshRenderer> ();
-			graphics.material = material;
+			graphics.material = lineMat;
 
             filter = segment.AddComponent<MeshFilter> ();
             meshCollider = segment.AddComponent<MeshCollider> ();
