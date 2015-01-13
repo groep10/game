@@ -76,7 +76,7 @@ namespace Game.Level {
 			}
 
 			TronPlayerStatus[] stats = GameObject.FindObjectsOfType<TronPlayerStatus> ();
-			foreach (TronPlayerStatus stat in rend) {
+			foreach (TronPlayerStatus stat in stats) {
 				Destroy(stat);			
 			}
 
