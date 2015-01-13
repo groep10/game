@@ -26,7 +26,7 @@ namespace Game.Level {
 			Debug.Log("Starting TopRace");
 
 			//CountDown ();
-			Invoke ("Starting",4);
+			Invoke ("Starting",3);
 
 		}
 
