@@ -23,6 +23,7 @@ namespace Game.UI {
 		/* ============================================== FUNCTIONS ===================================== */
 
 		/* -------------------------------------- GENERAL FUNCTIONS ------------------------------ */
+		
 		// Adds a score entry to the menulist of the minigamescores
 		public void addMinigameScore(String text) {
 			GameObject obj = Instantiate(prefab) as GameObject;
@@ -36,17 +37,17 @@ namespace Game.UI {
 			Game.Controller.getInstance().minigameScores.setItems(new GameObject[0]);
 		}
 
-		// Adds a score entry to the menulist of the overalscores
-		public void addOveralScore(String text) {
+		// Adds a score entry to the menulist of the overallscores
+		public void addOverallScore(String text) {
 			GameObject obj = Instantiate(prefab) as GameObject;
 			obj.GetComponent<Text>().text = text;
 
-			Game.Controller.getInstance().overalScores.addItem(obj);
+			Game.Controller.getInstance().overallScores.addItem(obj);
 		}
 
-		// resets the overalscores
-		public void resetOveralScores() {
-			Game.Controller.getInstance().overalScores.setItems(new GameObject[0]);
+		// resets the overallcores
+		public void resetOverallScores() {
+			Game.Controller.getInstance().overallScores.setItems(new GameObject[0]);
 		}
 
 		// checks if a player has reached the winning overall score
@@ -88,11 +89,11 @@ namespace Game.UI {
 
 		// Updates the Overall Scores of all players
 		public void updateOverallScores() {
-			resetOveralScores();
-			addOveralScore("Mode: Overall");
+			resetOverallScores();
+			addOverallScore("Mode: Overall");
 
 			foreach (DictionaryEntry de in overall) {
-				addOveralScore(de.Key + ": " + de.Value);
+				addOverallScore(de.Key + ": " + de.Value);
 			}
 		}
 
