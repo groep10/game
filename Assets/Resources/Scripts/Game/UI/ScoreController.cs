@@ -203,12 +203,6 @@ namespace Game.UI {
 			}
 		}
 
-		// sets the players score to a 1000, guaranteeing his win of the minigame
-		public void playerWinsTopRace(string playername){
-			minigame[playername] = 1000;
-			updateRaceToTheTopScores();
-		}
-
 		// Updates the Scores of all players
 		public void updateRaceToTheTopScores() {
 			resetMinigameScores();
@@ -225,14 +219,15 @@ namespace Game.UI {
         	GameObject[] players = Game.Controller.getInstance().getPlayers();
 			foreach(GameObject player in players) {
 					PlayerInfo inf = player.GetComponent<PlayerInfo>();
-					minigame[inf.getUsername()] = 0;
+					minigame[inf.getUsername()] = "alive";
 			}
 			updateTronScores();
         }
 
         // Increases the tron score of player by 1
-        public void increaseTronScore(string player){
-			minigame[player] = (int) minigame[player] + 1;
+        public void deadTronPlayer(string player){
+			minigame[player] = "dead";
+			updateTronScores ();
         }		
 
 		// Updates the tron scores of all players
@@ -245,13 +240,10 @@ namespace Game.UI {
 		}
 
 
-
-
 		/* ------------------------------------ AWAKE, START & UPDATE ----------------------------------- */
 
 		void Start(){
 			Debug.Log("Starting ScoreController");
-
 		}
 
 	}

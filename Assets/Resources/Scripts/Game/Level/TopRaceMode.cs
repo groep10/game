@@ -110,7 +110,7 @@ namespace Game.Level {
 			string name = info.getUsername();
 
 			// make the player win the mini-game
-			Game.Controller.getInstance().scores.playerWinsTopRace(name);
+			Game.Controller.getInstance().scores.increaseOverallScore(name);
 
 			onGameDone();
 		}
