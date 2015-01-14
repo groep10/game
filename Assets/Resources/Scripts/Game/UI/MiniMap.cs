@@ -26,19 +26,20 @@ namespace Game.UI {
 
 
 		[Header ("Appearence map")]
-		public float mapScale = 0.4f;
+		public float mapWorldSize = 100f;
 		public float mapSizePercent = 10f;
 		public float SizePlayers = 8;
+		public float rotationOffset = 0;
 		public enum radarLocationValues {topLeft, topRight, bottomLeft, bottomRight}
 		public radarLocationValues radarLocation;
+
 		private float mapWidth;
-		// private float mapHeight;
+
 		private Vector2 mapCenter;
 		private GameObject Player;
 
-
 		void Start () {
-			mapWidth = Screen.currentResolution.width * mapSizePercent / 100.0f;
+			
 		}
 
 		void Update() {
@@ -49,7 +50,6 @@ namespace Game.UI {
 					GetComponent<Image>().enabled = true;
 				}
 			} else {
-
 				RemoveBlips ();
 
 				setMapLocation ();
@@ -68,18 +68,18 @@ namespace Game.UI {
 			Vector3 extPos = go.transform.position;
 			float dist = Vector3.Distance (centerPos, extPos);
 
-
+			float scale = mapWidth / mapWorldSize;
 			//Als object dichtbij genoeg
-			if (dist <= mapWidth * 0.50 / mapScale) {
+			if (dist <= mapWorldSize) {
 				//Schrijf positie om naar positie op MiniMap
 				float dx = centerPos.x - extPos.x;
 				float dz = centerPos.z - extPos.z;
-				float deltay = Mathf.Atan2 (dx, dz) * Mathf.Rad2Deg - 270 - PlayerCar.eulerAngles.y;
-				float bX = dist * Mathf.Cos (deltay * Mathf.Deg2Rad);
-				float bY = dist * Mathf.Sin (deltay * Mathf.Deg2Rad);
-				bX = bX * mapScale;
-				bY = bY * mapScale;
 
+				float phi = Mathf.Atan2 (dz, dx) * Mathf.Rad2Deg + PlayerCar.eulerAngles.y + rotationOffset;
+
+				float bX = scale * dist * Mathf.Cos (phi * Mathf.Deg2Rad);
+				float bY = scale * dist * Mathf.Sin (phi * Mathf.Deg2Rad);
+				
 				//Maak nieuw object
 				GameObject Blip = new GameObject();
 				Blip.tag = "Recttangle";
@@ -90,18 +90,11 @@ namespace Game.UI {
 				img.texture = aTexture;
 
 				float height = mapWidth;
-				//print (height);
-				float paddingf = height / 2 + bX;
-				float padding2f = height / 2 + bY;
-				//print(blip.GetComponentInParent<Transform>());
-				//int padding = (int) paddingf;
-				//int padding2 = (int) padding2f;
+				float paddingf = height / 2 - bX;
+				float padding2f = height / 2 - bY;
 				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, paddingf, SizePlayers);
 				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding2f, SizePlayers);
-
 			}
-
-
 		}
 
 		void DrawBlipsForOtherPlayers() {
@@ -149,21 +142,25 @@ namespace Game.UI {
 		}
 
 		void setMapLocation () {
-			RectTransform temp = veld.GetComponent<RectTransform> ();
+			float curWidth = Screen.currentResolution.width * mapSizePercent / 100.0f;
+			if(curWidth == mapWidth) {
+				return;
+			}
+			mapWidth = curWidth;
 			float padding = size;
 
 			if (radarLocation == radarLocationValues.topLeft) {
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, mapWidth);
 			} else if (radarLocation == radarLocationValues.topRight) {
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, mapWidth);
 			} else if (radarLocation == radarLocationValues.bottomLeft) {
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
 			} else if (radarLocation == radarLocationValues.bottomRight) {
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
-				temp.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
 			}
 
 
