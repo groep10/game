@@ -46,9 +46,12 @@ namespace Game.Level {
 		}
 
 		public override void onTick() {
-			currentCheckpoint = GameObject.FindObjectOfType<topCheckpoint> ().gameObject;
 			if(currentCheckpoint == null) {
-				return;
+				topCheckpoint behav = GameObject.FindObjectOfType<topCheckpoint> ();
+				if(behav == null) {
+					return;
+				}
+				currentCheckpoint = behav.gameObject;				
 			}
 			if(!currentCheckpoint.GetComponent<topCheckpoint>().winnerReachedCheckpoint){
 				GameObject[] players = Game.Controller.getInstance().getPlayers();
