@@ -84,6 +84,7 @@ namespace Game.Level.Tron {
 			mesh.MarkDynamic();
 
 			MeshRenderer graphics = segment.AddComponent<MeshRenderer> ();
+			setColor(0);
 			graphics.material = material;
 
 			filter = segment.AddComponent<MeshFilter> ();

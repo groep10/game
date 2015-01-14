@@ -4,29 +4,30 @@ using System.Collections.Generic;
 
 public class Fence_placement : MonoBehaviour {
 
-	private int fenceLength = 10;
-	private Quaternion initRot = Quaternion.Euler (0f, 0f, 0f);
+	private int fenceLength ;
+	private Quaternion initRot;
 	float partLength = 19.5f;
 	private List<GameObject> parts;
-	public Vector3 startPos = new Vector3 (0f, 0f, 0f);
+	private Vector3 startPos;
 	private Vector3 nextPos;
-	private Vector3 currentPos = new Vector3 (0f, 0f, 0f);
-	private List<float> angles;
-	private Random rnd = new Random ();
+	private Vector3 currentPos;
+	private float[] angles;
+
 
 
 
 	// Use this for initialization
 	void Start () {
+		startPos = transform.position;
+		currentPos = startPos;
+		initRot = transform.rotation;
+		Debug.Log ("initRot"+ initRot);
+		fenceLength = Random.Range(10,20);
 		LoadParts ();
-		SetAngles (true);
-		Debug.Log (initRot);
+		SetAngles (false);
 
+		PlaceFence ();
 
-
-		Instantiate (parts [0], getNextPos (currentPos, -90f) , Quaternion.Euler (0f, 0f, 0f));
-		Instantiate (parts [0], getNextPos (currentPos, 0f) , Quaternion.Euler (0f, 0f, 0f));
-		Instantiate (parts [0], getNextPos (currentPos, 0f) , Quaternion.Euler (0f, 0f, 0f));
 	
 	}
 	
@@ -36,12 +37,13 @@ public class Fence_placement : MonoBehaviour {
 	}
 
 	void PlaceFence() {
-		Instantiate (parts [0], startPos, Quaternion.Euler (0f,this.angles[0],0f));
-		Quaternion currentAngle = initRot;
+		Instantiate (parts [0], startPos, Quaternion.Euler (0f, angles[0],0f));
+
 		for (int i = 0; i < fenceLength -1; i++) {
-			Instantiate (parts [0], getNextPos (currentPos, this.angles[i]) , Quaternion.Euler (0f, angles[i+1], 0f));
+			Instantiate (parts [0], getNextPos (currentPos, -angles[i]) , Quaternion.Euler (0f, angles[i+1], 0f));
 
 		}
+		Instantiate(parts[1],getNextPos (currentPos, -angles[fenceLength-1]), Quaternion.Euler (-90f,0f,0f));
 	}
 
 	Vector3 AngleToVector(float angle) {
@@ -65,28 +67,37 @@ public class Fence_placement : MonoBehaviour {
 		return nextPos;
 	}
 
-	List<float> SetAngles(bool type) {
+	float[] SetAngles(bool type) {
 
-		List<float> angles = new List<float> (fenceLength);
+		angles = new float[fenceLength];
+		for (int i = 0; i < fenceLength; i++) {
+			angles [i] = -initRot[1]*180/Mathf.PI; 
+		}
+
 		if (type == true) {
-				int corner1 = Random.Range (0, fenceLength);
+				int corner1 = (int) Random.Range (0, fenceLength);
 				int corner2 = corner1;
-				angles [corner1] = 90f;
+				angles [corner1] += 90f;
 
 				do {
-						corner2 = Random.Range (0, fenceLength);
+						corner2 = (int) Random.Range (0, fenceLength);
 				} while (corner1 == corner2);
-				angles [corner2] = 90f;
+				angles [corner2] += 90f;
+			return angles;
 			
 		} else {
-				int totalAngle = Random.Range (30, 120);
-				float angleIncrement = totalAngle / this.fenceLength;
-				for (int i = 0; i < this.fenceLength; i++) {
-						angles [i] = angleIncrement; 
+				int totalAngle = (int) Random.Range (30, 120);
+			Debug.Log (totalAngle);
+				float angleIncrement = totalAngle / fenceLength;
+			Debug.Log (angleIncrement);
+				for (int i = 0; i < fenceLength; i++) {
+						angles [i] += i * angleIncrement; 
 				}
+			Debug.Log (angles[1]);
+			return angles;
 				
 		}
-		return angles;
+
 	}
 
 }
