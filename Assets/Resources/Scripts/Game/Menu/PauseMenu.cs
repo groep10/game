@@ -16,18 +16,18 @@ public class PauseMenu : MonoBehaviour {
 	void showPauseMenu () {
 	
 		active = Target.activeSelf;
-		
+
 
 		if (active) {
 			if (Input.GetKeyUp ("escape")) {
+				GameObject.Find ("Controls").SetActive (false);
 				Target.SetActive (false);
-				GameObject.FindGameObjectWithTag ("Shooter").SetActive (false);
+
 			}
 		}
 		else {
 			if (Input.GetKeyUp ("escape")) {
 				Target.SetActive (true);
-				GameObject.FindGameObjectWithTag ("Shooter").SetActive (true);
 			}
 		}
 	}
