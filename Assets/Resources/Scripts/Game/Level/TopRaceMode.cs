@@ -29,18 +29,18 @@ namespace Game.Level {
 			Debug.Log("Starting TopRace");
 
 			//CountDown ();
-			Invoke ("Starting",3);
+			Invoke ("Starting", 3);
 
 		}
 
 		void Starting(){
-			Game.Controller.getInstance().scores.updateRaceToTheTopScores();
+			Game.Controller.getInstance().scores.initializeTopRaceScores();
 			
 			if(Network.isServer) {
 				Invoke("onGameEnd", finishTimer);
 				generatePlanes();
 
-				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes*planeSpacing, 0);
+				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes * planeSpacing, 0);
 				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
 		}
@@ -141,9 +141,6 @@ namespace Game.Level {
 		public override void endMode() {
 			Debug.Log("Finish TopRace");
 
-			// increases the overall score of the winner by 1
-			Game.Controller.getInstance().scores.endMinigame();
-			
 			base.endMode();
 		}
 

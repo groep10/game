@@ -28,7 +28,6 @@ namespace Game.Level {
 			Debug.Log("Starting Race");
 
 			Game.Controller.getInstance().scores.initializeRaceScores();
-			Game.Controller.getInstance().scores.updateRaceScores();
 
 			if (Network.isServer) {
 				loadAssets();
@@ -142,6 +141,7 @@ namespace Game.Level {
 
 		public override void endMode() {
 			destroyCheckpoint();
+			
 			Game.Controller.getInstance().scores.endRaceMode();
 
 			Debug.Log("Ending Race");

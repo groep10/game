@@ -26,7 +26,7 @@ namespace Game.Level {
 
 			Debug.Log("Starting Zombie");
 
-			Game.Controller.getInstance().scores.updateZombieScores();
+			Game.Controller.getInstance().scores.initializeZombieScores();
 
 			if (Network.isServer) {
 				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);

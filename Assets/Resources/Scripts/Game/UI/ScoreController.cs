@@ -24,7 +24,7 @@ namespace Game.UI {
 		/* ============================================== FUNCTIONS ===================================== */
 
 		/* -------------------------------------- GENERAL FUNCTIONS ------------------------------ */
-		
+
 		// Adds a score entry to the menulist of the minigamescores
 		public void addMinigameScore(String text) {
 			GameObject obj = Instantiate(prefab) as GameObject;
@@ -55,31 +55,14 @@ namespace Game.UI {
 			}
 		}
 
-		/* ---------------------------------- GENERAL MINIGAME FUNCTIONS ------------------------- */
-		// Ends the minigame and resets the minigamescore hashtable
-		public void endMinigame() {
-			DictionaryEntry highest = new DictionaryEntry("hoi", -1);
-			foreach (DictionaryEntry de in minigame) {
-				if ((int)highest.Value == -1 || (int)highest.Value < (int)de.Value) {
-					highest = de;
-				}
-			}
-
-			// increase the overall score of the best playerin the minigame
-			increaseOverallScore((string)highest.Key);
-
-			// empty the minigame hastable
-			minigame.Clear();
-		}
-
 		/* ------------------------------------ OVERALL SCORES  ----------------------------------- */
 
 		// Sets the overallScores of all players in the game to 0
-		public void initializeOverallScores(){
+		public void initializeOverallScores() {
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
-			foreach(GameObject player in players) {
-					PlayerInfo inf = player.GetComponent<PlayerInfo>();
-					overall[inf.getUsername()] = 0;
+			foreach (GameObject player in players) {
+				PlayerInfo inf = player.GetComponent<PlayerInfo>();
+				overall[inf.getUsername()] = 0;
 			}
 		}
 
@@ -108,68 +91,85 @@ namespace Game.UI {
 		}
 
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
-        
+
 		public int rank = 0;
 
-        // initializes the race minigame hashtable
-        public void initializeRaceScores(){
-        	GameObject[] players = Game.Controller.getInstance().getPlayers();
-			foreach(GameObject player in players) {
-					PlayerInfo inf = player.GetComponent<PlayerInfo>();
-					minigame[inf.getUsername()] = "not finished yet";
+		// initializes the race minigame hashtable
+		public void initializeRaceScores() {
+			minigame.Clear();
+			rank = 0;
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach (GameObject player in players) {
+				PlayerInfo inf = player.GetComponent<PlayerInfo>();
+				minigame[inf.getUsername()] = "not finished yet";
 			}
-        }
+			updateRaceScores();
+		}
 
-        // Add player to the score line
-        public void raceAddFinishedPlayer(string playername) {
-            rank++;
+		// Add player to the score line
+		public void raceAddFinishedPlayer(string playername) {
+			rank++;
 
-            Debug.Log("Rank = " + rank);
+			Debug.Log("Rank = " + rank);
 
-            string text;
-            switch (rank)
-            {
-            	case 1: 
-            		text = "1st";
-            		break;
-            	case 2: 
-            		text = "2nd";
-            		break;
-            	case 3: 
-            		text = "3rd";
-            		break;
-            	case 4: 
-            		text = "4th";
-            		break;
-            	default:
-            		text = "not finished yet";
-            		break;
-            }
-            minigame[playername] = text;
+			string text;
+			switch (rank) {
+			case 1:
+				text = "1st";
+				break;
+			case 2:
+				text = "2nd";
+				break;
+			case 3:
+				text = "3rd";
+				break;
+			case 4:
+				text = "4th";
+				break;
+			default:
+				text = "not finished yet";
+				break;
+			}
+			minigame[playername] = text;
 
-            updateRaceScores();
-        }
+			updateRaceScores();
+		}
 
-        // resets the rank tracker to 0
-        public void resetRank(){
-        	rank = 0;
-        }
+		// Updates the Scores of all players
+		public void updateRaceScores() {
+			resetMinigameScores();
+			addMinigameScore("Mode: race");
 
-        // Updates the Scores of all players
-        public void updateRaceScores() {
-            resetMinigameScores();
-            addMinigameScore("Mode: race");
+			foreach (DictionaryEntry de in minigame) {
+				addMinigameScore(de.Key + ": " + de.Value);
+			}
+		}
 
-            foreach (DictionaryEntry de in minigame) {
-                addMinigameScore(de.Key + ": " + de.Value);
-            }
-        }
-
-        public void endRaceMode(){
-        	minigame.Clear();
-        }
+		public void endRaceMode() {
+			string playername = null;
+			foreach (DictionaryEntry de in minigame) {
+				if(de.Value == "1st") {
+					playername = (string)de.Key;
+					break;
+				}
+			}
+			if(playername != null) {
+				increaseOverallScore(playername);
+			}
+		}
 
 		/* ------------------------------------ ZOMBIE MINIGAME ----------------------------------- */
+
+		// initializes the zombie minigame hashtable
+		public void initializeZombieScores() {
+			minigame.Clear();
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach (GameObject player in players) {
+				PlayerInfo inf = player.GetComponent<PlayerInfo>();
+				minigame[inf.getUsername()] = 0;
+			}
+			updateZombieScores();
+		}
 
 		// Increases the zombie score of a player by 1
 		public void increasePlayerZombieScore(string playername) {
@@ -192,12 +192,23 @@ namespace Game.UI {
 
 		/* ------------------------------------ RACE-TO-THE-TOP MINIGAME ----------------------------------- */
 
+		// initializes the top race minigame hashtable
+		public void initializeTopRaceScores() {
+			minigame.Clear();
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach (GameObject player in players) {
+				PlayerInfo inf = player.GetComponent<PlayerInfo>();
+				minigame[inf.getUsername()] = 0;
+			}
+			updateRaceToTheTopScores();
+		}
+
 		// Sets the race to the top score equal to the current floor the player is at
 		public void setPlayerRaceToTheTopScore(string playername, int floor) {
 			if (!minigame.ContainsKey(playername)) {
 				minigame[playername] = 0;
 			}
-			if(floor > (int)minigame[playername]){
+			if (floor > (int)minigame[playername]) {
 				minigame[playername] = floor;
 				updateRaceToTheTopScores();
 			}
@@ -215,20 +226,21 @@ namespace Game.UI {
 		/* ------------------------------------ TRON MINIGAME ----------------------------------- */
 
 		// initializes the tron minigame hashtable
-        public void initializeTronScores(){
-        	GameObject[] players = Game.Controller.getInstance().getPlayers();
-			foreach(GameObject player in players) {
-					PlayerInfo inf = player.GetComponent<PlayerInfo>();
-					minigame[inf.getUsername()] = "alive";
+		public void initializeTronScores() {
+			minigame.Clear();
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach (GameObject player in players) {
+				PlayerInfo inf = player.GetComponent<PlayerInfo>();
+				minigame[inf.getUsername()] = "alive";
 			}
 			updateTronScores();
-        }
+		}
 
-        // Increases the tron score of player by 1
-        public void deadTronPlayer(string player){
+		// Increases the tron score of player by 1
+		public void deadTronPlayer(string player) {
 			minigame[player] = "dead";
 			updateTronScores ();
-        }		
+		}
 
 		// Updates the tron scores of all players
 		public void updateTronScores() {
@@ -242,7 +254,7 @@ namespace Game.UI {
 
 		/* ------------------------------------ AWAKE, START & UPDATE ----------------------------------- */
 
-		void Start(){
+		void Start() {
 			Debug.Log("Starting ScoreController");
 		}
 
