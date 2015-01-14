@@ -30,11 +30,6 @@ public class Fence_placement : MonoBehaviour {
 
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void PlaceFence() {
 		//List<GameObject> fenceparts = new List<GameObject> (fenceLength + 1);
