@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 469338}
+  - 64: {fileID: 6471240}
   m_Layer: 0
   m_Name: Fence2
   m_TagString: Untagged
@@ -227,6 +228,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169344}
   m_Mesh: {fileID: 4300002, guid: 3fc1f7b5d5e6dc042b594f42e9e17a63, type: 3}
+--- !u!64 &6471240
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169338}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 0}
 --- !u!95 &9569338
 Animator:
   serializedVersion: 3
