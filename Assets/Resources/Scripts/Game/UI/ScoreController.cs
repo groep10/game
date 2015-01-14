@@ -220,6 +220,30 @@ namespace Game.UI {
 
 		/* ------------------------------------ TRON MINIGAME ----------------------------------- */
 
+		// initializes the tron minigame hashtable
+        public void initializeTronScores(){
+        	GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach(GameObject player in players) {
+					PlayerInfo inf = player.GetComponent<PlayerInfo>();
+					minigame[inf.getUsername()] = 0;
+			}
+			updateTronScores();
+        }
+
+        // Increases the tron score of player by 1
+        public void increaseTronScore(string player){
+			minigame[player] = (int) minigame[player] + 1;
+        }		
+
+		// Updates the tron scores of all players
+		public void updateTronScores() {
+			resetMinigameScores();
+			addMinigameScore("Mode: Tron");
+			foreach (DictionaryEntry de in minigame) {
+				addMinigameScore(de.Key + ": " + de.Value);
+			}
+		}
+
 
 
 

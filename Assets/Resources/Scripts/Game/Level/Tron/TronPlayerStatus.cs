@@ -41,5 +41,6 @@ namespace Game.Level.Tron {
 				rigidbody.velocity += transform.TransformDirection(new Vector3(0, 0, 40 - control.CurrentSpeed));
 			}
 		}
+		
 	}
 }

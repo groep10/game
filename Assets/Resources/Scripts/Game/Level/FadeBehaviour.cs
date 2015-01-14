@@ -6,9 +6,10 @@ namespace Game.Level {
 	public class FadeBehaviour : MonoBehaviour {
 
 		public Renderer objectRenderer;
-		private float opacity;
+		private Material[] mat;
+		private MeshCollider collider;
 		private Shader transparentShader;
-		private Color currentColor;
+		private Shader diffuseShader;
 		private float totalLifeTime;
 		private float alp, alpha;
 
@@ -21,44 +22,19 @@ namespace Game.Level {
 		// creates the transparent shader
 		void setTransparentShader(){
 			transparentShader = Shader.Find ("Transparent/Diffuse");
-			objectRenderer.material.shader = transparentShader;
+			for(int i=0;i<objectRenderer.materials.Length;i++){
+				mat[i].shader = transparentShader;
+			}
 		}
 
-		// get the red value of rgb
-		float getRed(){
-			currentColor = objectRenderer.material.color;
-			float red = currentColor.r;
-			return red;
+		// creates the diffuse shader
+		void setDiffuseShader(){
+			diffuseShader = Shader.Find ("Diffuse");
+			for(int i=0;i<objectRenderer.materials.Length;i++){
+				mat[i].shader = diffuseShader;
+			}
 		}
-
-		// get the green value of rgb
-		float getGreen(){
-			currentColor = objectRenderer.material.color;
-			float green = currentColor.g;
-			return green;
-		}
-
-		// get the blue value of rgb
-		float getBlue(){
-			currentColor = objectRenderer.material.color;
-			float blue = currentColor.b;
-			return blue;
-		}
-
-		// returns an invisible color of the provided rgb value
-		Color setFullyTransparentColor(){
-			float opacity = 0f;
-			Color result = new Color (getRed(), getGreen(), getBlue(), opacity);
-			return result;
-		}
-
-		// returns a fully opaque color of the provided rgb value
-		Color setFullyOpaqueColor(){
-			float opacity = 1f;
-			Color result = new Color (getRed(), getGreen(), getBlue(), opacity);
-			return result;
-		}
-
+		
 		// starts the fading in of the object
 		void startFadeIn() {
 			fadeIn = true;
@@ -72,24 +48,29 @@ namespace Game.Level {
 		}
 		// Use this for initialization
 		void Start () {
-			// make the objects shader transparent
+			collider = objectRenderer.gameObject.GetComponent<MeshCollider>();
+			mat = objectRenderer.materials;
 			setTransparentShader ();
 			// Make the object transparent at start-up
-			objectRenderer.material.color = setFullyTransparentColor ();
+			Color temp = objectRenderer.material.color;
+			temp.a = 0;
+			for(int i=0;i<objectRenderer.materials.Length;i++){
+				mat[i].color = temp;
+			}
 			// The time it takes before the asset is destroyed
-			totalLifeTime = Random.Range(10, 15);
+			totalLifeTime = Random.Range(30, 40);
 		}
-		
 
 		float fadeTime = 5;
 		float currentFadeTime = 0;
 		bool fadeIn = true;
 		float currentLifeTime = 0;
 		bool isFadingOut = false;
+		bool makediffuse = false;
 
 		void doDestroy() {
-			Network.Destroy(this.gameObject.networkView.viewID);
-			Network.RemoveRPCs (this.gameObject.networkView.viewID);
+			Network.Destroy(transform.parent.gameObject.networkView.viewID);
+			Network.RemoveRPCs (transform.parent.gameObject.networkView.viewID);
 			if(ondone != null) {
 				ondone();
 			}
@@ -114,12 +95,19 @@ namespace Game.Level {
 					// fade the object in
 					Color color = objectRenderer.material.color;
 					color.a += 1/fadeTime*Time.deltaTime;
-					objectRenderer.material.color = color;
-				} else {
+					for(int i=0;i<objectRenderer.materials.Length;i++){
+						mat[i].color = color;
+					}
+				}
+				else {
 					// fade the object out
+					makediffuse = false;
+					setTransparentShader ();
 					Color color = objectRenderer.material.color;
 					color.a -= 1/fadeTime*Time.deltaTime;
-					objectRenderer.material.color = color;
+					for(int i=0;i<objectRenderer.materials.Length;i++){
+						mat[i].color = color;
+					}
 					if (currentFadeTime >= fadeTime) {
 						if(Network.isServer){
 							doDestroy ();
@@ -127,11 +115,25 @@ namespace Game.Level {
 					}
 				}
 			}
+			// if client
 			else{
 				Color color = objectRenderer.material.color;
 				color.a = alpha;
 				Color newColor = color;
-				objectRenderer.material.color = Color.Lerp(objectRenderer.material.color,newColor,0.25f);
+				for(int i=0;i<objectRenderer.materials.Length;i++){
+					mat[i].color = Color.Lerp(objectRenderer.material.color,newColor,0.25f);
+				}
+			}
+			//disable collider when fading
+			if(objectRenderer.material.color.a < 1){
+				collider.enabled = false;
+			}
+			else{
+				collider.enabled = true;
+				makediffuse = true;
+			}
+			if(makediffuse){
+				setDiffuseShader();
 			}
 		}
 

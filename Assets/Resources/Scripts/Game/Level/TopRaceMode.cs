@@ -21,6 +21,7 @@ namespace Game.Level {
 		private bool finished;
 
 		private List<GameObject> createdPlanes = new List<GameObject>();
+		private GameObject currentCheckpoint;
 
 		public override void beginMode(System.Action finishHandler) {
 			base.beginMode (finishHandler);
@@ -45,7 +46,11 @@ namespace Game.Level {
 		}
 
 		public override void onTick() {
-			if(!topCheckpoint.GetComponent<topCheckpoint>().winnerReachedCheckpoint){
+			currentCheckpoint = GameObject.FindObjectOfType<topCheckpoint> ().gameObject;
+			if(currentCheckpoint == null) {
+				return;
+			}
+			if(!currentCheckpoint.GetComponent<topCheckpoint>().winnerReachedCheckpoint){
 				GameObject[] players = Game.Controller.getInstance().getPlayers();
 
 				foreach (GameObject player in players){
@@ -60,7 +65,7 @@ namespace Game.Level {
 
 					Game.Controller.getInstance().scores.setPlayerRaceToTheTopScore(name, floor);
 				}
-				
+				return;
 			}
 			
 			if(Network.isClient) {
@@ -101,7 +106,7 @@ namespace Game.Level {
 			}
 
 			// find the players name based on the viewID
-			PlayerInfo info = NetworkView.Find(topCheckpoint.GetComponent<topCheckpoint>().winner).gameObject.GetComponent<PlayerInfo>();
+			PlayerInfo info = currentCheckpoint.GetComponent<topCheckpoint>().winner.GetComponent<PlayerInfo>();
 			string name = info.getUsername();
 
 			// make the player win the mini-game
@@ -120,6 +125,12 @@ namespace Game.Level {
                 Network.RemoveRPCs(plane.networkView.viewID);
                 //Debug.Log("plane removed from toprace-minigame");
             }
+
+            if(Network.isServer) {
+            	Network.Destroy(currentCheckpoint);
+            	Network.RemoveRPCs(currentCheckpoint.networkView.viewID);
+            }
+            currentCheckpoint = null;	
 
 			Invoke("endMode", 5);
 		}

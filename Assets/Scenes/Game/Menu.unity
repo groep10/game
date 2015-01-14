@@ -8433,7 +8433,7 @@ GameObject:
   - 4: {fileID: 1167467858}
   - 108: {fileID: 1167467859}
   m_Layer: 0
-  m_Name: Directional light
+  m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8445,8 +8445,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1167467857}
-  m_LocalRotation: {x: .150352895, y: .825943172, z: -.260418892, w: .476858467}
-  m_LocalPosition: {x: -215.168701, y: 126.189667, z: -47.375}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -215, y: 2668, z: -47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1719338333}
@@ -8459,14 +8459,14 @@ Light:
   m_GameObject: {fileID: 1167467857}
   m_Enabled: 1
   serializedVersion: 3
-  m_Type: 1
+  m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: .5
-  m_Range: 10
+  m_Intensity: 8
+  m_Range: 4000
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_Strength: 1
     m_Bias: .0500000007
@@ -9007,8 +9007,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: 1
-  m_Size: .999999881
+  m_Value: .875
+  m_Size: .999999702
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

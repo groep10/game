@@ -8,11 +8,16 @@ namespace Game.Level {
 
 		public float finishTimer = 120f;
 		private bool finished;
+		private GameObject[] deadPlayers;
+
+		private Hashtable dead;
 
 		public override void beginMode(System.Action finishHandler) {
 			base.beginMode (finishHandler);
 
 			Debug.Log("Starting Tron");
+
+			dead = new Hashtable ();
 
 			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
 			for(int i = 0; i < players.Length; i+= 1) {
@@ -24,6 +29,11 @@ namespace Game.Level {
 			if (Network.isServer) {
 				Invoke("onTimerEnd", finishTimer);
 			}
+		}
+
+		// called when a player dies in tron
+		public void isPlayerDead(){
+
 		}
 
 		public override void onTick() {
@@ -86,6 +96,9 @@ namespace Game.Level {
 
 		public override void endMode() {
 			Debug.Log("Finish Tron");
+
+			// increase the overall score of the winner by 1
+			Game.Controller.getInstance().scores.endMinigame();
 			
 			base.endMode();
 		}
