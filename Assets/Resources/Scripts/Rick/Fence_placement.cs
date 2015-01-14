@@ -11,12 +11,15 @@ public class Fence_placement : MonoBehaviour {
 	public Vector3 startPos = new Vector3 (0f, 0f, 0f);
 	private Vector3 nextPos;
 	private Vector3 currentPos = new Vector3 (0f, 0f, 0f);
+	private List<float> angles;
+	private Random rnd = new Random ();
 
 
 
 	// Use this for initialization
 	void Start () {
 		LoadParts ();
+		SetAngles (true);
 		Debug.Log (initRot);
 
 
@@ -33,11 +36,10 @@ public class Fence_placement : MonoBehaviour {
 	}
 
 	void PlaceFence() {
-		Instantiate (parts [0], startPos, initRot);
+		Instantiate (parts [0], startPos, Quaternion.Euler (0f,this.angles[0],0f));
 		Quaternion currentAngle = initRot;
 		for (int i = 0; i < fenceLength -1; i++) {
-			nextAngle = SetAngles();
-			Instantiate (parts [0], getNextPos (currentPos, 0f) , Quaternion.Euler (0f, nextAngle, 0f));
+			Instantiate (parts [0], getNextPos (currentPos, this.angles[i]) , Quaternion.Euler (0f, angles[i+1], 0f));
 
 		}
 	}
@@ -64,25 +66,28 @@ public class Fence_placement : MonoBehaviour {
 	}
 
 	List<float> SetAngles(bool type) {
-		Random rnd = new Random();
-		List<float> angles = new List<float>(fenceLength);
-		if (type == true) {
-			int corner1 = rnd.Range(0, fenceLength);
-			int corner2 = corner1;
-			angles[corner1] = 90f;
 
-			do {
-				corner2 = rnd.Range(0, fenceLength);
-			}while (corner1 == corner2);
-			angles[corner2] = 90f;
-		
+		List<float> angles = new List<float> (fenceLength);
+		if (type == true) {
+				int corner1 = Random.Range (0, fenceLength);
+				int corner2 = corner1;
+				angles [corner1] = 90f;
+
+				do {
+						corner2 = Random.Range (0, fenceLength);
+				} while (corner1 == corner2);
+				angles [corner2] = 90f;
+			
+		} else {
+				int totalAngle = Random.Range (30, 120);
+				float angleIncrement = totalAngle / this.fenceLength;
+				for (int i = 0; i < this.fenceLength; i++) {
+						angles [i] = angleIncrement; 
+				}
+				
 		}
-		else {
-			int totalAngle = rnd.Range(30, 120);
-			float angleIncrement = totalAngle / this.fenceLength;
-			angles(:) = 
+		return angles;
 	}
 
 }
-
- 
+	
