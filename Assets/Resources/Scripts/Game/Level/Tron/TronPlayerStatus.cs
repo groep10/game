@@ -9,8 +9,10 @@ namespace Game.Level.Tron {
 	public class TronPlayerStatus : MonoBehaviour {
 
 		public bool dead = false;
-
 		CarController control;
+
+		[HideInInspector]
+		public TronMode mode;
 
 		void Start () {
 			control = GetComponent<CarController> ();
@@ -20,10 +22,15 @@ namespace Game.Level.Tron {
 			if (dead) {
 				return;
 			}
-		
+
+			if (!networkView.isMine) {
+				return;
+			}
+			
 			if (coll.gameObject.tag == "TronLineSegment") {
 				Debug.Log (GetComponent<PlayerInfo>().getUsername() + " hit line");
 				dead = true;
+				mode.networkView.RPC ("notifyDeath", RPCMode.All, GetComponent<PlayerInfo>().getUsername()); 
 			}
 		}
 
@@ -32,7 +39,6 @@ namespace Game.Level.Tron {
 				this.rigidbody.velocity = Vector3.zero;
 				return;
 			}
-
 			control.reversing = false;
 			if (control.currentGear < 2) {
 				control.currentGear = 2;

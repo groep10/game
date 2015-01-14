@@ -26,7 +26,7 @@ namespace Game.Level {
 
 			Debug.Log("Starting Zombie");
 
-			Game.Controller.getInstance().scores.updateZombieScores();
+			Game.Controller.getInstance().scores.initializeZombieScores();
 
 			if (Network.isServer) {
 				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
@@ -78,14 +78,13 @@ namespace Game.Level {
                 Debug.Log("Enemy removed from zombie-minigame");
             }
 
+            Game.Controller.getInstance().scores.endZombieMode();
+
 			Invoke("endMode", 5);
 		}
 
 		public override void endMode() {
 			Debug.Log("Finish Zombie");
-
-			// increase the overall score of the winning player by 1
-			Game.Controller.getInstance().scores.endMinigame();
 
 			base.endMode();
 		}
