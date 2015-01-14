@@ -2,6 +2,7 @@
 using System.Collections;
 
 using Game.Level.Tron;
+using Game.Net;
 
 namespace Game.Level {
 	public class TronMode : BaseMode {
@@ -11,6 +12,7 @@ namespace Game.Level {
 		private GameObject[] deadPlayers;
 
 		private Hashtable dead;
+		private int alive;
 
 		public override void beginMode(System.Action finishHandler) {
 			base.beginMode (finishHandler);
@@ -19,21 +21,41 @@ namespace Game.Level {
 
 			dead = new Hashtable ();
 
+			Game.Controller.getInstance ().scores.initializeTronScores ();
+
+			Game.Controller.getInstance ().countdown.beginCountdown ();
+
+			Invoke ("starting", 3);
+		}
+
+		public void starting() {
 			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
+			alive = players.Length;
+			
 			for(int i = 0; i < players.Length; i+= 1) {
 				GameObject player = players[i];
 				TronLineRenderer line = player.AddComponent<TronLineRenderer>();
 				line.setColor(i);
-				player.AddComponent<TronPlayerStatus>();
+				TronPlayerStatus comp = player.AddComponent<TronPlayerStatus>();
+				comp.mode = this;
 			}
+			
 			if (Network.isServer) {
 				Invoke("onTimerEnd", finishTimer);
 			}
 		}
 
 		// called when a player dies in tron
-		public void isPlayerDead(){
+		[RPC]
+		public void notifyDeath(string playername){
+			Game.Controller.getInstance ().scores.deadTronPlayer (playername);
 
+			if (Network.isClient) {
+				return;
+			}
+
+			dead [playername] = true;
+			alive--;
 		}
 
 		public override void onTick() {
@@ -44,18 +66,31 @@ namespace Game.Level {
 			if(players.Length <= 1) { // Singleplayer ish mode
 				return;
 			}
-			int alive = 0;
-			foreach(GameObject player in players) {
-				TronPlayerStatus ps = player.GetComponent<TronPlayerStatus> ();
-				if(ps != null && !ps.dead) {
-					alive++;
-				}
-			}
-			if(alive > 1 || alive == 0) {
+			if (alive != 1) {
 				return;
+			}
+
+			alive--;
+			
+			string playername = null;
+			foreach(GameObject player in players) {
+				if(dead.ContainsKey(player.GetComponent<PlayerInfo>().getUsername())) {
+					continue;
+				}
+				playername = player.GetComponent<PlayerInfo>().getUsername();
+			}
+
+			if (playername != null) {
+				networkView.RPC("winTron", RPCMode.All, playername);
 			}
 			networkView.RPC("onGameFinish", RPCMode.All);
 		}
+
+		[RPC]
+		public void winTron(string playername) {
+			Game.Controller.getInstance ().scores.increaseOverallScore (playername);
+		}
+
 
 		public void onTimerEnd() {
 			networkView.RPC("onGameEnd", RPCMode.All);
@@ -97,9 +132,6 @@ namespace Game.Level {
 		public override void endMode() {
 			Debug.Log("Finish Tron");
 
-			// increase the overall score of the winner by 1
-			Game.Controller.getInstance().scores.endMinigame();
-			
 			base.endMode();
 		}
 

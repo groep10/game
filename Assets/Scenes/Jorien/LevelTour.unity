@@ -248,8 +248,6 @@ MonoBehaviour:
   second: {fileID: 49942826}
   end: {fileID: 636397276}
   target: {fileID: 1737102832}
-  viewpoint: {x: 0, y: 0, z: 0}
-  temp: {x: 0, y: 0, z: 0}
   height: 3
   delta: 100
 --- !u!81 &733174768

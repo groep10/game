@@ -28,27 +28,31 @@ namespace Game.Level {
 
 			Debug.Log("Starting TopRace");
 
-			//CountDown ();
-			Invoke ("Starting",3);
+			Game.Controller.getInstance().scores.initializeTopRaceScores();
 
-		}
+			Game.Controller.getInstance ().countdown.beginCountdown ();
 
-		void Starting(){
-			Game.Controller.getInstance().scores.updateRaceToTheTopScores();
-			
 			if(Network.isServer) {
-				Invoke("onGameEnd", finishTimer);
 				generatePlanes();
-
-				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes*planeSpacing, 0);
+				
+				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes * planeSpacing, 0);
 				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
+
+			Invoke ("starting", 3);
+		}
+
+		void starting(){
+			Invoke("onGameEnd", finishTimer);
 		}
 
 		public override void onTick() {
-			currentCheckpoint = GameObject.FindObjectOfType<topCheckpoint> ().gameObject;
 			if(currentCheckpoint == null) {
-				return;
+				topCheckpoint behav = GameObject.FindObjectOfType<topCheckpoint> ();
+				if(behav == null) {
+					return;
+				}
+				currentCheckpoint = behav.gameObject;				
 			}
 			if(!currentCheckpoint.GetComponent<topCheckpoint>().winnerReachedCheckpoint){
 				GameObject[] players = Game.Controller.getInstance().getPlayers();
@@ -110,7 +114,7 @@ namespace Game.Level {
 			string name = info.getUsername();
 
 			// make the player win the mini-game
-			Game.Controller.getInstance().scores.playerWinsTopRace(name);
+			Game.Controller.getInstance().scores.increaseOverallScore(name);
 
 			onGameDone();
 		}
@@ -138,9 +142,6 @@ namespace Game.Level {
 		public override void endMode() {
 			Debug.Log("Finish TopRace");
 
-			// increases the overall score of the winner by 1
-			Game.Controller.getInstance().scores.endMinigame();
-			
 			base.endMode();
 		}
 

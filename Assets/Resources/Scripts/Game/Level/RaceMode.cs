@@ -28,14 +28,21 @@ namespace Game.Level {
 			Debug.Log("Starting Race");
 
 			Game.Controller.getInstance().scores.initializeRaceScores();
-			Game.Controller.getInstance().scores.updateRaceScores();
 
 			if (Network.isServer) {
 				loadAssets();
 				for (int i = 0; i < assetsInArena; i++) {
 					placeAsset();
 				}
-				Invoke ("placeCheckpoint", 5);
+				placeCheckpoint();
+			}
+			Game.Controller.getInstance ().countdown.beginCountdown ();
+
+			Invoke ("starting", 3);
+		}
+
+		void starting() {
+			if (Network.isServer) {
 				Invoke ("onTimerEnd", finishTimer);
 			}
 		}
@@ -136,13 +143,14 @@ namespace Game.Level {
 				return;
 			}
 
+			Game.Controller.getInstance().scores.endRaceMode();
+
 			finished = true;
 			Invoke("endMode", 5);
 		}
 
 		public override void endMode() {
 			destroyCheckpoint();
-			Game.Controller.getInstance().scores.endRaceMode();
 
 			Debug.Log("Ending Race");
 
