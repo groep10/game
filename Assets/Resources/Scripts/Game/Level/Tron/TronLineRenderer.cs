@@ -48,7 +48,7 @@ namespace Game.Level.Tron {
 		}
 
 		void CreateMaterial (){
-			material = new Material ("Transparent/Diffuse");
+			material = new Material (Shader.Find("Transparent/Diffuse"));
 		}
 
 		public void setColor (int color) {
@@ -84,6 +84,7 @@ namespace Game.Level.Tron {
 			mesh.MarkDynamic();
 
 			MeshRenderer graphics = segment.AddComponent<MeshRenderer> ();
+			setColor(0);
 			graphics.material = material;
 
 			filter = segment.AddComponent<MeshFilter> ();

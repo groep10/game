@@ -68,7 +68,7 @@ namespace Game.Level {
 
 			// instantiate the asset
 			GameObject currentAsset = (GameObject) Network.Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f), 0);
-			currentAsset.GetComponent<FadeBehaviour> ().setOnDone(() => {
+			currentAsset.GetComponentInChildren<FadeBehaviour> ().setOnDone(() => {
 				placeAsset();
 			});
 		}
