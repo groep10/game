@@ -4,7 +4,7 @@ using System.Collections;
 namespace Game.Menu
 {
     public class PauseManager : MonoBehaviour {
-	    public Item currentMenu;
+	    public GameObject currentMenu;
 		public GameObject Target;
 		public void Update()
 	    {
@@ -13,14 +13,12 @@ namespace Game.Menu
 		    ShowMenu (currentMenu);
 	    }
 
-	    public void ShowMenu(Item menu)
+	    public void ShowMenu(GameObject menu)
 	    {
             if (currentMenu != null)
             {
-			    currentMenu.IsOpen = false;
+				currentMenu.SetActive (true);
             }
-		    currentMenu = menu;
-		    currentMenu.IsOpen = true;
 	    }
 
         public void Quit()
