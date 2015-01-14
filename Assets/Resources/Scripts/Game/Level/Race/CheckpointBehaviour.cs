@@ -19,7 +19,7 @@ namespace Game.Level.Race {
 					Debug.Log ("Player viewID is: " + obj.networkView.viewID);
 
 					if (!playerOrder.Contains(obj.networkView.viewID)) {
-						networkView.RPC("playerReachedCheckpoint", RPCMode.AllBuffered, obj.networkView.viewID);
+						networkView.RPC("playerReachedCheckpoint", RPCMode.All, obj.networkView.viewID);
 					}
 
 					/*
