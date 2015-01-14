@@ -21,11 +21,13 @@ public class PauseMenu : MonoBehaviour {
 		if (active) {
 			if (Input.GetKeyUp ("escape")) {
 				Target.SetActive (false);
+				GameObject.FindGameObjectWithTag ("Shooter").SetActive (false);
 			}
 		}
 		else {
 			if (Input.GetKeyUp ("escape")) {
 				Target.SetActive (true);
+				GameObject.FindGameObjectWithTag ("Shooter").SetActive (true);
 			}
 		}
 	}
