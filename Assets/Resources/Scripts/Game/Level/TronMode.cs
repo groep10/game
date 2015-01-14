@@ -8,6 +8,7 @@ namespace Game.Level {
 
 		public float finishTimer = 120f;
 		private bool finished;
+		private GameObject[] deadPlayers;
 
 		public override void beginMode(System.Action finishHandler) {
 			base.beginMode (finishHandler);
@@ -23,6 +24,30 @@ namespace Game.Level {
 			}
 			if (Network.isServer) {
 				Invoke("onTimerEnd", finishTimer);
+			}
+		}
+
+		// called when a player dies in tron
+		public void isPlayerDead(){
+			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
+
+			foreach (GameObject player in players){
+				if(player.GetComponent<TronPlayerStatus>().dead)
+				{
+					if(!deadPlayers.Contains(player))
+					{
+						deadPlayers.Add(player);
+						foreach (GameObject player in players)
+						{
+							if(!player.GetComponent<TronPlayerStatus>().dead)
+							{
+								string playername = player.GetComponent<PlayerInfo>().getUsername();
+								Game.Controller.getInstance().scores.increaseTronScore(playername);
+							}
+						}
+
+					}
+				}
 			}
 		}
 
@@ -86,6 +111,9 @@ namespace Game.Level {
 
 		public override void endMode() {
 			Debug.Log("Finish Tron");
+
+			// increase the overall score of the winner by 1
+			Game.Controller.getInstance().scores.endMinigame();
 			
 			base.endMode();
 		}
