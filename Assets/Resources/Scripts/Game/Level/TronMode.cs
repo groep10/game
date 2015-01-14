@@ -14,10 +14,11 @@ namespace Game.Level {
 
 			Debug.Log("Starting Tron");
 
-			foreach(GameObject player in Game.Controller.getInstance().getPlayers()) {
-				player.AddComponent<TronLineRenderer>();
-				//if(player.networkView.isMine) {
-				//}
+			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
+			for(int i = 0; i < players.Length; i+= 1) {
+				GameObject player = players[i];
+				TronLineRenderer line = player.AddComponent<TronLineRenderer>();
+				line.setColor(i);
 				player.AddComponent<TronPlayerStatus>();
 			}
 			if (Network.isServer) {
