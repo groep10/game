@@ -37,13 +37,16 @@ public class Fence_placement : MonoBehaviour {
 	}
 
 	void PlaceFence() {
-		Instantiate (parts [0], startPos, Quaternion.Euler (0f, angles[0],0f));
+		//List<GameObject> fenceparts = new List<GameObject> (fenceLength + 1);
+		GameObject temp = (GameObject)Instantiate (parts [0], startPos, Quaternion.Euler (0f, angles[0],0f));
+		temp.transform.parent = transform;
 
 		for (int i = 0; i < fenceLength -1; i++) {
-			Instantiate (parts [0], getNextPos (currentPos, -angles[i]) , Quaternion.Euler (0f, angles[i+1], 0f));
-
+			temp = (GameObject)Instantiate (parts [0], getNextPos (currentPos, -angles[i]) , Quaternion.Euler (0f, angles[i+1], 0f));
+			temp.transform.parent = transform;
 		}
-		Instantiate(parts[1],getNextPos (currentPos, -angles[fenceLength-1]), Quaternion.Euler (-90f,0f,0f));
+		temp = (GameObject)Instantiate(parts[1],getNextPos (currentPos, -angles[fenceLength-1]), Quaternion.Euler (-90f,0f,0f));
+		temp.transform.parent = transform;
 	}
 
 	Vector3 AngleToVector(float angle) {
@@ -86,7 +89,7 @@ public class Fence_placement : MonoBehaviour {
 			return angles;
 			
 		} else {
-				int totalAngle = (int) Random.Range (30, 120);
+				int totalAngle = (int) Random.Range (-170, 170);
 			Debug.Log (totalAngle);
 				float angleIncrement = totalAngle / fenceLength;
 			Debug.Log (angleIncrement);
