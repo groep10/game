@@ -66,10 +66,12 @@ namespace Game.Level {
 			if(players.Length <= 1) { // Singleplayer ish mode
 				return;
 			}
-			if (alive > 1) {
+			if (alive != 1) {
 				return;
 			}
 
+			alive--;
+			
 			string playername = null;
 			foreach(GameObject player in players) {
 				if(dead.ContainsKey(player.GetComponent<PlayerInfo>().getUsername())) {
