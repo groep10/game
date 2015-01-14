@@ -124,9 +124,6 @@ namespace Game.Level {
 		public override void endMode() {
 			Debug.Log("Finish Tron");
 
-			// increase the overall score of the winner by 1
-			Game.Controller.getInstance().scores.endMinigame();
-			
 			base.endMode();
 		}
 
