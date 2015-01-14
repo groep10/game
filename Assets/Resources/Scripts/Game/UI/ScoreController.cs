@@ -125,7 +125,7 @@ namespace Game.UI {
             rank++;
 
             Debug.Log("Rank = " + rank);
-            
+
             string text;
             switch (rank)
             {
@@ -163,6 +163,10 @@ namespace Game.UI {
             foreach (DictionaryEntry de in minigame) {
                 addMinigameScore(de.Key + ": " + de.Value);
             }
+        }
+
+        public void endRaceMode(){
+        	minigame.Clear();
         }
 
 		/* ------------------------------------ ZOMBIE MINIGAME ----------------------------------- */

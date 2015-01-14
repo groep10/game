@@ -47,7 +47,7 @@ namespace Game.Level {
 		}
 
 		public void onTimerEnd() {
-			networkView.RPC("onGameFinish",  RPCMode.All);
+			networkView.RPC("onGameEnd",  RPCMode.All);
 		}
 
 		// Called when game ends by timer
