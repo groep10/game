@@ -41,7 +41,7 @@ namespace Game.Level {
 				generatePlanes();
 
 				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes*planeSpacing, 0);
-				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0) as GameObject;
+				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
 		}
 

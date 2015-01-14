@@ -10,10 +10,14 @@ namespace Game.Level {
 		private bool finished;
 		private GameObject[] deadPlayers;
 
+		private Hashtable dead;
+
 		public override void beginMode(System.Action finishHandler) {
 			base.beginMode (finishHandler);
 
 			Debug.Log("Starting Tron");
+
+			dead = new Hashtable ();
 
 			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
 			for(int i = 0; i < players.Length; i+= 1) {
@@ -29,26 +33,7 @@ namespace Game.Level {
 
 		// called when a player dies in tron
 		public void isPlayerDead(){
-			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
 
-			foreach (GameObject player in players){
-				if(player.GetComponent<TronPlayerStatus>().dead)
-				{
-					if(!deadPlayers.Contains(player))
-					{
-						deadPlayers.Add(player);
-						foreach (GameObject player in players)
-						{
-							if(!player.GetComponent<TronPlayerStatus>().dead)
-							{
-								string playername = player.GetComponent<PlayerInfo>().getUsername();
-								Game.Controller.getInstance().scores.increaseTronScore(playername);
-							}
-						}
-
-					}
-				}
-			}
 		}
 
 		public override void onTick() {
