@@ -221,7 +221,7 @@ namespace Game.UI {
 		/* ------------------------------------ TRON MINIGAME ----------------------------------- */
 
 		// initializes the tron minigame hashtable
-        public void initializeRaceScores(){
+        public void initializeTronScores(){
         	GameObject[] players = Game.Controller.getInstance().getPlayers();
 			foreach(GameObject player in players) {
 					PlayerInfo inf = player.GetComponent<PlayerInfo>();
@@ -232,7 +232,7 @@ namespace Game.UI {
 
         // Increases the tron score of player by 1
         public void increaseTronScore(string player){
-        	minigame[player]++;
+			minigame[player] = (int) minigame[player] + 1;
         }		
 
 		// Updates the tron scores of all players
