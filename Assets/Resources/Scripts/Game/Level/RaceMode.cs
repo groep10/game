@@ -135,14 +135,14 @@ namespace Game.Level {
 				return;
 			}
 
+			Game.Controller.getInstance().scores.endRaceMode();
+
 			finished = true;
 			Invoke("endMode", 5);
 		}
 
 		public override void endMode() {
 			destroyCheckpoint();
-			
-			Game.Controller.getInstance().scores.endRaceMode();
 
 			Debug.Log("Ending Race");
 
