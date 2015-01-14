@@ -3,114 +3,83 @@ using System.Collections;
 
 public class LevelTour : MonoBehaviour
 {
-		public GameObject start;
+
+		[Header ("Points")]	
+		public GameObject start; //points which will be visited by the camera
 		public GameObject first;
 		public GameObject second;
 		public GameObject end;
-	public Transform target;
-
-		private GameObject current;
-		private GameObject next;
-		private Vector3 dist;
+		public Transform target; //point of vision for the camera
 		
-	private float curve;
-		private int count;
-		public Vector3 viewpoint = new Vector3(0,0,0);
-		public Vector3 temp;
+		[Header ("Values")]	
+		public float height=3; //amount camera is higher than plane
+		public int delta=100; //maximum amount of stap
+	
+	
+		private GameObject current; //point camera is leaving 
+		private GameObject next; //camera moves towards this point
+		private Vector3 dist; //distance between current and next
+		private int count; //count nummerates per point
+		private int teller; //teller nummerates every time interpolate() is called
+		private float xstap; //amount x position camera is increased every time interpolate() is called
+		private float zstap; //amount z position camera is increased every time interpolate() is called
+		
 
-		private float xstap;
-		private float ystap;
-		private float zstap;
-		private int teller;
-	public float height=3;
-	public int delta=100;
 
-		// Use this for initialization
+
 		void Start ()
-		{
+		{ //initialiseren
 		count = 1;
 		current = start;
 		next = first;
 		transform.position = new Vector3(current.transform.position.x,current.transform.position.y+height,current.transform.position.z);
-		determinedist ();
+		determinedist (); 
 		teller = 0;
-		//print (height == 3);
 
 		}
 	
 		// Update is called once per frame
 		void Update ()
 		{
-		transform.LookAt(target);
-		//if (transform.position.x == next.transform.position.x && transform.position.z == next.transform.position.z) {
-		if(delta==teller){
-						if (count == 1) {
-							count = count +1;
-							next = second;
-							current = first;
-							transform.position = new Vector3(current.transform.position.x,current.transform.position.y+height,current.transform.position.z);
-							determinedist();
-							teller=0;
-						} else if(count == 2){
-							count = count +1;
-							next = end;
-							current = second;
-							transform.position = new Vector3(current.transform.position.x,current.transform.position.y+height,current.transform.position.z);
-							determinedist();
-							teller=0;
-						} else if(count == 3){
-							count = count +1;
-							next = start;
-							current = end;
-							transform.position = new Vector3(current.transform.position.x,current.transform.position.y+height,current.transform.position.z);
-							determinedist();
-							teller=0;
-						}else {
-							return;
-						}
-		}
-		interpolate ();
-	
-		}
-		
-		void determinedist(){
-
-		dist = new Vector3 (next.transform.position.x - current.transform.position.x, 0, next.transform.position.z - current.transform.position.z);
-
-		xstap = dist.x / delta;
-		//ystap = dist.y / 100f;
-		zstap = dist.z / delta;
-		print (dist);
-
-		print (xstap);
-		print (zstap);
-		print (transform.position);
-		print (next.transform.position);
-		print (current.transform.position);
-		}
-		
-		void interpolate(){
-		//dist = new Vector3 (current.transform.position.x - next.transform.position.x, 0, current.transform.position.x - next.transform.position.x);
-		transform.position = new Vector3(current.transform.position.x + xstap*teller,transform.position.y,current.transform.position.z + zstap*teller); 
-		//print (current.transform.position.z);
-		if (teller == 100) {
-						print (teller);
-						print (transform.position.z);
-						print (next.transform.position.z);
-						float temp = (float) transform.position.z;
-						float temp2 = (float) next.transform.position.z;
-						if (temp == temp2) {
-								print (true);
-						}
+			transform.LookAt(target); //Makes sure camera always looks at the right direction
+			if(delta==teller){
+				if (count == 1) {
+					count = count +1;
+					next = second;
+					current = first;
+					transform.position = new Vector3(current.transform.position.x,current.transform.position.y+height,current.transform.position.z);
+					determinedist();
+					teller=0;
+				} else if(count == 2){
+					count = count +1;
+					next = end;
+					current = second;
+					transform.position = new Vector3(current.transform.position.x,current.transform.position.y+height,current.transform.position.z);
+					determinedist();
+					teller=0;
+				} else if(count == 3){
+					count = count +1;
+					next = start;
+					current = end;
+					transform.position = new Vector3(current.transform.position.x,current.transform.position.y+height,current.transform.position.z);
+					determinedist();
+					teller=0;
+				}else {
+					return;
 				}
+			}
+			interpolate ();	
+		}
+		
+		void determinedist(){ //function which calculates distance, xstap and zstap
+			dist = new Vector3 (next.transform.position.x - current.transform.position.x, 0, next.transform.position.z - current.transform.position.z);
+			xstap = dist.x / delta;
+			zstap = dist.z / delta;
+		}
+		
+		void interpolate(){ //function that makes the camera move smooth from current to next
+		transform.position = new Vector3(current.transform.position.x + xstap*teller,transform.position.y,current.transform.position.z + zstap*teller); 
 		teller = teller + 1;
-
-				
-				//curve = Vector3.Angle(transform.forward, viewpoint);
-				//this.transform.rotation = Quaternion.SetFromToRotation(this.transform.rotation, new Vector3(transform.rotation.x+curve,0,0));
-		//temp = transform.forward;
-		//transform.rotation = Quaternion.SetLookRotation(viewpoint, temp); 
-
 		}
 }
 
