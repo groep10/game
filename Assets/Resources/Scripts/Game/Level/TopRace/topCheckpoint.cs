@@ -8,7 +8,7 @@ using Game.UI;
 namespace Game.Level.TopRace {
 	public class topCheckpoint : MonoBehaviour {
 
-		public NetworkViewID winner;
+		public GameObject winner;
 		public bool winnerReachedCheckpoint = false;
 
 		void OnTriggerEnter(Collider other) {
@@ -32,7 +32,9 @@ namespace Game.Level.TopRace {
 
 			winnerReachedCheckpoint = true;
 
-			winner = id;
+			// Debug.Log (id.owner.guid + " got guid");
+
+			winner = NetworkView.Find(id).gameObject;
 		}
 	}
 }
