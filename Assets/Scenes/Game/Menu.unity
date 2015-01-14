@@ -3763,10 +3763,10 @@ MonoBehaviour:
   CheckPointTag: CheckPoint
   EnemyTag: Enemy
   RecttangleTag: Recttangle
-  mapScale: .400000006
+  mapScale: 1
   mapSizePercent: 10
   SizePlayers: 8
-  radarLocation: 2
+  radarLocation: 1
 --- !u!1 &592169780
 GameObject:
   m_ObjectHideFlags: 0
