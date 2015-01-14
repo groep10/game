@@ -66,7 +66,7 @@ GameObject:
   - 4: {fileID: 430882}
   - 148: {fileID: 14830880}
   - 65: {fileID: 6530878}
-  - 114: {fileID: 11430878}
+  - 114: {fileID: 11426756}
   m_Layer: 0
   m_Name: topCheckpoint
   m_TagString: Untagged
@@ -214,23 +214,23 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11426756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d196d6844fb26004db5f7b7d16f11cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11430876
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 561b53fc3978c8449b9f28b11c75a03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11430878
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 130882}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 561b53fc3978c8449b9f28b11c75a03f, type: 3}
@@ -268,7 +268,7 @@ NetworkView:
   m_GameObject: {fileID: 130882}
   m_Enabled: 1
   m_StateSynchronization: 0
-  m_Observed: {fileID: 11430878}
+  m_Observed: {fileID: 0}
   m_ViewID:
     m_ID: 0
     m_Type: 0
