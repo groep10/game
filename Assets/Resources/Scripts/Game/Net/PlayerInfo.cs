@@ -43,7 +43,7 @@ namespace Game.Net
             return userid;
         }
 
-        public String getUsername()
+        public string getUsername()
         {
             return username;
         }
