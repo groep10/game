@@ -201,6 +201,11 @@ namespace Game.UI {
 			updateRaceToTheTopScores();
 		}
 
+		// sets the players score to a 1000, guaranteeing his win of the minigame
+		public void playerWinsTopRace(string playername){
+			minigame[playername] = 1000;
+			updateRaceToTheTopScores();
+		}
 
 		// Updates the Scores of all players
 		public void updateRaceToTheTopScores() {
