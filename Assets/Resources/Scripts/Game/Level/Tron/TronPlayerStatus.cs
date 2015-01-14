@@ -2,6 +2,7 @@
 using System.Collections;
 
 using Game;
+using Game.Net;
 
 namespace Game.Level.Tron {
 
@@ -21,7 +22,7 @@ namespace Game.Level.Tron {
 			}
 		
 			if (coll.gameObject.tag == "TronLineSegment") {
-				Debug.Log ("Hit line");
+				Debug.Log (GetComponent<PlayerInfo>().getUsername() + " hit line");
 				dead = true;
 			}
 		}
