@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Game.UI;
+using Game.Net;
 using Game.Level.TopRace;
 
 namespace Game.Level {
@@ -44,7 +45,28 @@ namespace Game.Level {
 		}
 
 		public override void onTick() {
+			if(!topCheckpoint.GetComponent<topCheckpoint>().winnerReachedCheckpoint){
+				GameObject[] players = Game.Controller.getInstance().getPlayers();
 
+				foreach (GameObject player in players){
+					PlayerInfo info = player.GetComponent<PlayerInfo>();
+					string name = info.getUsername();
+
+					float height = player.transform.position.y;
+					int floor = -1;
+					for (float tracker = height + 1; tracker > 0; tracker -= 25){
+						floor++;
+					}
+
+					Game.Controller.getInstance().scores.setPlayerRaceToTheTopScore(name, floor);
+				}
+				
+			}
+			
+			if(Network.isClient) {
+				return;
+			}
+			networkView.RPC("onGameFinish", RPCMode.All);
 		}
 
 		// generates the planes including their connection ramps
@@ -77,6 +99,14 @@ namespace Game.Level {
 			if(finished) {
 				return;
 			}
+
+			// find the players name based on the viewID
+			PlayerInfo info = NetworkView.Find(topCheckpoint.GetComponent<topCheckpoint>().winner).gameObject.GetComponent<PlayerInfo>();
+			string name = info.getUsername();
+
+			// make the player win the mini-game
+			Game.Controller.getInstance().scores.playerWinsTopRace(name);
+
 			onGameDone();
 		}
 
@@ -88,7 +118,7 @@ namespace Game.Level {
             	plane.GetComponent<PlaneRenderer>().cleanupChildren();
                 Network.Destroy(plane);
                 Network.RemoveRPCs(plane.networkView.viewID);
-                Debug.Log("plane removed from toprace-minigame");
+                //Debug.Log("plane removed from toprace-minigame");
             }
 
 			Invoke("endMode", 5);
@@ -96,6 +126,9 @@ namespace Game.Level {
 
 		public override void endMode() {
 			Debug.Log("Finish TopRace");
+
+			// increases the overall score of the winner by 1
+			Game.Controller.getInstance().scores.endMinigame();
 			
 			base.endMode();
 		}
