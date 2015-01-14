@@ -10304,6 +10304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planePrefab: {fileID: 132188, guid: c2efa6ba34460604bb3bf91173352393, type: 2}
+  topCheckpoint: {fileID: 130882, guid: 59878988427b739488d5b8cdf7c37fee, type: 2}
   finishTimer: 120
 --- !u!148 &1769633864
 NetworkView:

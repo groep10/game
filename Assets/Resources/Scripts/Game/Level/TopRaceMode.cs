@@ -10,6 +10,7 @@ namespace Game.Level {
 	public class TopRaceMode : BaseMode {
 
 		public GameObject planePrefab;
+		public GameObject topCheckpoint;
 
 		int numberOfPlanes = 6;
 		int planeSpacing = 25;
@@ -36,6 +37,9 @@ namespace Game.Level {
 			if(Network.isServer) {
 				Invoke("onGameEnd", finishTimer);
 				generatePlanes();
+
+				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes*planeSpacing, 0);
+				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
 		}
 
@@ -46,7 +50,7 @@ namespace Game.Level {
 		// generates the planes including their connection ramps
 		void generatePlanes()
 		{
-			Vector3 location = new Vector3(0, 0, 0);
+			Vector3 location = new Vector3(-250, 0, -250);
 			for (int i = 0; i < numberOfPlanes; i++)
 			{
 				location.y += planeSpacing;

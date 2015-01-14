@@ -83,7 +83,10 @@ namespace Game.Level {
 
 		public override void endMode() {
 			Debug.Log("Finish Zombie");
-			
+
+			// increase the overall score of the winning player by 1
+			Game.Controller.getInstance().scores.endMinigame();
+
 			base.endMode();
 		}
 
