@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 469338}
-  - 64: {fileID: 6471240}
+  - 65: {fileID: 6547136}
   m_Layer: 0
   m_Name: Fence2
   m_TagString: Untagged
@@ -90,7 +90,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169338}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.2309113, y: -22.1772957, z: -88.0788116}
+  m_LocalPosition: {x: -173.089325, y: -22.1470242, z: -223.282501}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 469344}
@@ -228,8 +228,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169344}
   m_Mesh: {fileID: 4300002, guid: 3fc1f7b5d5e6dc042b594f42e9e17a63, type: 3}
---- !u!64 &6471240
-MeshCollider:
+--- !u!65 &6547136
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -238,9 +238,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 0
-  m_Mesh: {fileID: 0}
+  m_Size: {x: 20.2218285, y: 4.83660126, z: 1}
+  m_Center: {x: 10.0759277, y: .523170471, z: 0}
 --- !u!95 &9569338
 Animator:
   serializedVersion: 3
