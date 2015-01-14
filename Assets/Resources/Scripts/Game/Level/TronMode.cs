@@ -86,7 +86,7 @@ namespace Game.Level {
 
 		[RPC]
 		public void winTron(string playername) {
-			Game.Controller.getInstance ().scores.addOverallScore (playername);
+			Game.Controller.getInstance ().scores.increaseOverallScore (playername);
 		}
 
 
