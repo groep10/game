@@ -28,6 +28,11 @@ namespace Game.Level {
 
 			Game.Controller.getInstance().scores.initializeZombieScores();
 
+			Game.Controller.getInstance ().countdown.beginCountdown ();
+			Invoke ("starting", 3);
+		}
+
+		void starting() {
 			if (Network.isServer) {
 				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
 				Invoke("onTimerEnd", finishTimer);

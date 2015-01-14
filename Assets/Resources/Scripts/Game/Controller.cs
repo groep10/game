@@ -8,16 +8,20 @@ using Game.Level;
 namespace Game {
 	public class Controller : MonoBehaviour {
 
+		[Header ("Scores")]
 		public ScoreController scores;
 		public MenuList minigameScores;
 		public MenuList overallScores;
 
+		[Header ("Modes")]
+		public BaseMode mainMode;
+		public BaseMode[] miniModes;
+		
+		[Header ("Other")]
+		public CountDown countdown;
 		public TerrainManager terrainManager;
 
 		private Mode activeMode;
-
-		public BaseMode mainMode;
-		public BaseMode[] miniModes;
 
 		public GameObject[] getPlayers() {
 			return GameObject.FindGameObjectsWithTag("Player");
