@@ -8,7 +8,7 @@ public class MiniMap3 : MonoBehaviour
 	private Transform PlayerCar;
 	public GameObject veld;
 	public Transform veldTr;
-    public float size = 5;
+    public float size = 3;
 
 	[Header ("Textures")]
 	//public Texture field;
@@ -27,7 +27,7 @@ public class MiniMap3 : MonoBehaviour
 
 	[Header ("Appearence map")]
 	public float mapScale = 0.4f;
-	public float mapSizePercent = 30f;
+	public float mapSizePercent = 10f;
 	public float SizePlayers = 8;
 	public enum radarLocationValues {topLeft, topRight, bottomLeft, bottomRight}
 	public radarLocationValues radarLocation; 
