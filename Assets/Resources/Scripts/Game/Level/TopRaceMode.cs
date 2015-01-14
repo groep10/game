@@ -4,12 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Game.UI;
+using Game.Net;
 using Game.Level.TopRace;
 
 namespace Game.Level {
 	public class TopRaceMode : BaseMode {
 
 		public GameObject planePrefab;
+		public GameObject topCheckpoint;
 
 		int numberOfPlanes = 6;
 		int planeSpacing = 25;
@@ -36,17 +38,41 @@ namespace Game.Level {
 			if(Network.isServer) {
 				Invoke("onGameEnd", finishTimer);
 				generatePlanes();
+
+				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes*planeSpacing, 0);
+				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
 		}
 
 		public override void onTick() {
+			if(!topCheckpoint.GetComponent<topCheckpoint>().winnerReachedCheckpoint){
+				GameObject[] players = Game.Controller.getInstance().getPlayers();
 
+				foreach (GameObject player in players){
+					PlayerInfo info = player.GetComponent<PlayerInfo>();
+					string name = info.getUsername();
+
+					float height = player.transform.position.y;
+					int floor = -1;
+					for (float tracker = height + 1; tracker > 0; tracker -= 25){
+						floor++;
+					}
+
+					Game.Controller.getInstance().scores.setPlayerRaceToTheTopScore(name, floor);
+				}
+				
+			}
+			
+			if(Network.isClient) {
+				return;
+			}
+			networkView.RPC("onGameFinish", RPCMode.All);
 		}
 
 		// generates the planes including their connection ramps
 		void generatePlanes()
 		{
-			Vector3 location = new Vector3(0, 0, 0);
+			Vector3 location = new Vector3(-250, 0, -250);
 			for (int i = 0; i < numberOfPlanes; i++)
 			{
 				location.y += planeSpacing;
@@ -73,6 +99,14 @@ namespace Game.Level {
 			if(finished) {
 				return;
 			}
+
+			// find the players name based on the viewID
+			PlayerInfo info = NetworkView.Find(topCheckpoint.GetComponent<topCheckpoint>().winner).gameObject.GetComponent<PlayerInfo>();
+			string name = info.getUsername();
+
+			// make the player win the mini-game
+			Game.Controller.getInstance().scores.playerWinsTopRace(name);
+
 			onGameDone();
 		}
 
@@ -84,7 +118,7 @@ namespace Game.Level {
             	plane.GetComponent<PlaneRenderer>().cleanupChildren();
                 Network.Destroy(plane);
                 Network.RemoveRPCs(plane.networkView.viewID);
-                Debug.Log("plane removed from toprace-minigame");
+                //Debug.Log("plane removed from toprace-minigame");
             }
 
 			Invoke("endMode", 5);
@@ -92,6 +126,9 @@ namespace Game.Level {
 
 		public override void endMode() {
 			Debug.Log("Finish TopRace");
+
+			// increases the overall score of the winner by 1
+			Game.Controller.getInstance().scores.endMinigame();
 			
 			base.endMode();
 		}

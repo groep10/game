@@ -7,8 +7,7 @@ namespace Game {
 		private GameObject player;
 
 		public void setCanvasCamera(){
-			Controller gamecontroller = GameObject.Find ("GameController").GetComponent<Controller>();
-			player = gamecontroller.getActivePlayer ();
+			player = Game.Controller.getInstance().getActivePlayer ();
 			Transform cam = player.transform.Find("Camera1");
 			canvas.worldCamera = cam.GetComponent<Camera>();
 		}
