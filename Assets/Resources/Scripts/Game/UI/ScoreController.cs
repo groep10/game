@@ -148,7 +148,7 @@ namespace Game.UI {
 		public void endRaceMode() {
 			string playername = null;
 			foreach (DictionaryEntry de in minigame) {
-				if(de.Value == "1st") {
+				if((string) de.Value == "1st") {
 					playername = (string)de.Key;
 					break;
 				}
@@ -187,6 +187,21 @@ namespace Game.UI {
 
 			foreach (DictionaryEntry de in minigame) {
 				addMinigameScore(de.Key + ": " + de.Value);
+			}
+		}
+
+		public void endZombieMode() {
+			string playername = null;
+			int cur = 0;
+			foreach (DictionaryEntry de in minigame) {
+				if((int) de.Value > cur) {
+					cur = (int) de.Value;
+					playername = (string)de.Key;
+					break;
+				}
+			}
+			if(playername != null) {
+				increaseOverallScore(playername);
 			}
 		}
 
