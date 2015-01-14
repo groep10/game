@@ -7509,6 +7509,9 @@ MonoBehaviour:
   - 4.5
   - 3
   - 2.5
+  currentGear: 1
+  reversing: 0
+  CurrentSpeed: 0
   reversingSpeedFactor: .300000012
 --- !u!114 &11400002
 MonoBehaviour:
@@ -7938,7 +7941,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: 1.5
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -8825,7 +8828,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 5738678ff0e13d045bd0be0908c804ce, type: 2}
+  - {fileID: 2100000, guid: ae4a7439df218c34fbe1ab27f5309d5f, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -8841,7 +8844,7 @@ ParticleSystemRenderer:
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_SortMode: 0
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300004, guid: 2f8cfed6e6449dc49beae636c0509c3c, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
