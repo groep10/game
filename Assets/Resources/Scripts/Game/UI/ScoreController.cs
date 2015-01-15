@@ -90,6 +90,40 @@ namespace Game.UI {
 			}
 		}
 
+		/* ==================================== MINIGAMES ========================================= */
+
+		/* ------------------------------------ GENERAL FUNCTIONS --------------------------------- */
+		public void endMinigameScoreHandling() {
+			int numberOfPlayers = Game.Controller.getInstance().getPlayers().Length;
+
+			int[] playerscores = new int[numberOfPlayers];
+			string[] playernames = new string[numberOfPlayers];
+
+			string playername = null;
+
+			int i = 0;
+			// fill the playerscores list and find the maximum value
+			foreach (DictionaryEntry de in minigame){
+				playerscores[i] = (int) de.Value;
+				i++;
+			}
+			int max = Mathf.Max(playerscores);
+
+			int j = 0;
+			// find out which player(s) has/have the maximum score and won the zombiegame
+			foreach (DictionaryEntry de in minigame) {
+				if((int) de.Value == max) {
+					playernames[j] = (string)de.Key;
+					j++;
+				}
+			}
+
+			// increase the overall score of the winner(s) by 1
+			foreach(string name in playernames){
+				increaseOverallScore(name);
+			}
+		}
+
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
 
 		public int rank = 0;
@@ -194,6 +228,7 @@ namespace Game.UI {
 		}
 
 		/* Called at the end of the zombie mode to deal with the overall score increase */
+		/*
 		public void endZombieMode() {
 			int numberOfPlayers = Game.Controller.getInstance().getPlayers().Length;
 
@@ -224,6 +259,7 @@ namespace Game.UI {
 				increaseOverallScore(name);
 			}
 		}
+		*/
 
 		/* ------------------------------------ RACE-TO-THE-TOP MINIGAME ----------------------------------- */
 

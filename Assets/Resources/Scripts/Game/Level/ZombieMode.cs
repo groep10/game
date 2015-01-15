@@ -85,7 +85,8 @@ namespace Game.Level {
                 Debug.Log("Enemy removed from zombie-minigame");
             }
 
-            Game.Controller.getInstance().scores.endZombieMode();
+            // Gives the winner(s) an overall point
+            Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
 			Invoke("endMode", 5);
 		}
