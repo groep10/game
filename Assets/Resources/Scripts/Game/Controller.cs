@@ -21,7 +21,8 @@ namespace Game {
 		public CountDown countdown;
 		public TerrainManager terrainManager;
 
-		private Mode activeMode;
+		public Mode activeMode;
+
 
 		public GameObject[] getPlayers() {
 			return GameObject.FindGameObjectsWithTag("Player");
@@ -72,6 +73,7 @@ namespace Game {
 				}
 			});
 		}
+
 
 		void Update() {
 			if (activeMode != null && activeMode.isActive()) {
