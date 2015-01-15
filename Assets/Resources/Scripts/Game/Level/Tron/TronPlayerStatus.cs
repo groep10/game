@@ -35,16 +35,18 @@ namespace Game.Level.Tron {
 		}
 
 		void Update () {
-			if (dead) {
-				this.rigidbody.velocity = Vector3.zero;
-				return;
-			}
-			control.reversing = false;
-			if (control.currentGear < 2) {
-				control.currentGear = 2;
-			}
-			if (control.CurrentSpeed < 40) {
-				rigidbody.velocity += transform.TransformDirection(new Vector3(0, 0, 40 - control.CurrentSpeed));
+			if(networkView.isMine){
+				if (dead) {
+					this.rigidbody.velocity = Vector3.zero;
+					return;
+				}
+				control.reversing = false;
+				if (control.currentGear < 2) {
+					control.currentGear = 2;
+				}
+				if (control.CurrentSpeed < 40) {
+					rigidbody.velocity += transform.TransformDirection(new Vector3(0, 0, 40 - control.CurrentSpeed));
+				}
 			}
 		}
 		
