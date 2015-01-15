@@ -23,9 +23,15 @@ namespace Game.Level {
 
 			Game.Controller.getInstance ().scores.initializeTronScores ();
 
+			Game.Controller.getInstance ().countdown.beginCountdown ();
+
+			Invoke ("starting", 3);
+		}
+
+		public void starting() {
 			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
 			alive = players.Length;
-
+			
 			for(int i = 0; i < players.Length; i+= 1) {
 				GameObject player = players[i];
 				TronLineRenderer line = player.AddComponent<TronLineRenderer>();
@@ -33,7 +39,7 @@ namespace Game.Level {
 				TronPlayerStatus comp = player.AddComponent<TronPlayerStatus>();
 				comp.mode = this;
 			}
-
+			
 			if (Network.isServer) {
 				Invoke("onTimerEnd", finishTimer);
 			}
@@ -60,10 +66,12 @@ namespace Game.Level {
 			if(players.Length <= 1) { // Singleplayer ish mode
 				return;
 			}
-			if (alive > 1) {
+			if (alive != 1) {
 				return;
 			}
 
+			alive--;
+			
 			string playername = null;
 			foreach(GameObject player in players) {
 				if(dead.ContainsKey(player.GetComponent<PlayerInfo>().getUsername())) {
@@ -80,7 +88,7 @@ namespace Game.Level {
 
 		[RPC]
 		public void winTron(string playername) {
-			Game.Controller.getInstance ().scores.addOverallScore (playername);
+			Game.Controller.getInstance ().scores.increaseOverallScore (playername);
 		}
 
 

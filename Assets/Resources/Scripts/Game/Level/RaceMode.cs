@@ -34,7 +34,15 @@ namespace Game.Level {
 				for (int i = 0; i < assetsInArena; i++) {
 					placeAsset();
 				}
-				Invoke ("placeCheckpoint", 5);
+				placeCheckpoint();
+			}
+			Game.Controller.getInstance ().countdown.beginCountdown ();
+
+			Invoke ("starting", 3);
+		}
+
+		void starting() {
+			if (Network.isServer) {
 				Invoke ("onTimerEnd", finishTimer);
 			}
 		}

@@ -20,9 +20,7 @@ public class PauseMenu : MonoBehaviour {
 
 		if (active) {
 			if (Input.GetKeyUp ("escape")) {
-				GameObject.Find ("Controls").SetActive (false);
 				Target.SetActive (false);
-
 			}
 		}
 		else {

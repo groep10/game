@@ -28,21 +28,22 @@ namespace Game.Level {
 
 			Debug.Log("Starting TopRace");
 
-			//CountDown ();
-			Invoke ("Starting", 3);
-
-		}
-
-		void Starting(){
 			Game.Controller.getInstance().scores.initializeTopRaceScores();
-			
-			if(Network.isServer) {
-				Invoke("onGameEnd", finishTimer);
-				generatePlanes();
 
+			Game.Controller.getInstance ().countdown.beginCountdown ();
+
+			if(Network.isServer) {
+				generatePlanes();
+				
 				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes * planeSpacing, 0);
 				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
+
+			Invoke ("starting", 3);
+		}
+
+		void starting(){
+			Invoke("onGameEnd", finishTimer);
 		}
 
 		public override void onTick() {
