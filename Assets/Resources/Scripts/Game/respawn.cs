@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Game.Level;
 
 namespace Game {
 
@@ -36,10 +37,13 @@ namespace Game {
 			}
 
 			if(Input.GetKeyDown(KeyCode.R)){
+				if(Game.Controller.getInstance().activeMode.ToString() == "TronMode (Game.Level.TronMode)"){
+					Debug.Log ("tronmode");
+					return;
+				}
 				Debug.Log("Resetting player....");
 				Invoke("resetPlayer", 5);
+				}
 			}	
 		}
 	}
-
-}

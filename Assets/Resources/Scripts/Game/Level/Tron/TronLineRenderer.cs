@@ -13,6 +13,8 @@ namespace Game.Level.Tron {
 		MeshCollider meshCollider;
 		MeshFilter filter;
 
+		Color c = new Color (Random.value, Random.value, Random.value, 1.0f);
+
 		GameObject segment;
 
 		// Keep track off all segments
@@ -53,22 +55,6 @@ namespace Game.Level.Tron {
 
 		public void setColor (int color) {
 			CreateMaterial ();
-			Color c = Color.green;
-			switch(color) {
-				case 0:
-					c = Color.red;
-					break;
-				case 1:
-					c = Color.yellow;
-					break;
-				case 2:
-					c = Color.blue;
-					break;
-				default:
-					c = Color.green;
-					break;
-			}
-
 			material.color = c;
 		}
 

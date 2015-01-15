@@ -29,7 +29,7 @@ namespace Game.Level {
 
 		// creates the diffuse shader
 		void setDiffuseShader(){
-			diffuseShader = Shader.Find ("Diffuse");
+			diffuseShader = Shader.Find ("Bumped Diffuse");
 			for(int i=0;i<objectRenderer.materials.Length;i++){
 				mat[i].shader = diffuseShader;
 			}
