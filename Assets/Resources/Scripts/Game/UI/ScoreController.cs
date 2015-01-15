@@ -26,7 +26,7 @@ namespace Game.UI {
 		/* -------------------------------------- GENERAL FUNCTIONS ------------------------------ */
 
 		// Adds a score entry to the menulist of the minigamescores
-		public void addMinigameScore(String text) {
+		public void addMinigameScore(string text) {
 			GameObject obj = Instantiate(prefab) as GameObject;
 			obj.GetComponent<Text>().text = text;
 
@@ -39,7 +39,7 @@ namespace Game.UI {
 		}
 
 		// Adds a score entry to the menulist of the overallscores
-		public void addOverallScore(String text) {
+		public void addOverallScore(string text) {
 			GameObject obj = Instantiate(prefab) as GameObject;
 			obj.GetComponent<Text>().text = text;
 
@@ -146,6 +146,8 @@ namespace Game.UI {
 		}
 
 		public void endRaceMode() {
+			/* Overall score moet niet toenemen na race mode
+
 			string playername = null;
 			foreach (DictionaryEntry de in minigame) {
 				if((string) de.Value == "1st") {
@@ -156,6 +158,7 @@ namespace Game.UI {
 			if(playername != null) {
 				increaseOverallScore(playername);
 			}
+			*/
 		}
 
 		/* ------------------------------------ ZOMBIE MINIGAME ----------------------------------- */
@@ -190,18 +193,35 @@ namespace Game.UI {
 			}
 		}
 
+		/* Called at the end of the zombie mode to deal with the overall score increase */
 		public void endZombieMode() {
+			int numberOfPlayers = Game.Controller.getInstance().getPlayers().Length;
+
+			int[] playerscores = new int[numberOfPlayers];
+			string[] playernames = new string[numberOfPlayers];
+
 			string playername = null;
-			int cur = 0;
+
+			int i = 0;
+			// fill the playerscores list and find the maximum value
+			foreach (DictionaryEntry de in minigame){
+				playerscores[i] = (int) de.Value;
+				i++;
+			}
+			int max = Mathf.Max(playerscores);
+
+			int j = 0;
+			// find out which player(s) has/have the maximum score and won the zombiegame
 			foreach (DictionaryEntry de in minigame) {
-				if((int) de.Value > cur) {
-					cur = (int) de.Value;
-					playername = (string)de.Key;
-					break;
+				if((int) de.Value == max) {
+					playernames[j] = (string)de.Key;
+					j++;
 				}
 			}
-			if(playername != null) {
-				increaseOverallScore(playername);
+
+			// increase the overall score of the winner(s) by 1
+			foreach(string name in playernames){
+				increaseOverallScore(name);
 			}
 		}
 
