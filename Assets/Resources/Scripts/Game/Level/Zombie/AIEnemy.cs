@@ -34,10 +34,10 @@ namespace Game.Level.Zombie {
 					targ = go;
 				}
 			}
-			if (distance < lookAtDistance) {
+			if (currentDistance < lookAtDistance) {
 				LookAt();
 			}
-			if (distance < attackRange) {
+			if (currentDistance < attackRange) {
 				AttackPlayer();
 			}
 		}
