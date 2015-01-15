@@ -55,23 +55,6 @@ namespace Game.Level.Tron {
 
 		public void setColor (int color) {
 			CreateMaterial ();
-
-//			Color c = Color.green;
-//			switch(color) {
-//				case 0:
-//					c = Color.yellow;
-//					break;
-//				case 1:
-//					c = Color.red;
-//					break;
-//				case 2:
-//					c = Color.blue;
-//					break;
-//				default:
-//					c = Color.green;
-//					break;
-//			}
-//
 			material.color = c;
 		}
 
