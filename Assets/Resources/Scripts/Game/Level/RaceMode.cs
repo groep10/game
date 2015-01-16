@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+using Game;
 using Game.UI;
 using Game.Level.Race;
 
@@ -36,12 +37,17 @@ namespace Game.Level {
 				}
 				placeCheckpoint();
 			}
-			Game.Controller.getInstance ().countdown.beginCountdown ();
 
-			Invoke ("starting", 3);
+			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
+			Game.Controller.getInstance ().leveltour.beginTour (() => {
+				Game.Controller.getInstance ().countdown.beginCountdown ();
+				Invoke ("starting", 3);
+			});  
 		}
 
 		void starting() {
+			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
+			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
 			if (Network.isServer) {
 				Invoke ("onTimerEnd", finishTimer);
 			}

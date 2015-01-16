@@ -123,9 +123,9 @@ namespace Game.Level.TopRace {
 	            uvs[i] = new Vector2(vertices[i].x, vertices[i].z);
 	            i++;
 	        }
+			mesh.vertices = vertices;
 	        mesh.uv = uvs;
 	        
-			mesh.vertices = vertices;
 			mesh.triangles = triangles;
 			mesh.RecalculateNormals();
 			mesh.RecalculateBounds();

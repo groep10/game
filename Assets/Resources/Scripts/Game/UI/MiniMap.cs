@@ -19,7 +19,7 @@ namespace Game.UI {
 
 
 		[Header ("Tags")]
-		public string otherPlayerTag = "OtherPlayer";
+		public string otherPlayerTag = "Player";
 		public string CheckPointTag = "CheckPoint";
 		public string EnemyTag = "Enemy";
 		public string RecttangleTag = "Recttangle";

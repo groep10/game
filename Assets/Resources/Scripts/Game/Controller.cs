@@ -20,6 +20,7 @@ namespace Game {
 		[Header ("Other")]
 		public CountDown countdown;
 		public TerrainManager terrainManager;
+		public LevelTour leveltour;
 
 		public Mode activeMode;
 
