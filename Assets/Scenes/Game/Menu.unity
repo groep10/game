@@ -3819,20 +3819,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   veld: {fileID: 553521164}
   veldTr: {fileID: 553521165}
-  size: 3
-  otherPlayer: {fileID: 2800000, guid: d9cb7b62e78e27e4e815e41d36a4916e, type: 3}
-  player: {fileID: 2800000, guid: 055bbd5a7d93fec4788bb4c6733922d1, type: 3}
-  CheckPoint: {fileID: 2800000, guid: 78ee1607477c8bb41abca3c80b128678, type: 3}
-  Enemy: {fileID: 2800000, guid: b92dddfce8e7d8d4fb68900bd3119cfa, type: 3}
+  size: 4
+  otherPlayer: {fileID: 2800000, guid: 9b581ea7e9b5d4e1887bba910b996131, type: 3}
+  player: {fileID: 2800000, guid: 823710ca8c4e5411d917a332da066a99, type: 3}
+  CheckPoint: {fileID: 2800000, guid: 5e774ea33b9534b4fa33c2e27fedb550, type: 3}
+  Enemy: {fileID: 2800000, guid: cbf9dbfe237224719942f007642525b2, type: 3}
   otherPlayerTag: Player
   CheckPointTag: CheckPoint
   EnemyTag: Enemy
   RecttangleTag: Recttangle
   mapWorldSize: 400
   mapSizePercent: 10
-  SizePlayers: 8
+  SizePlayers: 15
   rotationOffset: 180
   radarLocation: 1
+  crimp: .349999994
 --- !u!1 &592169780
 GameObject:
   m_ObjectHideFlags: 0
@@ -9116,8 +9117,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: 1
-  m_Size: .99999994
+  m_Value: 0
+  m_Size: .999999881
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
