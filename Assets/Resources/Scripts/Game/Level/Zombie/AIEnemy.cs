@@ -34,18 +34,18 @@ namespace Game.Level.Zombie {
 					targ = go;
 				}
 			}
-			if (distance < lookAtDistance) {
+			if (currentDistance < lookAtDistance) {
 				LookAt();
 			}
-			if (distance < attackRange) {
+			if (currentDistance < attackRange) {
 				AttackPlayer();
 			}
 		}
 
 		void LookAt() {
-			Quaternion rotation = Quaternion.LookRotation(targ.transform.position - transform.position);
-			Vector3 eulerRot = new Vector3 (0, rotation.eulerAngles.y, 0);
-			transform.rotation = Quaternion.Euler (eulerRot);
+			Vector3 relatPos = new Vector3 (targ.transform.position.x-transform.position.x,0,targ.transform.position.z-transform.position.z);
+			Quaternion rotation = Quaternion.LookRotation(relatPos);
+			transform.rotation = Quaternion.Slerp(transform.rotation,rotation,0.1f);
 		}
 
 		void AttackPlayer() {

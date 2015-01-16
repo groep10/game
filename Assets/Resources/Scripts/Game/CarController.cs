@@ -19,7 +19,7 @@ namespace Game {
 		private Vector3 pos;
 		private Vector3 realpos;
 		private Vector3 velo;
-		private Vector3 realvelo;
+		private Vector3 realvelo = new Vector3(70,1000,0);
 		private Quaternion rot;
 		private Quaternion realrot;
 		private Quaternion sFront;

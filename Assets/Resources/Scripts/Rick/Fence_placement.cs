@@ -16,8 +16,15 @@ public class Fence_placement : MonoBehaviour {
 
 
 
+
 	// Use this for initialization
 	void Start () {
+
+		}
+
+
+	public void onStart(int syncseed) {
+		Random.seed = syncseed;
 		startPos = transform.position;
 		currentPos = startPos;
 		initRot = transform.rotation;

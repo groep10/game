@@ -114,7 +114,7 @@ namespace Game.Level {
 			string name = info.getUsername();
 
 			// make the player win the mini-game
-			Game.Controller.getInstance().scores.increaseOverallScore(name);
+			//Game.Controller.getInstance().scores.increaseOverallScore(name);
 
 			onGameDone();
 		}
@@ -134,7 +134,10 @@ namespace Game.Level {
             	Network.Destroy(currentCheckpoint);
             	Network.RemoveRPCs(currentCheckpoint.networkView.viewID);
             }
-            currentCheckpoint = null;	
+            currentCheckpoint = null;
+
+            // Gives the winner(s) an overall point
+            Game.Controller.getInstance().scores.endMinigameScoreHandling();	
 
 			Invoke("endMode", 5);
 		}
