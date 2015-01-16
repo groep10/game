@@ -3,17 +3,14 @@
 --- !u!78 &1
 TagManager:
   tags:
-  - schans
   - Level
-  - 
   - EnemyTrigger
   - Enemy
   - ArenaAsset
-  - OtherPlayer
+  - Player
   - CheckPoint
   - Recttangle
   - TronLineSegment
-  - Player
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

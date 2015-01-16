@@ -13,7 +13,7 @@ namespace Game.UI {
 		}
 
 		void Countdown() {
-			if (timeRemaining > 1) {
+			if (timeRemaining > 1) { 
 				timeRemaining -= 1;
 				timeleft.text = timeRemaining.ToString();
 				Invoke ("Countdown", 1);

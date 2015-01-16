@@ -12,9 +12,9 @@ namespace Game.Net {
 
 		// Spawn level on network and player
 		void OnServerInitialized(){
+			spawnPlayer1();
 			Game.Controller.getInstance ().networkView.RPC ("startGame", RPCMode.AllBuffered);
 			// Network.Instantiate (level, levelSpawn, Quaternion.identity, 0);
-			spawnPlayer1();
 		}
 
 		// Remove player on disconnect

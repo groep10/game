@@ -30,8 +30,6 @@ namespace Game.Level {
 
 			Game.Controller.getInstance().scores.initializeTopRaceScores();
 
-			Game.Controller.getInstance ().countdown.beginCountdown ();
-
 			if(Network.isServer) {
 				generatePlanes();
 				
@@ -39,10 +37,16 @@ namespace Game.Level {
 				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
 
-			Invoke ("starting", 3);
+			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
+			Game.Controller.getInstance ().leveltour.beginTour (() => {
+				Game.Controller.getInstance ().countdown.beginCountdown ();
+				Invoke ("starting", 3);
+			});  
 		}
 
 		void starting(){
+			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
+			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
 			Invoke("onGameEnd", finishTimer);
 		}
 

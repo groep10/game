@@ -10,7 +10,9 @@ public class LevelTour : MonoBehaviour
 		public GameObject second;
 		public GameObject end;
 		public Transform target; //point of vision for the camera
-		
+		public GameObject camera;	
+	 	public GameObject maincamera;
+
 		[Header ("Values")]	
 		public float height=3; //amount camera is higher than plane
 		public int delta=100; //maximum amount of stap
@@ -26,9 +28,14 @@ public class LevelTour : MonoBehaviour
 		
 
 
+	System.Action onfinish;
 
-		void Start ()
-		{ //initialiseren
+		public void beginTour (System.Action onfinish)
+		{ 
+		this.onfinish = onfinish;
+		//initialiseren
+		maincamera.SetActive(false);
+		camera.SetActive(true);
 		count = 1;
 		current = start;
 		next = first;
@@ -65,7 +72,7 @@ public class LevelTour : MonoBehaviour
 					determinedist();
 					teller=0;
 				}else {
-					return;
+				eindTour ();
 				}
 			}
 			interpolate ();	
@@ -80,6 +87,12 @@ public class LevelTour : MonoBehaviour
 		void interpolate(){ //function that makes the camera move smooth from current to next
 		transform.position = new Vector3(current.transform.position.x + xstap*teller,transform.position.y,current.transform.position.z + zstap*teller); 
 		teller = teller + 1;
+		}
+
+		public void eindTour(){
+		maincamera.SetActive(true);
+		camera.SetActive(false);
+		onfinish ();
 		}
 }
 
