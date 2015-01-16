@@ -38,6 +38,8 @@ namespace Game.UI {
 		private Vector2 mapCenter;
 		private GameObject Player;
 
+		public float crimp = 0.35f;
+
 		void Start () {
 			
 		}
@@ -70,7 +72,7 @@ namespace Game.UI {
 
 			float scale = mapWidth / mapWorldSize;
 			//Als object dichtbij genoeg
-			if (dist <= mapWorldSize) {
+			if (dist <= mapWidth*crimp/scale) {
 				//Schrijf positie om naar positie op MiniMap
 				float dx = centerPos.x - extPos.x;
 				float dz = centerPos.z - extPos.z;

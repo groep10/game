@@ -94,6 +94,8 @@ public class MiniMap4 : MonoBehaviour
 		bY = bY * mapScale;
 
 
+
+
 		if(dist<=mapWidth*0.50/mapScale){ 
 			RectTransform temp = veld.GetComponent<RectTransform> ();
 			GameObject Blip = new GameObject();
@@ -103,70 +105,13 @@ public class MiniMap4 : MonoBehaviour
 			RectTransform blip = Blip.GetComponent<RectTransform>();
 			blip.SetParent(veldTr);
 			float height = temp.rect.height; 
-			//print (height);
 			float paddingf = height/2 + bX;
 			float padding2f = height/2 + bY;
-			//print(blip.GetComponentInParent<Transform>());
-			//int padding = (int) paddingf;
-			//int padding2 = (int) padding2f;
 			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, paddingf, SizePlayers);
 			blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding2f, SizePlayers);
 
-
-			//Blip.AddComponent<Object>();
-			//Object blipobject = Blip.GetComponent<Object>();
-			//Blip = (GameObject) Instantiate(Resources.Load("PlayerMM") );
-			//TextureRenderer sprit = Blip.AddComponent<TextureRenderer>();
-			//sprit.sprite = aTexture;
-			//GetComponent(TextureRenderer).sprite = aTexture;
-		    //Blip.AddComponent<TextureRenderer>();
-			//Blip.GetComponent<TextureRenderer>().sprite = aTexture;
-
-			//TextureRenderer blub = Blip.AddComponent<TextureRenderer>();
-			//blub.sprite = aTexture;
-
-
-
-			//Vector2 middel = temp.localPosition; 
-
-
 		}
-		/*else if (check) {
-			RectTransform temp = veld.GetComponent<RectTransform> ();
-			GameObject Blip = new GameObject();
-			Blip.tag = "Recttangle";
-			RawImage img = Blip.AddComponent<RawImage>();
-			RectTransform blip = Blip.GetComponent<RectTransform>();
-			blip.SetParent(veldTr);
-			float bX2 = mapWidth*.5f * Mathf.Cos (deltay * Mathf.Deg2Rad);
-			float bY2 = mapWidth*.5f * Mathf.Sin (deltay * Mathf.Deg2Rad);
-			int padding = (int) bX2;
-			int padding2 = (int) bY2;
 
-			//als tussen -0.25pi en 0.25 pi dan right
-			//als tussen 0.25pi en 0.75pi dan up
-			//als tussen 0.75pi en -0.75pi dan left
-			//als tussen -0.75pi en -0.25pi dan down
-			int padding3 = (int) bX2;
-			int padding4 = (int) bY2;
-			if(Mathf.Cos (deltay * Mathf.Deg2Rad)>0.71){
-				img.texture = CheckPointR; 
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
-			}else if(Mathf.Cos (deltay * Mathf.Deg2Rad)<-0.71){
-				img.texture = CheckPointL; 
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
-			}else if(Mathf.Sin (deltay * Mathf.Deg2Rad)>0.71){
-				img.texture = CheckPointD; 
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
-			}else{
-				img.texture = CheckPointU; 
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding3, SizePlayers);
-				blip.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding4, SizePlayers);
-			}
-		}*/
 		
 	}
 	
