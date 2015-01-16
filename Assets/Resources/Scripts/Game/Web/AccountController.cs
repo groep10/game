@@ -27,6 +27,9 @@ namespace Game.Web
         private Boolean loggedIn;
         private String accessToken;
 
+        private int currentGameId;
+        private int currentMinigameId;
+
         public delegate void handleHash(Hashtable result);
         public delegate void handleData(byte[] data);
         public delegate void handleTexture(Texture2D tex);
@@ -130,6 +133,40 @@ namespace Game.Web
             request.getData((www) =>
             {
                 callback(www.texture);
+            });
+        }
+
+        public void createGame(String name, handleHash callback) {
+            WWWForm form = new WWWForm();
+            form.AddField("token", this.getAccessToken());
+            form.AddField("name", name);
+
+            Http request = new Http("http://so.meaglin.com/api.php?action=creategame", form);
+            request.getJson((json) => {
+                if(! (bool) json["success"]) {
+                    return;
+                }
+                currentGameId = (int) ((Hashtable) json["data"])["id"];
+                callback(json);
+            });
+        }
+
+        public void createMinigameGame(String name, handleHash callback) {
+            if(currentGameId <= 0) {
+                return;
+            }
+            WWWForm form = new WWWForm();
+            form.AddField("token", this.getAccessToken());
+            form.AddField("name", name);
+            form.AddField("gameid", currentGameId);
+
+            Http request = new Http("http://so.meaglin.com/api.php?action=createminigame", form);
+            request.getJson((json) => {
+                if(! (bool) json["success"]) {
+                    return;
+                }
+                currentMinigameId = (int) ((Hashtable) json["data"])["id"];
+                callback(json);
             });
         }
 
