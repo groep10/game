@@ -12,6 +12,7 @@ namespace Game.Menu {
 
 		public InputField gameName;
 		public Button createServer;
+		public Slider maxPlayerNumber;
 
 		public MenuList list;
 		public ServerListItem itemPrefab;
@@ -44,7 +45,10 @@ namespace Game.Menu {
 
         void onCreateClick()
         {
-            string name = gameName.text;
+			string name = gameName.text;
+			int maxNumPlayers = (int) maxPlayerNumber.value;
+			Game.Net.Manager manager = GameObject.Find ("NetworkManager").GetComponent<Game.Net.Manager> ();
+			manager.setMaxPlayers (maxNumPlayers);
 
             if (name == null || !Regex.IsMatch(name, @"^[\w .\-!+&]+$", RegexOptions.IgnoreCase))
             {

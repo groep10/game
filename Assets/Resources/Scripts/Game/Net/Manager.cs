@@ -4,16 +4,19 @@ using System.Collections;
 namespace Game.Net {
 	public class Manager : MonoBehaviour {
 
-		public GameObject player1Prefab;
-		public GameObject player2Prefab;
+		public GameObject playerPrefab;
 
+		private int maxPlayers = 4;
 		private Vector3 spawn = new Vector3(40, 1, 0);
 		private Vector3 offset = new Vector3(15, 0, 0);
 
 		// Spawn level on network and player
 		void OnServerInitialized(){
-			spawnPlayer1();
+			spawnPlayer();
 			Game.Controller.getInstance ().networkView.RPC ("startGame", RPCMode.AllBuffered);
+			if(Network.connections.Length == maxPlayers){
+				Network.maxConnections = 0; 
+			}
 			// Network.Instantiate (level, levelSpawn, Quaternion.identity, 0);
 		}
 
@@ -26,22 +29,14 @@ namespace Game.Net {
 		// Let new player spawn on connect
 		void OnPlayerConnected(NetworkPlayer player){
 			networkView.RPC ("spawning", player, Network.connections.Length);
-			if (Network.connections.Length == 3){
-				// value 0 nobody can join even if someone leaves
-				// value -1 when someone leaves a new player can join
+			if (Network.connections.Length == maxPlayers){
 				Network.maxConnections = 0; 
 			}
 		}
 		 
 		// Instantiate player1 on network
-		void spawnPlayer1(){
-			Network.Instantiate(player1Prefab, spawn, Quaternion.identity, 0);
-			setCanvas ();
-		}
-
-		// Instantiate player2 on network
-		void spawnPlayer2(){
-			Network.Instantiate(player2Prefab, spawn, Quaternion.identity, 0);
+		void spawnPlayer(){
+			Network.Instantiate(playerPrefab, spawn, Quaternion.identity, 0);
 			setCanvas ();
 		}
 
@@ -49,12 +44,16 @@ namespace Game.Net {
 			CanvasController canvascontroller = GameObject.Find ("Canvas").GetComponent<CanvasController>();
 			canvascontroller.setCanvasCamera ();
 		}
-		
+
+		public void setMaxPlayers(int max){
+			maxPlayers = (max-1);
+		}
+
 		// Spawn players next to each other
 		[RPC]
 		void spawning(int num){
 			spawn = spawn + offset * num;
-			spawnPlayer2();
+			spawnPlayer();
 		}
 	}
 }
