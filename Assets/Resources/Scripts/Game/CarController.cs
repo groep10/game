@@ -16,10 +16,11 @@ namespace Game {
 		//public Transform enemySpawn;
 		//private Transform child; // used for shooting
 
-		private Vector3 pos;
-		private Vector3 realpos;
+		private Vector3 pos = new Vector3(70,10000,0);
+		private Vector3 realpos = new Vector3(70,10000,0);
+		private Vector3 zerovector = new Vector3(0,0,0);
 		private Vector3 velo;
-		private Vector3 realvelo = new Vector3(70,1000,0);
+		private Vector3 realvelo;
 		private Quaternion rot;
 		private Quaternion realrot;
 		private Quaternion sFront;
@@ -219,10 +220,6 @@ namespace Game {
 			EngineSound ();
 			//check if you are controller the object
 			if (networkView.isMine) {
-				// camera
-				var playercam = transform.Find("Camera1").gameObject;
-				playercam.SetActive(true);
-
 				float delta = Time.fixedDeltaTime;
 				if (rigidbody.velocity.magnitude < 10) {
 					torque = 80f;
@@ -381,6 +378,9 @@ namespace Game {
 				realrot = rot;
 				steerFront = sFront;
 				steerBack = sBack;
+				if(realpos == zerovector){
+					realpos = new Vector3(70,10000,0);
+				}
 			}
 		}
 

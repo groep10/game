@@ -38,8 +38,10 @@ namespace Game.Level {
 				placeCheckpoint();
 			}
 
-			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
+			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
 			Game.Controller.getInstance ().leveltour.beginTour (() => {
+				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
+				camera.gameObject.SetActive (true);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
 				Invoke ("starting", 3);
 			});  
@@ -47,7 +49,7 @@ namespace Game.Level {
 
 		void starting() {
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
-			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
+			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
 			if (Network.isServer) {
 				Invoke ("onTimerEnd", finishTimer);
 			}

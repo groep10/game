@@ -28,7 +28,7 @@ public class Fence_placement : MonoBehaviour {
 		startPos = transform.position;
 		currentPos = startPos;
 		initRot = transform.rotation;
-		Debug.Log ("initRot"+ initRot);
+		//Debug.Log ("initRot"+ initRot);
 		fenceLength = Random.Range(10,20);
 		LoadParts ();
 		SetAngles (false);
@@ -67,7 +67,7 @@ public class Fence_placement : MonoBehaviour {
 	Vector3 getNextPos(Vector3 currentPos, float angle) {
 
 		Vector3 nextPos = currentPos + partLength* AngleToVector (angle);
-		Debug.Log (nextPos);
+		//Debug.Log (nextPos);
 		this.currentPos = nextPos;
 		return nextPos;
 	}
@@ -92,13 +92,13 @@ public class Fence_placement : MonoBehaviour {
 			
 		} else {
 				int totalAngle = (int) Random.Range (-170, 170);
-			Debug.Log (totalAngle);
+			//Debug.Log (totalAngle);
 				float angleIncrement = totalAngle / fenceLength;
-			Debug.Log (angleIncrement);
+			//Debug.Log (angleIncrement);
 				for (int i = 0; i < fenceLength; i++) {
 						angles [i] += i * angleIncrement; 
 				}
-			Debug.Log (angles[1]);
+			//Debug.Log (angles[1]);
 			return angles;
 				
 		}
