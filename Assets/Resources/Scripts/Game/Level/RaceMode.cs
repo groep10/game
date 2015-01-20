@@ -44,9 +44,8 @@ namespace Game.Level {
 			Game.Controller.getInstance ().leveltour.beginTour (() => {
 				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
 				camera.gameObject.SetActive (true);
+					Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0,0,0);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
-				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
-
 				count=1;
 				Invoke ("starting", 3);
 				});
@@ -55,14 +54,16 @@ namespace Game.Level {
 				Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0,1,0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
 				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
 				camera.gameObject.SetActive (true);
+				Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0,0,0);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
-				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
+				//Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
 				Invoke ("starting", 3);
 			}
 		  
 		}
 
 		void starting() {
+			Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
 			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
 			if (Network.isServer) {
