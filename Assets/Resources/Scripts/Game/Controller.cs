@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
 using Game.UI;
@@ -20,6 +21,7 @@ namespace Game {
 		
 		[Header ("Other")]
 		public CountDown countdown;
+		public Explanation explanation;
 		public TerrainManager terrainManager;
 		public LevelTour leveltour;
 

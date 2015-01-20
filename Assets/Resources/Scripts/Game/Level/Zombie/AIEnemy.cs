@@ -16,14 +16,17 @@ namespace Game.Level.Zombie {
 		private int health = 100;
 		private bool dead = false;
 
+		public ZombieMode mode;
+
 		void Start() {
 			Targets = Game.Controller.getInstance ().getPlayers ();
 		}﻿
 
 		void Update() {
-			if (health <= 0 && Network.isServer) {
-				Network.Destroy(this.gameObject);
-				Network.RemoveRPCs(networkView.viewID);
+			if (dead) {
+				if(Network.isServer && !dead) {
+					dead = true;
+				}
 				return;
 			}
 			currentDistance = int.MaxValue;
@@ -60,15 +63,11 @@ namespace Game.Level.Zombie {
 			if (health <= 0 && Network.isServer && !dead) {
 				dead = true;
 				Debug.Log("killed by: " + shooter);
-				//minigamePoint(NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
-				networkView.RPC("minigamePoint", RPCMode.AllBuffered, NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
-			}
-		}
+				mode.broadcastPoint(NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
 
-		[RPC]
-		void minigamePoint(string playername) {
-			Game.Controller.getInstance().scores.increasePlayerZombieScore(playername);
-			// GameObject.FindObjectOfType<Game.Level.Manager>().increasePlayerMinigameScore(playername);
+				Network.Destroy(this.gameObject);
+				Network.RemoveRPCs(networkView.viewID);
+			}
 		}
 	}
 }

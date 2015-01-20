@@ -30,6 +30,7 @@ namespace Game.Level {
 			Game.Controller.getInstance().scores.initializeZombieScores();
 
 			Game.Controller.getInstance ().countdown.beginCountdown ();
+			Game.Controller.getInstance ().explanation.setExplanation("Shoot the zombies using Ctrl! Most kills wins!");
 			Invoke ("starting", 3);
 		}
 
@@ -38,6 +39,15 @@ namespace Game.Level {
 				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
 				Invoke("onTimerEnd", finishTimer);
 			}
+		}
+
+		public void broadcastPoint(string playername) {
+			networkView.RPC("minigamePoint", RPCMode.All, playername);
+		}
+
+		[RPC]
+		void minigamePoint(string playername) {
+			Game.Controller.getInstance().scores.increasePlayerZombieScore(playername);
 		}
 
 		public override void onTick() {

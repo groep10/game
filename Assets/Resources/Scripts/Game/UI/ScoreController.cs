@@ -120,6 +120,9 @@ namespace Game.UI {
 
 			// increase the overall score of the winner(s) by 1
 			foreach(string name in playernames){
+				if (name == null){
+					continue;
+				}
 				increaseOverallScore(name);
 			}
 		}
@@ -310,14 +313,14 @@ namespace Game.UI {
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
 			foreach (GameObject player in players) {
 				PlayerInfo inf = player.GetComponent<PlayerInfo>();
-				minigame[inf.getUsername()] = "alive";
+				minigame[inf.getUsername()] = 1;
 			}
 			updateTronScores();
 		}
 
-		// Increases the tron score of player by 1
+		// Set a player score to "dead"
 		public void deadTronPlayer(string player) {
-			minigame[player] = "dead";
+			minigame[player] = 0;
 			updateTronScores ();
 		}
 
@@ -326,10 +329,14 @@ namespace Game.UI {
 			resetMinigameScores();
 			addMinigameScore("Mode: Tron");
 			foreach (DictionaryEntry de in minigame) {
-				addMinigameScore(de.Key + ": " + de.Value);
+				if((int) de.Value == 1){
+					addMinigameScore(de.Key + ": alive");
+				}
+				else{
+					addMinigameScore(de.Key + ": dead");
+				}				
 			}
 		}
-
 
 		/* ------------------------------------ AWAKE, START & UPDATE ----------------------------------- */
 
