@@ -90,14 +90,19 @@ namespace Game.Menu {
 			}
 		}
 
-		public void connectionStatus(bool connected){
+		public void connectionStatus(bool connected, string message){
 			if (connected) {
 				this.transform.root.gameObject.SetActive(false);
 			}
 			else{
 				GameObject err = (GameObject)Instantiate(errorWindow);
-				err.GetComponentInChildren<Text>().text = "Game is full";
 				err.transform.SetParent(transform, false);
+				if(message=="full"){
+					err.GetComponentInChildren<Text>().text = "Game is full";
+				}
+				else{
+					err.GetComponentInChildren<Text>().text = "Failed to connect";
+				}
 			}
 		}
 
