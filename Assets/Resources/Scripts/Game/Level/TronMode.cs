@@ -9,6 +9,7 @@ namespace Game.Level {
 
 		public float finishTimer = 120f;
 		private bool finished;
+		private bool singleplayer;
 		private GameObject[] deadPlayers;
 
 		private Hashtable dead;
@@ -61,6 +62,9 @@ namespace Game.Level {
 
 			dead [playername] = true;
 			alive--;
+			if(singleplayer){
+				onTimerEnd();
+			}
 		}
 
 		public override void onTick() {
@@ -69,6 +73,7 @@ namespace Game.Level {
 			}
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
 			if (players.Length <= 1) { // Singleplayer ish mode
+				singleplayer = true;
 				return;
 			}
 			if (alive != 1) {
