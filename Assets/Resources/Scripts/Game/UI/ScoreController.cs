@@ -310,7 +310,7 @@ namespace Game.UI {
 			updateTronScores();
 		}
 
-		// Increases the tron score of player by 1
+		// Set a player score to "dead"
 		public void deadTronPlayer(string player) {
 			minigame[player] = "dead";
 			updateTronScores ();
@@ -322,6 +322,18 @@ namespace Game.UI {
 			addMinigameScore("Mode: Tron");
 			foreach (DictionaryEntry de in minigame) {
 				addMinigameScore(de.Key + ": " + de.Value);
+			}
+		}
+
+		// Change the status alive and dead
+		public void statusToScore(){
+			foreach(DictionaryEntry de in minigame){
+				if (de.Value == "alive"){
+					minigame[de.Key] = 1;
+				}
+				else{
+					minigame[de.Key] = 0;
+				}
 			}
 		}
 
