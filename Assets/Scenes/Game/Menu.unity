@@ -1133,6 +1133,8 @@ MonoBehaviour:
   mainMode: {fileID: 2052614326}
   miniModes:
   - {fileID: 932176124}
+  - {fileID: 1769633863}
+  - {fileID: 1894734802}
   countdown: {fileID: 683297772}
   terrainManager: {fileID: 65306373}
   leveltour: {fileID: 1739988719}
@@ -9507,8 +9509,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: .999999881
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
