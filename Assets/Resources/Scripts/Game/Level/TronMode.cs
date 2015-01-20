@@ -27,6 +27,7 @@ namespace Game.Level {
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
 			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0,1,0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
 
+			Game.Controller.getInstance ().getActivePlayer ().transform.Rotate(0, 0, 0);
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0,0,0);
 			Game.Controller.getInstance ().countdown.beginCountdown ();
 			Invoke ("starting", 3);
