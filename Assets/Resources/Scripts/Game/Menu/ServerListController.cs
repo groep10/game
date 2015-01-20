@@ -48,7 +48,7 @@ namespace Game.Menu {
 			string name = gameName.text;
 			int maxNumPlayers = (int) maxPlayerNumber.value;
 			Game.Net.Manager manager = GameObject.Find ("NetworkManager").GetComponent<Game.Net.Manager> ();
-			manager.networkView.RPC("setMaxPlayers",RPCMode.AllBuffered,maxNumPlayers);
+			manager.setMaxPlayers(maxNumPlayers);
 
             if (name == null || !Regex.IsMatch(name, @"^[\w .\-!+&]+$", RegexOptions.IgnoreCase))
             {
@@ -82,6 +82,17 @@ namespace Game.Menu {
 				Debug.Log("received list");
 				hostdata = MasterServer.PollHostList ();
 				updateList();
+			}
+		}
+
+		public void connectionStatus(bool connected){
+			if (connected) {
+				this.transform.root.gameObject.SetActive(false);
+			}
+			else{
+				GameObject err = (GameObject)Instantiate(errorWindow);
+				err.GetComponentInChildren<Text>().text = "Game is full";
+				err.transform.SetParent(transform, false);
 			}
 		}
 
