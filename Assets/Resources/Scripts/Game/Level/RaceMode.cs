@@ -45,9 +45,8 @@ namespace Game.Level {
 				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
 				camera.gameObject.SetActive (true);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
-<<<<<<< HEAD
 				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
-=======
+
 				count=1;
 				Invoke ("starting", 3);
 				});
@@ -57,7 +56,7 @@ namespace Game.Level {
 				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
 				camera.gameObject.SetActive (true);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
->>>>>>> 3c4c63d625737c9a47035c22adfd7ded15ebd4c9
+				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
 				Invoke ("starting", 3);
 			}
 		  
