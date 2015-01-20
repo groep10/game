@@ -19,7 +19,6 @@ namespace Game.Net {
 			Game.Controller.getInstance ().networkView.RPC ("startGame", RPCMode.AllBuffered);
 			if(Network.connections.Length == maxPlayers){
 				Network.maxConnections = 0; 
-				Debug.Log("server closed");
 			}
 			// Network.Instantiate (level, levelSpawn, Quaternion.identity, 0);
 		}
@@ -43,6 +42,7 @@ namespace Game.Net {
 			networkView.RPC ("spawning", player, Network.connections.Length);
 			if (Network.connections.Length == maxPlayers){
 				Network.maxConnections = 0; 
+				Debug.Log("game is full close server");
 			}
 		}
 		 
