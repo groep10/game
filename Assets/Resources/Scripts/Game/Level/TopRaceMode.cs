@@ -19,7 +19,7 @@ namespace Game.Level {
 
 		public float finishTimer = 120f;
 
-		private bool finished;
+		private bool finished = false;
 
 		private List<GameObject> createdPlanes = new List<GameObject>();
 		private GameObject currentCheckpoint;
@@ -31,15 +31,16 @@ namespace Game.Level {
 
 			Game.Controller.getInstance().scores.initializeTopRaceScores();
 
-			if(Network.isServer) {
+			if (Network.isServer) {
 				generatePlanes();
-				
+
 				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes * planeSpacing, 0);
-				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
+				currentCheckpoint = Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0) as GameObject;
+				currentCheckpoint.GetComponent<topCheckpoint>();
 			}
 
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
-			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0,1,0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
+			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0, 1, 0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
 			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
 			Game.Controller.getInstance ().leveltour.beginTour (() => {
 				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
@@ -47,84 +48,71 @@ namespace Game.Level {
 				Game.Controller.getInstance ().countdown.beginCountdown ();
 				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the building! Reach the checkpoint to win!");
 				Invoke ("starting", 3);
-			});  
+			});
 		}
 
-		void starting(){
+		void starting() {
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
 			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
-			Invoke("onGameEnd", finishTimer);
+			if (Network.isServer) {
+				Invoke("onGameEnd", finishTimer);
+			}
 		}
 
 		public override void onTick() {
-			if(currentCheckpoint == null) {
-				topCheckpoint behav = GameObject.FindObjectOfType<topCheckpoint> ();
-				if(behav == null) {
-					return;
-				}
-				currentCheckpoint = behav.gameObject;				
-			}
-			if(!currentCheckpoint.GetComponent<topCheckpoint>().winnerReachedCheckpoint){
-				GameObject[] players = Game.Controller.getInstance().getPlayers();
-
-				foreach (GameObject player in players){
-					PlayerInfo info = player.GetComponent<PlayerInfo>();
-					string name = info.getUsername();
-
-					float height = player.transform.position.y;
-					int floor = -1;
-					for (float tracker = height + 1; tracker > 0; tracker -= 25){
-						floor++;
-					}
-
-					Game.Controller.getInstance().scores.setPlayerRaceToTheTopScore(name, floor);
-				}
+			if(finished) {
 				return;
 			}
-			
-			if(Network.isClient) {
-				return;
+
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+
+			foreach (GameObject player in players) {
+				PlayerInfo info = player.GetComponent<PlayerInfo>();
+				string name = info.getUsername();
+
+				float height = player.transform.position.y;
+				int floor = -1;
+				for (float tracker = height + 1; tracker > 0; tracker -= 25) {
+					floor++;
+				}
+
+				Game.Controller.getInstance().scores.setPlayerRaceToTheTopScore(name, floor);
 			}
-			networkView.RPC("onGameFinish", RPCMode.All);
+		}
+
+		public void onReachCheckpoint(string playername) {
+			networkView.RPC("onGameFinish",  RPCMode.All, playername);
 		}
 
 		// generates the planes including their connection ramps
-		void generatePlanes()
-		{
+		void generatePlanes() {
 			Vector3 location = new Vector3(-250, 0, -250);
-			for (int i = 0; i < numberOfPlanes; i++)
-			{
+			for (int i = 0; i < numberOfPlanes; i++) {
 				location.y += planeSpacing;
 				createdPlanes.Add(Network.Instantiate(planePrefab, location, Quaternion.identity, 0) as GameObject);
 			}
 		}
 
 		public void onTimerEnd() {
-			networkView.RPC("onGameFinish",  RPCMode.All);
+			networkView.RPC("onGameEnd",  RPCMode.All);
 		}
 
 		// Called when game ends by timer
 		[RPC]
 		public void onGameEnd() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 			onGameDone();
 		}
 
-		// TODO: Called when game ends by some1 reaching the top?
 		[RPC]
-		public void onGameFinish() {
-			if(finished) {
+		public void onGameFinish(string playername) {
+			if (finished) {
 				return;
 			}
 
-			// find the players name based on the viewID
-			PlayerInfo info = currentCheckpoint.GetComponent<topCheckpoint>().winner.GetComponent<PlayerInfo>();
-			string name = info.getUsername();
-
-			// make the player win the mini-game
-			//Game.Controller.getInstance().scores.increaseOverallScore(name);
+			Game.Controller.getInstance().scores.setPlayerRaceToTheTopScore(playername, 99);
 
 			onGameDone();
 		}
@@ -132,25 +120,24 @@ namespace Game.Level {
 		private void onGameDone() {
 			finished = true;
 
-            foreach(GameObject plane in createdPlanes)
-            {
-            	plane.GetComponent<PlaneRenderer>().cleanupChildren();
-                Network.Destroy(plane);
-                Network.RemoveRPCs(plane.networkView.viewID);
-                //Debug.Log("plane removed from toprace-minigame");
-            }
+			foreach (GameObject plane in createdPlanes) {
+				plane.GetComponent<PlaneRenderer>().cleanupChildren();
+				Network.Destroy(plane);
+				Network.RemoveRPCs(plane.networkView.viewID);
+				//Debug.Log("plane removed from toprace-minigame");
+			}
 
-            if(Network.isServer) {
-            	Network.Destroy(currentCheckpoint);
-            	Network.RemoveRPCs(currentCheckpoint.networkView.viewID);
-            }
-            currentCheckpoint = null;
+			if (Network.isServer) {
+				Network.Destroy(currentCheckpoint);
+				Network.RemoveRPCs(currentCheckpoint.networkView.viewID);
+			}
+			currentCheckpoint = null;
 
-            // Gives the winner(s) an overall point
-            Game.Controller.getInstance().scores.endMinigameScoreHandling();	
+			// Gives the winner(s) an overall point
+			Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
-            // Respawns the player on the ground
-            Game.Controller.getInstance().getActivePlayer().GetComponent<respawn>().resetPlayer();
+			// Respawns the player on the ground
+			Game.Controller.getInstance().getActivePlayer().GetComponent<respawn>().resetPlayer();
 
 			Invoke("endMode", 5);
 		}

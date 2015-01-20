@@ -25,9 +25,9 @@ namespace Game.Level {
 
 
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
-			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0,1,0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
+			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0, 1, 0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
 
-			Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0,0,0);
+			Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0, 0, 0);
 			Game.Controller.getInstance ().countdown.beginCountdown ();
 			Invoke ("starting", 3);
 		}
@@ -37,15 +37,15 @@ namespace Game.Level {
 			Game.Controller.getInstance ().explanation.setExplanation("Don't bump in to a line! Stay alive to win a point!");
 			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
 			alive = players.Length;
-			
-			for(int i = 0; i < players.Length; i+= 1) {
+
+			for (int i = 0; i < players.Length; i += 1) {
 				GameObject player = players[i];
 				TronLineRenderer line = player.AddComponent<TronLineRenderer>();
 				line.setColor(i);
 				TronPlayerStatus comp = player.AddComponent<TronPlayerStatus>();
 				comp.mode = this;
 			}
-			
+
 			if (Network.isServer) {
 				Invoke("onTimerEnd", finishTimer);
 			}
@@ -53,7 +53,7 @@ namespace Game.Level {
 
 		// called when a player dies in tron
 		[RPC]
-		public void notifyDeath(string playername){
+		public void notifyDeath(string playername) {
 			Game.Controller.getInstance ().scores.deadTronPlayer (playername);
 
 			if (Network.isClient) {
@@ -69,7 +69,7 @@ namespace Game.Level {
 				return;
 			}
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
-			if(players.Length <= 1) { // Singleplayer ish mode
+			if (players.Length <= 1) { // Singleplayer ish mode
 				return;
 			}
 			if (alive != 1) {
@@ -77,26 +77,20 @@ namespace Game.Level {
 			}
 
 			alive--;
-			
+
 			string playername = null;
-			foreach(GameObject player in players) {
-				if(dead.ContainsKey(player.GetComponent<PlayerInfo>().getUsername())) {
+			foreach (GameObject player in players) {
+				if (dead.ContainsKey(player.GetComponent<PlayerInfo>().getUsername())) {
 					continue;
 				}
 				playername = player.GetComponent<PlayerInfo>().getUsername();
 			}
 
-			if (playername != null) {
-				networkView.RPC("winTron", RPCMode.All, playername);
-			}
+			// if (playername != null) {
+			// 	networkView.RPC("winTron", RPCMode.All, playername);
+			// }
 			networkView.RPC("onGameFinish", RPCMode.All);
 		}
-
-		[RPC]
-		public void winTron(string playername) {
-			Game.Controller.getInstance ().scores.increaseOverallScore (playername);
-		}
-
 
 		public void onTimerEnd() {
 			networkView.RPC("onGameEnd", RPCMode.All);
@@ -105,7 +99,7 @@ namespace Game.Level {
 		// Called when game ends by timer
 		[RPC]
 		public void onGameEnd() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 			onGameDone();
@@ -113,7 +107,7 @@ namespace Game.Level {
 
 		[RPC]
 		public void onGameFinish() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 			onGameDone();
@@ -124,16 +118,16 @@ namespace Game.Level {
 
 			TronLineRenderer[] rend = GameObject.FindObjectsOfType<TronLineRenderer> ();
 			foreach (TronLineRenderer ren in rend) {
-				Destroy(ren);			
+				Destroy(ren);
 			}
 
 			TronPlayerStatus[] stats = GameObject.FindObjectsOfType<TronPlayerStatus> ();
 			foreach (TronPlayerStatus stat in stats) {
-				Destroy(stat);			
+				Destroy(stat);
 			}
 
 			// Gives the winner(s) an overall point
-            Game.Controller.getInstance().scores.endMinigameScoreHandling();
+			Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
 			Invoke("endMode", 5);
 		}
@@ -157,7 +151,7 @@ namespace Game.Level {
 				scores[i] = new Hashtable();
 				PlayerInfo pi = playash[i].GetComponent<PlayerInfo> ();
 				scores[i]["id"] = pi.getUserId();
-				scores[i]["score"] = (string) Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername()) == "alive" ? 1 : 0;
+				scores[i]["score"] = Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername());
 			}
 			return scores;
 		}

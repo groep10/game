@@ -9,7 +9,10 @@ namespace Game.Level.TopRace {
 	public class topCheckpoint : MonoBehaviour {
 
 		public GameObject winner;
+		
 		public bool winnerReachedCheckpoint = false;
+
+		public TopRaceMode mode;
 
 		void OnTriggerEnter(Collider other) {
 			GameObject obj = other.gameObject;
@@ -20,21 +23,9 @@ namespace Game.Level.TopRace {
 				if(winnerReachedCheckpoint) {
 					return;
 				}
-				networkView.RPC("playerReachedCheckpoint", RPCMode.All, obj.networkView.viewID);
+				winnerReachedCheckpoint = true;
+				mode.onReachCheckpoint(obj.GetComponent<PlayerInfo>().getUsername());
 			}
-		}
-
-		[RPC]
-		public void playerReachedCheckpoint(NetworkViewID id) {
-			if(winnerReachedCheckpoint) {
-				return;
-			}
-
-			winnerReachedCheckpoint = true;
-
-			// Debug.Log (id.owner.guid + " got guid");
-
-			winner = NetworkView.Find(id).gameObject;
 		}
 	}
 }

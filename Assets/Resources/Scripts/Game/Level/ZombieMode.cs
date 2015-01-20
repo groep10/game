@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Game.UI;
 using Game.Level.Race;
+using Game.Level.Zombie;
 using Game.Net;
 
 namespace Game.Level {
@@ -58,7 +59,8 @@ namespace Game.Level {
 			if (GameObject.FindGameObjectsWithTag ("Enemy").Length < 30) {
 				// Find a random index between zero and one less than the number of spawn points.
 				// Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
-				Network.Instantiate (enemyPrefab, new Vector3 (Random.Range (-500, 500), 3f, Random.Range (-500, 500)), Quaternion.identity, 0);
+				GameObject obj = Network.Instantiate (enemyPrefab, new Vector3 (Random.Range (-500, 500), 3f, Random.Range (-500, 500)), Quaternion.identity, 0) as GameObject;
+				obj.GetComponent<AIEnemy> ().mode = this;
 			}
 		}
 
@@ -69,7 +71,7 @@ namespace Game.Level {
 		// Called when game ends by timer
 		[RPC]
 		public void onGameEnd() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 			onGameDone();
@@ -78,7 +80,7 @@ namespace Game.Level {
 		// TODO: Called when game ends by some1 reaching max score.
 		[RPC]
 		public void onGameFinish() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 			onGameDone();
@@ -90,14 +92,13 @@ namespace Game.Level {
 			CancelInvoke();
 
 			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach(GameObject enemy in enemies)
-            {
-                Network.Destroy(enemy);
-                Debug.Log("Enemy removed from zombie-minigame");
-            }
+			foreach (GameObject enemy in enemies) {
+				Network.Destroy(enemy);
+				Debug.Log("Enemy removed from zombie-minigame");
+			}
 
-            // Gives the winner(s) an overall point
-            Game.Controller.getInstance().scores.endMinigameScoreHandling();
+			// Gives the winner(s) an overall point
+			Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
 			Invoke("endMode", 5);
 		}
