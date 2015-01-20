@@ -48,7 +48,7 @@ namespace Game.Menu {
 			string name = gameName.text;
 			int maxNumPlayers = (int) maxPlayerNumber.value;
 			Game.Net.Manager manager = GameObject.Find ("NetworkManager").GetComponent<Game.Net.Manager> ();
-			manager.setMaxPlayers (maxNumPlayers);
+			manager.networkView.RPC("setMaxPlayers",RPCMode.AllBuffered,maxNumPlayers);
 
             if (name == null || !Regex.IsMatch(name, @"^[\w .\-!+&]+$", RegexOptions.IgnoreCase))
             {
