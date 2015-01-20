@@ -47,10 +47,6 @@ namespace Game.Menu {
 			}
 		}
 
-
-
-
-
 		public void onAvatarClicked() {
 
 			// TODO: find other method for this.

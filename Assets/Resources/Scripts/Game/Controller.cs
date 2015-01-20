@@ -4,6 +4,7 @@ using System.Collections;
 using Game.UI;
 using Game.Menu;
 using Game.Level; 
+using Game.Web;
 
 namespace Game {
 	public class Controller : MonoBehaviour {
@@ -38,6 +39,20 @@ namespace Game {
 			return null;
 		}
 
+		public void serverStartGame() {
+			if(Network.isClient) { return; }
+			if (activeMode != null) {
+				AccountController.getInstance().createMinigameGameScores(activeMode.getScores(), (res) => {
+					activeMode = null;
+					serverStartGame();
+				});
+				return;
+			}
+			AccountController.getInstance().createMinigameGame(mainMode.getName(), (res) => {
+				networkView.RPC("startGame", RPCMode.AllBuffered);
+			});
+		}
+
 		[RPC]
 		public void startGame() {
 			if(Network.isServer) {
@@ -51,9 +66,24 @@ namespace Game {
 					// Remove previous start games from buffer.
 					Network.RemoveRPCs(networkView.viewID);
 
-					// Server decides what minigame to play next.
-					networkView.RPC("startMiniGame", RPCMode.AllBuffered, Random.Range(0, miniModes.Length));
+					serverStartMiniGame();
 				}
+			});
+		}
+
+		public void serverStartMiniGame() {
+			if(Network.isClient) { return; }
+			if (activeMode != null) {
+				AccountController.getInstance().createMinigameGameScores(activeMode.getScores(), (res) => {
+					activeMode = null;
+					serverStartMiniGame();
+				});
+				return;
+			}
+			// Server decides what minigame to play next.
+			int nextId = Random.Range(0, miniModes.Length);
+			AccountController.getInstance().createMinigameGame(miniModes[nextId].getName(), (res) => {
+				networkView.RPC("startMiniGame", RPCMode.AllBuffered, nextId);
 			});
 		}
 
@@ -70,7 +100,7 @@ namespace Game {
 					// Remove previous start games from buffer.
 					Network.RemoveRPCs(networkView.viewID);
 
-					networkView.RPC("startGame", RPCMode.AllBuffered);
+					serverStartGame();
 				}
 			});
 		}

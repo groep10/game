@@ -7,6 +7,8 @@ using Game;
 using Game.UI;
 using Game.Level.Race;
 
+using Game.Net;
+
 namespace Game.Level {
 	public class RaceMode : BaseMode {
 		// Prefab for the checkpoint
@@ -170,6 +172,28 @@ namespace Game.Level {
 			activeCheckpoint = null;
 
 			base.reset();
+		}
+
+		public override Hashtable[] getScores () {
+			GameObject[] playash = Game.Controller.getInstance ().getPlayers ();
+			Hashtable[] scores = new Hashtable[playash.Length];
+			for (int i = 0; i < playash.Length; i += 1) {
+				scores[i] = new Hashtable();
+				PlayerInfo pi = playash[i].GetComponent<PlayerInfo> ();
+				scores[i]["id"] = pi.getUserId();
+				scores[i]["score"] = fromPosition((string) Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername()));
+			}
+			return scores;
+		}
+
+		public int fromPosition(string pos) {
+			switch (pos) {
+				case "1st": return 1;
+				case "2nd":	return 2;
+				case "3rd": return 3;
+				case "4th": return 4;
+				default: return 0;
+			}
 		}
 
 		public override string getName() {

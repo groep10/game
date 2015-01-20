@@ -124,6 +124,14 @@ namespace Game.UI {
 			}
 		}
 
+		public object getMinigameScore(String key) {
+			return minigame [key];
+		}
+
+		public object getOveralScore(String key) {
+			return overall [key];
+		}
+
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
 
 		public int rank = 0;

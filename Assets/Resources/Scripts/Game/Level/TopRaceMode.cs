@@ -158,8 +158,20 @@ namespace Game.Level {
 			base.reset();
 		}
 
+		public override Hashtable[] getScores () {
+			GameObject[] playash = Game.Controller.getInstance ().getPlayers ();
+			Hashtable[] scores = new Hashtable[playash.Length];
+			for (int i = 0; i < playash.Length; i += 1) {
+				scores[i] = new Hashtable();
+				PlayerInfo pi = playash[i].GetComponent<PlayerInfo> ();
+				scores[i]["id"] = pi.getUserId();
+				scores[i]["score"] = Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername());
+			}
+			return scores;
+		}
+
 		public override string getName() {
-			return "Zombie";
+			return "TopRace";
 		}
 	}
 }

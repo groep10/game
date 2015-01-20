@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace Game {
 	public interface Mode {
 		void beginMode(System.Action finishHandler);
@@ -10,6 +12,8 @@ namespace Game {
 		bool isActive();
 
 		string getName();
+
+		Hashtable[] getScores();
 	}
 }
 

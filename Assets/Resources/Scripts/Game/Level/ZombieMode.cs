@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Game.UI;
 using Game.Level.Race;
+using Game.Net;
 
 namespace Game.Level {
 	public class ZombieMode : BaseMode {
@@ -101,6 +102,18 @@ namespace Game.Level {
 			finished = false;
 
 			base.reset();
+		}
+
+		public override Hashtable[] getScores () {
+			GameObject[] playash = Game.Controller.getInstance ().getPlayers ();
+			Hashtable[] scores = new Hashtable[playash.Length];
+			for (int i = 0; i < playash.Length; i += 1) {
+				scores[i] = new Hashtable();
+				PlayerInfo pi = playash[i].GetComponent<PlayerInfo> ();
+				scores[i]["id"] = pi.getUserId();
+				scores[i]["score"] = Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername());
+			}
+			return scores;
 		}
 
 		public override string getName() {
