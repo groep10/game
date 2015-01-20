@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace Game.UI {
 		public void beginCountdown () {
 			timeleft.enabled = true;
 			Invoke ("Countdown", 1);
+
 		}
 
 		void Countdown() {
@@ -20,7 +22,6 @@ namespace Game.UI {
 			} else {
 				timeleft.text = "GO!";
 				Invoke ("eindCountdown", 1);
-
 			}
 		}
 

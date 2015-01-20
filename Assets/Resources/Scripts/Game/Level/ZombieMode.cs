@@ -29,6 +29,7 @@ namespace Game.Level {
 			Game.Controller.getInstance().scores.initializeZombieScores();
 
 			Game.Controller.getInstance ().countdown.beginCountdown ();
+			Game.Controller.getInstance ().explanation.setExplanation("Shoot the zombies using Ctrl! Most kills wins!");
 			Invoke ("starting", 3);
 		}
 

@@ -14,6 +14,7 @@ namespace Game.Level {
 		public GameObject topCheckpoint;
 
 		int numberOfPlanes = 6;
+
 		int planeSpacing = 25;
 
 		public float finishTimer = 120f;
@@ -44,6 +45,7 @@ namespace Game.Level {
 				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
 				camera.gameObject.SetActive (true);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
+				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the building! Reach the checkpoint to win!");
 				Invoke ("starting", 3);
 			});  
 		}
