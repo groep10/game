@@ -36,7 +36,7 @@ namespace Game.Level {
 
 				Vector3 checkpointLocation = new Vector3(0, numberOfPlanes * planeSpacing, 0);
 				currentCheckpoint = Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0) as GameObject;
-				currentCheckpoint.GetComponent<topCheckpoint>();
+				currentCheckpoint.GetComponent<topCheckpoint>().mode = this;
 			}
 
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
