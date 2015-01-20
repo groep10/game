@@ -34,6 +34,7 @@ namespace Game {
 
 		public GameObject getActivePlayer() {
 			foreach(GameObject player in getPlayers()) {
+				Debug.Log(player.name);
 				if(player.networkView.isMine) {
 					return player;
 				}
@@ -116,14 +117,14 @@ namespace Game {
 
 			active.rigidbody.useGravity = false;
 			active.rigidbody.velocity = Vector3.zero;
-			active.GetComponent<CarController>().enabled = false;
+			active.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 		}
 
 		public void enablePlayer() {
 			GameObject active = getActivePlayer();
 
 			active.rigidbody.useGravity = true;
-			active.GetComponent<CarController>().enabled = true;
+			active.rigidbody.constraints = RigidbodyConstraints.None;
 		}
 
 		void Update() {
