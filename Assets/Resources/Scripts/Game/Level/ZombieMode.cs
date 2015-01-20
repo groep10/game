@@ -30,12 +30,17 @@ namespace Game.Level {
 
 			Game.Controller.getInstance().scores.initializeZombieScores();
 
+			Game.Controller.getInstance ().disablePlayer();
+
 			Game.Controller.getInstance ().countdown.beginCountdown ();
 			Game.Controller.getInstance ().explanation.setExplanation("Shoot the zombies using Ctrl! Most kills wins!");
 			Invoke ("starting", 3);
 		}
 
 		void starting() {
+
+			Game.Controller.getInstance ().enablePlayer();
+
 			if (Network.isServer) {
 				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
 				Invoke("onTimerEnd", finishTimer);
