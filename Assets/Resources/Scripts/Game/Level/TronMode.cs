@@ -77,13 +77,13 @@ namespace Game.Level {
 
 			alive--;
 
-			string playername = null;
-			foreach (GameObject player in players) {
-				if (dead.ContainsKey(player.GetComponent<PlayerInfo>().getUsername())) {
-					continue;
-				}
-				playername = player.GetComponent<PlayerInfo>().getUsername();
-			}
+			// string playername = null;
+			// foreach (GameObject player in players) {
+			// 	if (dead.ContainsKey(player.GetComponent<PlayerInfo>().getUsername())) {
+			// 		continue;
+			// 	}
+			// 	playername = player.GetComponent<PlayerInfo>().getUsername();
+			// }
 
 			// if (playername != null) {
 			// 	networkView.RPC("winTron", RPCMode.All, playername);

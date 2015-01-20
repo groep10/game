@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Game;
 using Game.UI;
+using Game.Net;
 using Game.Level.Race;
 
 namespace Game.Level {

@@ -99,7 +99,7 @@ namespace Game.UI {
 			int[] playerscores = new int[numberOfPlayers];
 			string[] playernames = new string[numberOfPlayers];
 
-			string playername = null;
+			// string playername = null;
 
 			int i = 0;
 			// fill the playerscores list and find the maximum value
