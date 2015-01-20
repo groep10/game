@@ -31,7 +31,13 @@ public class Fence_placement : MonoBehaviour {
 		//Debug.Log ("initRot"+ initRot);
 		fenceLength = Random.Range(10,20);
 		LoadParts ();
-		SetAngles (false);
+		int typeInt = Random.Range (0, 2);
+		if (typeInt == 0) {
+				SetAngles (false);
+		} else {
+				SetAngles (true);
+		}
+		
 
 		PlaceFence ();
 

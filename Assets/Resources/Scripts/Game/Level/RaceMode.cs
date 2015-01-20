@@ -17,7 +17,8 @@ namespace Game.Level {
 		public static GeneticPlacement algorithm = new GeneticPlacement();
 
 		private List<GameObject> assets;
-		private int assetsInArena = 10;
+		private GameObject[] placedAssets;
+		private int assetsInArena = 20;
 
 		public float checkpointMoveTimer = 30f;
 		public float finishTimer = 120f;
@@ -84,10 +85,28 @@ namespace Game.Level {
 			}
 		}
 
+		public void findPlacedAssets() {
+			placedAssets = GameObject.FindGameObjectsWithTag("ArenaAsset");
+		}
+
 		public void placeAsset() {
 			// randomise the location within x and z boundaries
-			float x = Random.Range (-500, 500);
-			float z = Random.Range (-500, 500);
+			findPlacedAssets ();
+			float x = 0;
+			float z = 0;
+			bool fits = true;
+			do {
+				fits = true;
+				x = Random.Range (-500, 500);
+				z = Random.Range (-500, 500);
+				foreach (GameObject placesAsset in placedAssets) {
+						Vector3 pos = placesAsset.transform.position;
+						if (Mathf.Abs (pos.x - x) < 50 || Mathf.Abs (pos.z - z) < 50) {
+								fits = false;
+						}
+				}
+			
+			} while (fits == false);
 			Vector3 location = new Vector3(x, 0f, z);
 
 			float rotationY = Random.Range (0, 360);
