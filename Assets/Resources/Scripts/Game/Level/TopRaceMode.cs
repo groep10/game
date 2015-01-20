@@ -14,6 +14,7 @@ namespace Game.Level {
 		public GameObject topCheckpoint;
 
 		int numberOfPlanes = 6;
+
 		int planeSpacing = 25;
 
 		public float finishTimer = 120f;
@@ -37,16 +38,21 @@ namespace Game.Level {
 				Network.Instantiate(topCheckpoint, checkpointLocation, Quaternion.identity, 0);
 			}
 
-			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
+			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
+			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0,1,0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
+			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
 			Game.Controller.getInstance ().leveltour.beginTour (() => {
+				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
+				camera.gameObject.SetActive (true);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
+				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the building! Reach the checkpoint to win!");
 				Invoke ("starting", 3);
 			});  
 		}
 
 		void starting(){
 			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
-			Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
+			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
 			Invoke("onGameEnd", finishTimer);
 		}
 
@@ -142,6 +148,9 @@ namespace Game.Level {
 
             // Gives the winner(s) an overall point
             Game.Controller.getInstance().scores.endMinigameScoreHandling();	
+
+            // Respawns the player on the ground
+            Game.Controller.getInstance().getActivePlayer().GetComponent<respawn>().resetPlayer();
 
 			Invoke("endMode", 5);
 		}

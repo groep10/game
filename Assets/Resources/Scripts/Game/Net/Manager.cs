@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using Game.Menu;
+
 namespace Game.Net {
 	public class Manager : MonoBehaviour {
 
 		public GameObject playerPrefab;
+		public GameObject menuObjects;
 
 		private int maxPlayers = 4;
 		private Vector3 spawn = new Vector3(40, 1, 0);
@@ -16,8 +19,17 @@ namespace Game.Net {
 			Game.Controller.getInstance ().networkView.RPC ("startGame", RPCMode.AllBuffered);
 			if(Network.connections.Length == maxPlayers){
 				Network.maxConnections = 0; 
+				Debug.Log("server closed");
 			}
 			// Network.Instantiate (level, levelSpawn, Quaternion.identity, 0);
+		}
+		
+		void OnFailedToConnect(NetworkConnectionError error) {
+			menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false);
+		}
+		
+		void OnConnectedToServer() {
+			menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (true);
 		}
 
 		// Remove player on disconnect

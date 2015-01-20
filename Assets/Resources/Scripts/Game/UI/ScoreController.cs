@@ -120,6 +120,9 @@ namespace Game.UI {
 
 			// increase the overall score of the winner(s) by 1
 			foreach(string name in playernames){
+				if (name == null){
+					continue;
+				}
 				increaseOverallScore(name);
 			}
 		}

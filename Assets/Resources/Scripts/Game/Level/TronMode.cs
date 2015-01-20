@@ -24,6 +24,7 @@ namespace Game.Level {
 			Game.Controller.getInstance ().scores.initializeTronScores ();
 
 			Game.Controller.getInstance ().countdown.beginCountdown ();
+			Game.Controller.getInstance ().explanation.setExplanation("Don't bump in to a line! Stay alive to win a point!");
 
 			Invoke ("starting", 3);
 		}
