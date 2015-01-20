@@ -40,6 +40,15 @@ namespace Game.Level {
 			}
 		}
 
+		public void broadcastPoint(string playername) {
+			networkView.RPC("minigamePoint", RPCMode.All, playername);
+		}
+
+		[RPC]
+		void minigamePoint(string playername) {
+			Game.Controller.getInstance().scores.increasePlayerZombieScore(playername);
+		}
+
 		public override void onTick() {
 
 		}
