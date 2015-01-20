@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 namespace Game.Level
 {
@@ -29,6 +30,8 @@ namespace Game.Level
 		public abstract void onTick();
 		
 		public abstract string getName();
+
+		public abstract Hashtable[] getScores();
 
 		public bool isActive() {
 			return isRunning;

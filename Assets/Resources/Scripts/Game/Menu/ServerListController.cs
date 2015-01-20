@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Text.RegularExpressions;
 
+using Game.Web;
+
 namespace Game.Menu {
 
 	public class ServerListController : MonoBehaviour
@@ -66,9 +68,12 @@ namespace Game.Menu {
 			//GameObject.Find ("MainObjects").GetComponentInChildren<Game.Net.List>().gameObject.SetActive (true);
 
 			string name = gameName.text;
-			int port = Random.Range (20000, 25000);
-			Network.InitializeServer(4, port, false);
-			MasterServer.RegisterHost(globalName, name, "Arena racing");
+
+			AccountController.getInstance().createGame(name, (res) => {
+				int port = Random.Range (20000, 25000);
+				Network.InitializeServer(4, port, false);
+				MasterServer.RegisterHost(globalName, name, "Arena racing");
+			});
 		}
 	
 		void requestList () {

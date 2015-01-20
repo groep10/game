@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using Game;
 using Game.UI;
+using Game.Net;
 using Game.Level.Race;
 
 namespace Game.Level {
@@ -39,28 +40,29 @@ namespace Game.Level {
 				}
 				placeCheckpoint();
 			}
-			 
+
+			Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0, 0, 0);
+			Game.Controller.getInstance ().getActivePlayer ().transform.Rotate(0, 0, 0);
 			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
-			if(count==0){
-			Game.Controller.getInstance ().leveltour.beginTour (() => {
-				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
-				camera.gameObject.SetActive (true);
-					Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0,0,0);
-				Game.Controller.getInstance ().countdown.beginCountdown ();
-				count=1;
-				Invoke ("starting", 3);
+			if (count == 0) {
+				Game.Controller.getInstance ().leveltour.beginTour (() => {
+					Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
+					camera.gameObject.SetActive (true);
+					//Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0,0,0);
+					Game.Controller.getInstance ().countdown.beginCountdown ();
+					count = 1;
+					Invoke ("starting", 3);
 				});
-			}else{
+			} else {
 				Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
-				Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0,1,0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
-				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
-				camera.gameObject.SetActive (true);
-				Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = new Vector3(0,0,0);
+				Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0, 1, 0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
+				//Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
+				//camera.gameObject.SetActive (true);
 				Game.Controller.getInstance ().countdown.beginCountdown ();
 				//Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
 				Invoke ("starting", 3);
 			}
-		  
+
 		}
 
 		void starting() {
@@ -146,7 +148,7 @@ namespace Game.Level {
 
 		// Destroys the checkpoint
 		public void destroyCheckpoint() {
-			if(!Network.isServer) {
+			if (!Network.isServer) {
 				return;
 			}
 
@@ -155,17 +157,17 @@ namespace Game.Level {
 		}
 
 		public override void onTick() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 
-			if(!Network.isServer) {
+			if (!Network.isServer) {
 				return;
 			}
 
-			if(activeCheckpoint != null) {
+			if (activeCheckpoint != null) {
 				int cnt = activeCheckpoint.GetComponent<CheckpointBehaviour>().getReachedCount();
-				if(cnt > 0 && cnt >= (Network.connections.Length - 1)) {
+				if (cnt > 0 && cnt >= (Network.connections.Length - 1)) {
 					networkView.RPC("onGameFinish",  RPCMode.All);
 				}
 			}
@@ -177,7 +179,7 @@ namespace Game.Level {
 
 		[RPC]
 		public void onGameEnd() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 
@@ -187,7 +189,7 @@ namespace Game.Level {
 
 		[RPC]
 		public void onGameFinish() {
-			if(finished) {
+			if (finished) {
 				return;
 			}
 
@@ -210,6 +212,28 @@ namespace Game.Level {
 			activeCheckpoint = null;
 
 			base.reset();
+		}
+
+		public override Hashtable[] getScores () {
+			GameObject[] playash = Game.Controller.getInstance ().getPlayers ();
+			Hashtable[] scores = new Hashtable[playash.Length];
+			for (int i = 0; i < playash.Length; i += 1) {
+				scores[i] = new Hashtable();
+				PlayerInfo pi = playash[i].GetComponent<PlayerInfo> ();
+				scores[i]["id"] = pi.getUserId();
+				scores[i]["score"] = fromPosition((string) Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername()));
+			}
+			return scores;
+		}
+
+		public int fromPosition(string pos) {
+			switch (pos) {
+			case "1st": return 1;
+			case "2nd": return 2;
+			case "3rd": return 3;
+			case "4th": return 4;
+			default: return 0;
+			}
 		}
 
 		public override string getName() {

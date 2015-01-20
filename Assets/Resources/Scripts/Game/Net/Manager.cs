@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using Game.Web;
 using Game.Menu;
 
 namespace Game.Net {
@@ -16,7 +17,7 @@ namespace Game.Net {
 		// Spawn level on network and player
 		void OnServerInitialized(){
 			spawnPlayer();
-			Game.Controller.getInstance ().networkView.RPC ("startGame", RPCMode.AllBuffered);
+			Game.Controller.getInstance ().serverStartGame();
 			if(Network.connections.Length == maxPlayers){
 				Network.maxConnections = 0; 
 			}

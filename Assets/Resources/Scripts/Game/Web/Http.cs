@@ -40,6 +40,9 @@ namespace Game.Web {
 		public void getJson(handleHash callback) {
 			getText((text) => {
 				Hashtable json = (Hashtable)JSON.JsonDecode(text);
+				if(json == null) {
+					json = new Hashtable(); // fallback
+				}
 				if (!json.ContainsKey("success") || !(bool)json["success"]) {
 					json["success"] = false;
 					if (!json.ContainsKey("error")) {
@@ -52,6 +55,7 @@ namespace Game.Web {
 
 		public void getText(handleString callback) {
 			getData((www) => {
+				Debug.Log(www.text);
 				callback(www.text);
 			});
 		}
