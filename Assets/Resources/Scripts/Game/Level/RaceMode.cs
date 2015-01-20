@@ -41,6 +41,8 @@ namespace Game.Level {
 				placeCheckpoint();
 			}
 
+			Game.Controller.getInstance ().disablePlayer();
+
 			if (count == 0) {
 				Game.Controller.getInstance ().leveltour.beginTour (() => {
 					Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
