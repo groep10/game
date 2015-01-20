@@ -20,10 +20,12 @@ namespace Game.Level.Zombie {
 			Targets = Game.Controller.getInstance ().getPlayers ();
 		}﻿
 
+
 		void Update() {
-			if (health <= 0 && Network.isServer) {
-				Network.Destroy(this.gameObject);
-				Network.RemoveRPCs(networkView.viewID);
+			if (dead) {
+				if(Network.isServer && !dead) {
+					dead = true;
+				}
 				return;
 			}
 			currentDistance = int.MaxValue;
@@ -68,6 +70,10 @@ namespace Game.Level.Zombie {
 		[RPC]
 		void minigamePoint(string playername) {
 			Game.Controller.getInstance().scores.increasePlayerZombieScore(playername);
+			if(Network.isServer) {
+				Network.Destroy(this.gameObject);
+				Network.RemoveRPCs(networkView.viewID);
+			}
 			// GameObject.FindObjectOfType<Game.Level.Manager>().increasePlayerMinigameScore(playername);
 		}
 	}
