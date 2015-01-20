@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 using Game.Level;
 
@@ -18,12 +19,14 @@ namespace Game {
 		}
 
 		// resets the player to a random location within the arena
-		void resetPlayer(){
+		public void resetPlayer(){
 			float x = Random.Range (-500, 500);
 			float z = Random.Range (-500, 500);
 
 			transform.position = new Vector3 (x, 3f, z);
 			transform.rotation = Quaternion.identity;
+
+			rigidbody.velocity = Vector3.zero;
 		}
 		
 		// Update is called once per frame
