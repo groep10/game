@@ -147,6 +147,9 @@ namespace Game.Level {
             // Gives the winner(s) an overall point
             Game.Controller.getInstance().scores.endMinigameScoreHandling();	
 
+            // Respawns the player on the ground
+            Game.Controller.getInstance().getActivePlayer().GetComponent<respawn>().resetPlayer();
+
 			Invoke("endMode", 5);
 		}
 
