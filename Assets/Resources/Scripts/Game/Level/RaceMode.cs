@@ -18,7 +18,7 @@ namespace Game.Level {
 
 		private List<GameObject> assets;
 		private GameObject[] placedAssets;
-		private int assetsInArena = 20;
+		private int assetsInArena = 10;
 
 		public float checkpointMoveTimer = 30f;
 		public float finishTimer = 120f;
@@ -95,20 +95,25 @@ namespace Game.Level {
 			findPlacedAssets ();
 			float x = 0;
 			float z = 0;
+			//x = Random.Range (-500, 500);
+			//z = Random.Range (-500, 500);
+			Vector3 location = new Vector3(x, 0f, z);
 			bool fits = true;
 			do {
 				fits = true;
 				x = Random.Range (-500, 500);
 				z = Random.Range (-500, 500);
-				foreach (GameObject placesAsset in placedAssets) {
-						Vector3 pos = placesAsset.transform.position;
-						if (Mathf.Abs (pos.x - x) < 50 || Mathf.Abs (pos.z - z) < 50) {
+				location = new Vector3(x,0f,z);
+				foreach (GameObject go in placedAssets) {
+						Vector3 pos = go.transform.position;
+
+						if (Vector3.Distance(location,pos) < 25) {
 								fits = false;
 						}
 				}
 			
 			} while (fits == false);
-			Vector3 location = new Vector3(x, 0f, z);
+			location = new Vector3(x, 0f, z);
 
 			float rotationY = Random.Range (0, 360);
 
