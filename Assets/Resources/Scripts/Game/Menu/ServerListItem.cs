@@ -24,7 +24,7 @@ namespace Game.Menu
                 return;
             }
 			// TODO: find more elegant way to disable menu.
-			GameObject.Find ("MenuObjects").SetActive (false);
+			//GameObject.Find ("MenuObjects").SetActive (false);
 			//GameObject.Find ("MainObjects").SetActive (true);
 
 			Network.Connect (data);
