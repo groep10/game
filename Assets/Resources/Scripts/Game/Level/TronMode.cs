@@ -128,6 +128,7 @@ namespace Game.Level {
 			}
 
 			// Gives the winner(s) an overall point
+			Game.Controller.getInstance().scores.statusToScore();
             Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
 			Invoke("endMode", 5);
