@@ -108,6 +108,24 @@ namespace Game {
 		}
 
 
+		public void disablePlayer() {
+			GameObject active = getActivePlayer();
+			if(active == null) { // player just joined, by default he is disabled.
+				return;
+			}
+
+			active.rigidbody.useGravity = false;
+			active.rigidbody.velocity = Vector3.zero;
+			active.GetComponent<CarController>().enabled = false;
+		}
+
+		public void enablePlayer() {
+			GameObject active = getActivePlayer();
+
+			active.rigidbody.useGravity = true;
+			active.GetComponent<CarController>().enabled = true;
+		}
+
 		void Update() {
 			if (activeMode != null && activeMode.isActive()) {
 				activeMode.onTick();

@@ -24,15 +24,15 @@ namespace Game.Level {
 			Game.Controller.getInstance ().scores.initializeTronScores ();
 
 
-			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
-			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0, 1, 0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
-			Game.Controller.getInstance ().getActivePlayer ().rigidbody.velocity = Vector3.zero;
+			Game.Controller.getInstance ().disablePlayer();
+
 			Game.Controller.getInstance ().countdown.beginCountdown ();
 			Invoke ("starting", 3);
 		}
 
 		public void starting() {
-			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
+			Game.Controller.getInstance ().enablePlayer();
+
 			Game.Controller.getInstance ().explanation.setExplanation("Don't bump in to a line! Stay alive to win a point!");
 			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
 			alive = players.Length;

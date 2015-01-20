@@ -39,12 +39,12 @@ namespace Game.Level {
 				currentCheckpoint.GetComponent<topCheckpoint>().mode = this;
 			}
 
-			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = false;
-			Game.Controller.getInstance ().getActivePlayer ().transform.position = new Vector3 (0, 1, 0) + Game.Controller.getInstance ().getActivePlayer ().transform.position;
-			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = false;
+			Game.Controller.getInstance ().disablePlayer();
+
 			Game.Controller.getInstance ().leveltour.beginTour (() => {
 				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
 				camera.gameObject.SetActive (true);
+
 				Game.Controller.getInstance ().countdown.beginCountdown ();
 				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the building! Reach the checkpoint to win!");
 				Invoke ("starting", 3);
@@ -52,8 +52,8 @@ namespace Game.Level {
 		}
 
 		void starting() {
-			Game.Controller.getInstance ().getActivePlayer ().rigidbody.useGravity = true;
-			//Game.Controller.getInstance ().getActivePlayer ().GetComponent<CarController> ().enabled = true;
+			Game.Controller.getInstance ().enablePlayer();
+
 			if (Network.isServer) {
 				Invoke("onGameEnd", finishTimer);
 			}
