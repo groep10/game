@@ -6,7 +6,7 @@ namespace Game.Net {
 
 		public GameObject playerPrefab;
 
-		private int maxPlayers = 4;
+		public int maxPlayers = 4;
 		private Vector3 spawn = new Vector3(40, 1, 0);
 		private Vector3 offset = new Vector3(15, 0, 0);
 
@@ -45,7 +45,8 @@ namespace Game.Net {
 			canvascontroller.setCanvasCamera ();
 		}
 
-		public void setMaxPlayers(int max){
+		[RPC]
+		void setMaxPlayers(int max){
 			maxPlayers = (max-1);
 		}
 
