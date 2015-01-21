@@ -1652,6 +1652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100000, guid: 14b04e1f07cfaf14ba2b7e580db03ee6, type: 2}
+  winningOverallScore: 3
 --- !u!1 &253719340
 GameObject:
   m_ObjectHideFlags: 0
@@ -2901,6 +2902,7 @@ GameObject:
   - 92: {fileID: 387800432}
   - 124: {fileID: 387800431}
   - 81: {fileID: 387800430}
+  - 45: {fileID: 387800434}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2973,6 +2975,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!45 &387800434
+Skybox:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 387800428}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: da976b1a4f7ebb949b0f71341e4f1821, type: 2}
 --- !u!1 &394177172
 GameObject:
   m_ObjectHideFlags: 0
@@ -12950,7 +12960,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 553603188}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: .999999642
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

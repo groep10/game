@@ -8,8 +8,23 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 408636}
-  - 33: {fileID: 3308636}
-  - 23: {fileID: 2308636}
+  m_Layer: 0
+  m_Name: Urn
+  m_TagString: TronGrave
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &122780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 422780}
+  - 33: {fileID: 3322780}
+  - 23: {fileID: 2322780}
   m_Layer: 0
   m_Name: Urn
   m_TagString: TronGrave
@@ -23,18 +38,31 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108636}
-  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: -.707106829}
-  m_LocalPosition: {x: -278.399994, y: -0, z: -115.099998}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 422780}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2308636
+--- !u!4 &422780
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 33.7700005, y: 1.78999996, z: -.150000006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 408636}
+  m_RootOrder: 0
+--- !u!23 &2322780
 Renderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108636}
+  m_GameObject: {fileID: 122780}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -50,12 +78,12 @@ Renderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3308636
+--- !u!33 &3322780
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108636}
+  m_GameObject: {fileID: 122780}
   m_Mesh: {fileID: 4300000, guid: 78a92f148bcb91a40b1b3251b13414f3, type: 3}
 --- !u!1001 &100100000
 Prefab:

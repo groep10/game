@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &103332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 403332}
+  - 33: {fileID: 3303332}
+  - 23: {fileID: 2303332}
+  - 95: {fileID: 9503332}
+  m_Layer: 0
+  m_Name: GraveStone
+  m_TagString: TronGrave
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &142296
 GameObject:
   m_ObjectHideFlags: 0
@@ -8,9 +26,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 442296}
-  - 33: {fileID: 3342296}
-  - 23: {fileID: 2342296}
-  - 95: {fileID: 9542296}
   m_Layer: 0
   m_Name: GraveStone
   m_TagString: TronGrave
@@ -18,24 +33,37 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &403332
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103332}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.11999989, z: -2.9000001}
+  m_LocalScale: {x: .316429496, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 442296}
+  m_RootOrder: 0
 --- !u!4 &442296
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142296}
-  m_LocalRotation: {x: -.707106888, y: 0, z: -0, w: .707106769}
-  m_LocalPosition: {x: 0, y: -0, z: -4.82999992}
-  m_LocalScale: {x: .316429496, y: 1, z: 1}
-  m_Children: []
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 403332}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2342296
+--- !u!23 &2303332
 Renderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 142296}
+  m_GameObject: {fileID: 103332}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -50,20 +78,20 @@ Renderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3342296
+--- !u!33 &3303332
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 142296}
+  m_GameObject: {fileID: 103332}
   m_Mesh: {fileID: 4300000, guid: 8c4429e4ece81de45881c87b37d05e2d, type: 3}
---- !u!95 &9542296
+--- !u!95 &9503332
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 142296}
+  m_GameObject: {fileID: 103332}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8c4429e4ece81de45881c87b37d05e2d, type: 3}
   m_Controller: {fileID: 0}
