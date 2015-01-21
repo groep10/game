@@ -31,6 +31,7 @@ namespace Game {
 
 		// Update is called once per frame
 		void Update () {
+			// if the player is upside-down. Put him back on his wheels
 			if (transform.rotation.eulerAngles.z > 90 && transform.rotation.eulerAngles.z < 270) {
 				if (!upsideDown) {
 					upsideDown = true;
@@ -39,13 +40,14 @@ namespace Game {
 				}
 			}
 
+			// press R to reset the player's location
 			if (Input.GetKeyDown(KeyCode.R)) {
 				if (Game.Controller.getInstance().activeMode.ToString() == "TronMode (Game.Level.TronMode)") {
-					Debug.Log ("tronmode");
 					return;
 				}
 				Debug.Log("Resetting player....");
 				Invoke("resetPlayer", 5);
+				Game.Controller.getInstance ().explanation.setExplanation("Resetting player...");
 			}
 		}
 	}

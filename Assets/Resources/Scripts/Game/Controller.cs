@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 using Game.UI;
 using Game.Menu;
@@ -14,6 +15,9 @@ namespace Game {
 		public ScoreController scores;
 		public MenuList minigameScores;
 		public MenuList overallScores;
+		public Text number1;
+		public Text number2;
+		public Text number3;
 
 		[Header ("Modes")]
 		public BaseMode mainMode;

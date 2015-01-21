@@ -127,15 +127,31 @@ namespace Game.UI {
 
 		// increases the overall score of the best players by 1
 		public void endMinigameScoreHandling() {
-			string[] playernames = bestPlayers();
+			string[] winners = bestPlayers();
 
 			// increase the overall score of the winner(s) by 1
-			foreach(string name in playernames){
+			foreach(string name in winners){
 				if (name == null){
 					continue;
 				}
 				increaseOverallScore(name);
 			}
+			displayMinigameWinners(winners);
+		}
+
+		// displays the winners of a minigame at the end of the minigame
+		private void displayMinigameWinners(string[] winners){
+			string text = "";
+
+			for(int i=0; i < winners.Length; i++){
+				text += winners[i];
+
+				if(i < winners.Length - 1){
+					text += " & ";					
+				}
+			}
+			text += " won the minigame!";
+			Game.Controller.getInstance().explanation.setExplanation(text);
 		}
 
 		// returns the minigameScore of the given player
