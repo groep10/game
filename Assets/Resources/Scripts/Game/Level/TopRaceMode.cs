@@ -41,11 +41,9 @@ namespace Game.Level {
 
 			Game.Controller.getInstance ().disablePlayer();
 
-			Game.Controller.getInstance ().leveltour.beginTour (() => {
-				Game.Controller.getInstance ().countdown.beginCountdown ();
-				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the building! Reach the checkpoint to win!");
-				Invoke ("starting", 3);
-			});
+			Game.Controller.getInstance ().countdown.beginCountdown ();
+			Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the building! Reach the checkpoint to win!");
+			Invoke ("starting", 3);
 		}
 
 		void starting() {

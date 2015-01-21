@@ -66,8 +66,10 @@ namespace Game.Level {
 			}
 		}
 
+		private bool moving = false;
+
 		public void onCheckpointReached(string playername) {
-			if(reached.ContainsKey(playername) || finished) {
+			if(reached.ContainsKey(playername) || finished || moving) {
 				return;
 			}
 
@@ -88,7 +90,8 @@ namespace Game.Level {
 			if(rank >= (players - 1)) {
 				rank = 0;
 				reached.Clear();
-				refreshCheckpoint();
+				moving = true;
+				Invoke('refreshCheckpoint', 1;
 			}
 		}
 
@@ -100,6 +103,7 @@ namespace Game.Level {
 		// replaces the old checkpoint with a new one
 		public void refreshCheckpoint() {
 			Debug.Log("Refreshing checkpoint");
+			moving = false;
 			destroyCheckpoint();
 			placeCheckpoint();
 		}
@@ -171,6 +175,7 @@ namespace Game.Level {
 
 		public override void reset() {
 			finished = false;
+			moving = false;
 			activeCheckpoint = null;
 
 			rank = 0;
