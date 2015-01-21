@@ -33,6 +33,7 @@ namespace Game {
 		public Mode activeMode;
 
 		private int lastMode = -1;
+		private bool gameEnded = false;
 
 		public GameObject[] getPlayers() {
 			return GameObject.FindGameObjectsWithTag("Player");
@@ -91,6 +92,14 @@ namespace Game {
 				});
 				return;
 			}
+
+
+			if(gameEnded){
+				return;
+			}
+
+
+
 			// Server decides what minigame to play next.
 			int nextId = 0;
 			int itr = 0;
@@ -142,7 +151,8 @@ namespace Game {
 		}
 
 		public void finishGame(){
-			Invoke("endGame", 10);
+			gameEnded = true;
+			Invoke("endGame", 15);
 		}
 
 		// displays the final scare and ends the total game
