@@ -16,7 +16,7 @@ namespace Game.UI {
 		/* ============================================== Variables ==================================== */
 
 		public GameObject prefab;
-		public int winningOverallScore = 3;
+		private int winningOverallScore = 3;
 
 		private Hashtable minigame = new Hashtable();
 		private Hashtable overall = new Hashtable();
@@ -163,8 +163,8 @@ namespace Game.UI {
 		// displays the best three players
 		private void displayTopThree(string[] topThree){
 			Game.Controller.getInstance().number1.setResultText("#1 " + topThree[0]);
-			Game.Controller.getInstance().number2.setResultText("#1 " + topThree[1]);
-			Game.Controller.getInstance().number3.setResultText("#1 " + topThree[2]);
+			Game.Controller.getInstance().number2.setResultText("#2 " + topThree[1]);
+			Game.Controller.getInstance().number3.setResultText("#3 " + topThree[2]);
 		}
 
 
