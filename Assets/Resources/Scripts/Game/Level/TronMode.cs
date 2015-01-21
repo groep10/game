@@ -94,6 +94,7 @@ namespace Game.Level {
 				string name = go.GetComponent<PlayerInfo>().getUsername();
 				if (name.Equals(playername)){
 					Vector3 deathLocation = go.transform.position;
+					deathLocation.y = 0;
 					GameObject graveStone = (GameObject) Network.Instantiate (graveStones[0], deathLocation, Quaternion.Euler(0f, 0f, 0f), 0);
 					
 					//go.active = false;
