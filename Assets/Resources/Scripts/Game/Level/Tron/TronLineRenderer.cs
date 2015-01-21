@@ -35,7 +35,7 @@ namespace Game.Level.Tron {
 		// Length of the current segment
 		public float currentSegment = 0;
 		// Length needed before we split off the segment.
-		public float segmentSplitoff = 200;
+		public float segmentSplitoff = float.MaxValue;
 
 		// Distance between segments
 		public float segmentWaitDistance = 30;
