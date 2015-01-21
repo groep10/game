@@ -16,7 +16,7 @@ namespace Game.UI {
 		/* ============================================== Variables ==================================== */
 
 		public GameObject prefab;
-		private int winningOverallScore = 3;
+		public int winningOverallScore = 3;
 
 		private Hashtable minigame = new Hashtable();
 		private Hashtable overall = new Hashtable();
@@ -124,13 +124,16 @@ namespace Game.UI {
 					best = (int) de.Value;
 				}
 			}
+			Debug.Log("best overall score is: " + best);
 			return best;
 		}
 
 		// displays the best overall top three
 		public void displayOverallRanking(){
+			Debug.Log("display overall ranking");
 			string[] topThree = findTopThree();
-			int size = topThree.Length;
+
+			int size = Game.Controller.getInstance().getPlayers().Length;
 
 			switch(size)
 			{
@@ -371,6 +374,14 @@ namespace Game.UI {
 
 		void Start() {
 			Debug.Log("Starting ScoreController");
+		}
+
+		void Update(){
+			if(bestOverallScore() >= winningOverallScore){
+				Debug.Log("ending total game in 10 seconds");
+				displayOverallRanking();
+				Game.Controller.getInstance().finishGame();
+			}
 		}
 
 	}
