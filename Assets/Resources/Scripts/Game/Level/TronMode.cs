@@ -165,9 +165,11 @@ namespace Game.Level {
 			foreach (TronPlayerStatus stat in stats) {
 				Destroy(stat);
 			}
-			GameObject[] graves = GameObject.FindGameObjectsWithTag("TronGrave");	
-			foreach (GameObject go in graves){
-				Destroy(go);
+			if(Network.isServer) {
+				GameObject[] graves = GameObject.FindGameObjectsWithTag("TronGrave");	
+				foreach (GameObject go in graves){
+					Network.Destroy(go);
+				}
 			}
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
 			foreach (GameObject go in players){
