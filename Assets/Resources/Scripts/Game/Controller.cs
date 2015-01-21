@@ -159,7 +159,7 @@ namespace Game {
 		}
 
 		// displays the final scare and ends the total game
-		private void endGame(){
+		public void endGame(){
 			Network.Disconnect();
 			MasterServer.UnregisterHost();
 			Application.LoadLevel("Menu");
