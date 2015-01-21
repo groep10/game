@@ -118,6 +118,13 @@ namespace Game.Web {
 			});
 		}
 
+		public void getScores(handleHash callback) {
+			Http request = new Http("http://sot.meaglin.com/api.php?action=scores");
+			request.getJson((json) => {
+				callback(json);
+			});
+		}
+
 		public void createGame(String name, handleHash callback) {
 			WWWForm form = new WWWForm();
 			form.AddField("token", this.getAccessToken());
