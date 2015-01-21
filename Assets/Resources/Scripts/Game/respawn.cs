@@ -2,12 +2,15 @@
 using UnityEngine;
 using System.Collections;
 using Game.Level;
+using UnityEngine.UI;
 
 namespace Game {
 
 	public class respawn : MonoBehaviour {
 
 		private bool upsideDown = false;
+		public Text respawnText;
+
 
 		// rotates the player up again.
 		void resetRotation(){
@@ -38,6 +41,8 @@ namespace Game {
 					Invoke("resetRotation", 3);
 				}
 			}
+			
+			respawnText.text = "Resetting";
 
 			if(Input.GetKeyDown(KeyCode.R)){
 				if(Game.Controller.getInstance().activeMode.ToString() == "TronMode (Game.Level.TronMode)"){
@@ -45,7 +50,9 @@ namespace Game {
 					return;
 				}
 				Debug.Log("Resetting player....");
+
 				Invoke("resetPlayer", 5);
+				respawnText.enabled = true; 
 				}
 			}	
 		}
