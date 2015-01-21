@@ -37,9 +37,6 @@ namespace Game.Level {
 
 			if (count == 0) {
 				Game.Controller.getInstance ().leveltour.beginTour (() => {
-					Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
-					camera.gameObject.SetActive (true);
-
 					Game.Controller.getInstance ().countdown.beginCountdown ();
 					count = 1;
 
