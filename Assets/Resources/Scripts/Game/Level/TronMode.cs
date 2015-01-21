@@ -38,6 +38,7 @@ namespace Game.Level {
 			GameObject[] players = Game.Controller.getInstance ().getPlayers ();
 			alive = players.Length;
 
+			Game.Controller.getInstance ().countdownmg.beginCountdownmg ();
 			for (int i = 0; i < players.Length; i += 1) {
 				GameObject player = players[i];
 				TronLineRenderer line = player.AddComponent<TronLineRenderer>();
