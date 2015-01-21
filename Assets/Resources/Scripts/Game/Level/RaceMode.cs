@@ -91,27 +91,7 @@ namespace Game.Level {
 		public void placeAsset() {
 			// randomise the location within x and z boundaries
 			findPlacedAssets ();
-			float x = 0;
-			float z = 0;
-			//x = Random.Range (-500, 500);
-			//z = Random.Range (-500, 500);
-			Vector3 location = new Vector3(x, 0f, z);
-			bool fits = true;
-			do {
-				fits = true;
-				x = Random.Range (-500, 500);
-				z = Random.Range (-500, 500);
-				location = new Vector3(x,0f,z);
-				foreach (GameObject go in placedAssets) {
-						Vector3 pos = go.transform.position;
-
-						if (Vector3.Distance(location,pos) < 25) {
-								fits = false;
-						}
-				}
-			
-			} while (fits == false);
-			location = new Vector3(x, 0f, z);
+			Vector3 location = findLocation();
 
 			float rotationY = Random.Range (0, 360);
 
@@ -126,12 +106,45 @@ namespace Game.Level {
 			});
 		}
 
+		public Vector3 findLocation() {
+			float x = 0;
+			float z = 0;
+			Vector3 location = new Vector3(x, 0f, z);
+			bool fits = true;
+			do {
+				fits = true;
+				x = Random.Range (-500, 500);
+				z = Random.Range (-500, 500);
+				location = new Vector3(x,0f,z);
+				fits = checkLocation(location);
+			
+			} while (fits == false);
+			return location;
+
+		}
+
+		//checks if a new location is too close to any existing arena assets.
+		public bool checkLocation(Vector3 location){
+			foreach (GameObject go in placedAssets) {
+						Vector3 pos = go.transform.position;
+
+						if (Vector3.Distance(location,pos) < 25) {
+								return false;
+						}
+				}
+				return true;
+		}
+
 		// sets the checkpoint in the arena
 		public void placeCheckpoint() {
-			Vector2 locXZ = algorithm.runGeneticAlgorithm ();
-			float locX = locXZ.x;
-			float locZ = locXZ.y;
-			Vector3 location = new Vector3(locX, 0f, locZ);
+			Vector3 location;
+			do {
+				Vector2 locXZ = algorithm.runGeneticAlgorithm ();
+				float locX = locXZ.x;
+				float locZ = locXZ.y;
+				location = new Vector3(locX, 0f, locZ);
+			}while (checkLocation(location) == false);
+			
 
 			activeCheckpoint = (GameObject) Network.Instantiate (checkpointPrefab, location, Quaternion.identity, 0);
 			Invoke("refreshCheckpoint", checkpointMoveTimer);

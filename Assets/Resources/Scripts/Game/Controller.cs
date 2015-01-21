@@ -24,6 +24,7 @@ namespace Game {
 		public Explanation explanation;
 		public TerrainManager terrainManager;
 		public LevelTour leveltour;
+		public CountDownMiniGame countdownmg;
 
 		public Mode activeMode;
 
