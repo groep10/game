@@ -52,7 +52,7 @@ namespace Game.Level {
 		}
 
 		void starting() {
-			Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint!");
+			Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoints!");
 			Game.Controller.getInstance ().enablePlayer();
 
 			Game.Controller.getInstance ().countdownmg.beginCountdownmg ();
