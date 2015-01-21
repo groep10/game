@@ -23,11 +23,10 @@ namespace Game.Level.Zombie {
 		}﻿
 
 		void Update() {
-			if (dead) {
-				if(Network.isServer && !dead) {
-					dead = true;
-				}
-				return;
+		
+			if(Network.isServer && dead) {
+				Network.Destroy(this.gameObject);
+				Network.RemoveRPCs(networkView.viewID);
 			}
 			currentDistance = int.MaxValue;
 			foreach (GameObject go in Targets) {
@@ -59,14 +58,9 @@ namespace Game.Level.Zombie {
 		[RPC]
 		void damage(int dam, NetworkViewID shooter) {
 			health -= dam;
-			Debug.Log("health: " + health);
 			if (health <= 0 && Network.isServer && !dead) {
 				dead = true;
-				Debug.Log("killed by: " + shooter);
 				mode.broadcastPoint(NetworkView.Find(shooter).gameObject.GetComponent<PlayerInfo>().getUsername());
-
-				Network.Destroy(this.gameObject);
-				Network.RemoveRPCs(networkView.viewID);
 			}
 		}
 	}

@@ -25,11 +25,16 @@ namespace Game.Net {
 		}
 		
 		void OnFailedToConnect(NetworkConnectionError error) {
-			menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false);
+			if(error == NetworkConnectionError.TooManyConnectedPlayers){
+				menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false,"full");
+			}
+			else{
+				menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false,"error");
+			}
 		}
 		
 		void OnConnectedToServer() {
-			menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (true);
+			menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (true,"");
 		}
 
 		// Remove player on disconnect
