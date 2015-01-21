@@ -39,12 +39,10 @@ namespace Game.Level {
 			Game.Controller.getInstance ().disablePlayer();
 
 			if (count == 0) {
-				Game.Controller.getInstance ().leveltour.beginTour (() => {
-					Game.Controller.getInstance ().countdown.beginCountdown ();
-					count = 1;
+				Game.Controller.getInstance ().countdown.beginCountdown ();
+				count = 1;
 
-					Invoke ("starting", 3);
-				});
+				Invoke ("starting", 3);
 			} else {
 				Game.Controller.getInstance ().countdown.beginCountdown ();
 
@@ -174,6 +172,8 @@ namespace Game.Level {
 		public override void reset() {
 			finished = false;
 			activeCheckpoint = null;
+
+			rank = 0;
 
 			reached.Clear();
 
