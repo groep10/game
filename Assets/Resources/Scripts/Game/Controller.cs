@@ -24,6 +24,7 @@ namespace Game {
 		public Explanation explanation;
 		public TerrainManager terrainManager;
 		public LevelTour leveltour;
+		public CountDownMiniGame countdownmg;
 
 		public Mode activeMode;
 
@@ -64,6 +65,7 @@ namespace Game {
 			}
 			Debug.Log("starting main");
 			activeMode = mainMode;
+			GameObject.Find ("Background music").audio.Play ();
 			activeMode.beginMode(() => {
 				if(Network.isServer) {
 					// Remove previous start games from buffer.
