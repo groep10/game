@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 using Game.Level.Tron;
 using Game.Net;
@@ -11,6 +12,7 @@ namespace Game.Level {
 		private bool finished;
 		private bool singleplayer;
 		private GameObject[] deadPlayers;
+		private List<GameObject> graveStones = new List<GameObject>(4);
 
 		private Hashtable dead;
 		private int alive;
@@ -29,6 +31,9 @@ namespace Game.Level {
 
 			Game.Controller.getInstance ().countdown.beginCountdown ();
 			Invoke ("starting", 3);
+			loadGravestones();
+
+
 		}
 
 		public void starting() {
@@ -52,11 +57,22 @@ namespace Game.Level {
 			}
 		}
 
+		void loadGravestones(){
+			foreach (Object o in Resources.LoadAll("Prefabs/Game/Level")) {
+				if (!(o is GameObject)) {
+					continue;
+				}
+				GameObject go = (GameObject) o;
+				if (go.tag == "TronGrave") {
+					graveStones.Add(go);
+				}
+			}
+		}
+
 		// called when a player dies in tron
 		[RPC]
 		public void notifyDeath(string playername) {
-			Game.Controller.getInstance ().scores.deadTronPlayer (playername);
-
+			Game.Controller.getInstance ().scores.deadTronPlayer (playername);			
 			if (Network.isClient) {
 				return;
 			}
@@ -66,6 +82,24 @@ namespace Game.Level {
 			if(singleplayer){
 				onTimerEnd();
 			}
+		}
+
+		[RPC]
+		public void placeGravestone(string playername){
+			if (alive <= 1){
+				return;
+			}
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach (GameObject go in players){
+				string name = go.GetComponent<PlayerInfo>().getUsername();
+				if (name.Equals(playername)){
+					Vector3 deathLocation = go.transform.position;
+					GameObject graveStone = (GameObject) Network.Instantiate (graveStones[0], deathLocation, Quaternion.Euler(0f, 0f, 0f), 0);
+					
+					//go.active = false;
+				}
+			}
+			
 		}
 
 		public override void onTick() {
@@ -130,7 +164,14 @@ namespace Game.Level {
 			foreach (TronPlayerStatus stat in stats) {
 				Destroy(stat);
 			}
-
+			GameObject[] graves = GameObject.FindGameObjectsWithTag("TronGrave");	
+			foreach (GameObject go in graves){
+				Destroy(go);
+			}
+			GameObject[] players = Game.Controller.getInstance().getPlayers();
+			foreach (GameObject go in players){
+				go.active = true;
+			}
 			// Gives the winner(s) an overall point
 			Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
