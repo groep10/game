@@ -82,7 +82,7 @@ namespace Game.Net {
 			}
 			readyPlayers++;
 			Debug.Log("ready " + readyPlayers + " " + maxPlayers);
-			if(readyPlayers >= maxPlayers) {
+			if(readyPlayers >= (maxPlayers+1)) {
 				Game.Controller.getInstance ().serverBegin();
 			}
 		}
