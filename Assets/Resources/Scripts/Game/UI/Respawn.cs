@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using Game.Level;
 
-namespace Game {
+namespace Game.UI {
 
 	public class Respawn : MonoBehaviour {
 

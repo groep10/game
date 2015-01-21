@@ -3400,7 +3400,6 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400006}
   - 82: {fileID: 8200000}
-  - 81: {fileID: 8133368}
   - 114: {fileID: 11428998}
   m_Layer: 0
   m_Name: dunebug
@@ -7226,13 +7225,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 3, z: 12}
   m_Center: {x: 0, y: 3, z: 1}
---- !u!81 &8133368
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100444}
-  m_Enabled: 1
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -7491,8 +7483,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 400444}
   camera: {fileID: 0}
-  distance: 30
-  height: 15
+  distance: 25
+  height: 10
   heightDamping: 2
   rotationDamping: 3
 --- !u!137 &13700000
