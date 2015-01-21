@@ -10,11 +10,11 @@ namespace Game.UI {
 		public float heightDamping = 2.0f;
 		public float rotationDamping = 3.0f;
 
-		void Start() {
-			camera = Camera.main.transform;
-		}
-
 		void LateUpdate () {
+			while (camera == null){
+				camera = Camera.main.transform;
+			}
+
 			if (!target) { //Check of er een target is
 				return;
 			}

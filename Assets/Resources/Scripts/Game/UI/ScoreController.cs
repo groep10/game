@@ -241,8 +241,6 @@ namespace Game.UI {
 
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
 
-		public int checkpointScore;
-
 		// initializes the race minigame hashtable
 		public void initializeRaceScores() {
 			minigame.Clear();
@@ -253,20 +251,11 @@ namespace Game.UI {
 				minigame[inf.getUsername()] = 0;
 			}
 			updateRaceScores();
-
-			checkpointScore = players.Length;
-		}
-
-		// Resets the checkpointScore to the amount of players in the game
-		public void resetCheckpointScore(){
-			checkpointScore = Game.Controller.getInstance().getPlayers().Length;
 		}
 
 		// Add minigame score for the given playername
-		public void raceAddFinishedPlayer(string playername) {
-			Debug.Log("adding player");
-			checkpointScore--;			
-			minigame[playername] = (int) getMinigameScore(playername) + checkpointScore;
+		public void raceAddScore(string playername, int points) {
+			minigame[playername] = (int) getMinigameScore(playername) + points;
 			updateRaceScores();
 		}
 

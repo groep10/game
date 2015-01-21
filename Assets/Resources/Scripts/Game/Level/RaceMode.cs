@@ -17,10 +17,15 @@ namespace Game.Level {
 
 		public static GeneticPlacement algorithm = new GeneticPlacement();
 
-		public float checkpointMoveTimer = 30f;
 		public float finishTimer = 120f;
+		public int winScore = 10;
 
 		private bool finished;
+
+
+		private int rank = 0;
+		private int players = 0;
+		private Hashtable reached = new Hashtable();
 
 		public override void beginMode(System.Action finishHandler) {
 			base.beginMode (finishHandler);
@@ -29,17 +34,12 @@ namespace Game.Level {
 
 			Game.Controller.getInstance().scores.initializeRaceScores();
 
-			if (Network.isServer) {
-				placeCheckpoint();
-			}
+			players = Network.connections.Length + 1;
 
 			Game.Controller.getInstance ().disablePlayer();
 
 			if (count == 0) {
 				Game.Controller.getInstance ().leveltour.beginTour (() => {
-					Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
-					camera.gameObject.SetActive (true);
-
 					Game.Controller.getInstance ().countdown.beginCountdown ();
 					count = 1;
 
@@ -60,23 +60,43 @@ namespace Game.Level {
 			Game.Controller.getInstance ().countdownmg.beginCountdownmg ();
 
 			if (Network.isServer) {
+				placeCheckpoint();
+			}
+
+			if (Network.isServer) {
 				Invoke ("onTimerEnd", finishTimer);
 			}
 		}
 
-		// sets the checkpoint in the arena
-		public void placeCheckpoint() {
-			Vector3 location;
-			do {
-				Vector2 locXZ = algorithm.runGeneticAlgorithm ();
-				float locX = locXZ.x;
-				float locZ = locXZ.y;
-				location = new Vector3(locX, 0f, locZ);
-			} while (Game.Controller.getInstance ().terrainManager.checkLocation(location) == false);
+		public void onCheckpointReached(string playername) {
+			if(reached.ContainsKey(playername) || finished) {
+				return;
+			}
 
+			rank++;
+			int points = 4 - rank;
+			
+			addScore(playername, points);
+			networkView.RPC("addScore", RPCMode.Others, playername, points);
 
-			activeCheckpoint = (GameObject) Network.Instantiate (checkpointPrefab, location, Quaternion.identity, 0);
-			Invoke("refreshCheckpoint", checkpointMoveTimer);
+			reached[playername] = true;
+
+			if(Game.Controller.getInstance ().scores.bestScore() >= 10) {
+				onGameFinish();
+				networkView.RPC("onGameFinish", RPCMode.Others);
+				return;
+			}
+
+			if(rank >= (players - 1)) {
+				rank = 0;
+				reached.Clear();
+				refreshCheckpoint();
+			}
+		}
+
+		[RPC]
+		public void addScore(string playername, int points) {
+			Game.Controller.getInstance ().scores.raceAddScore(playername, points);
 		}
 
 		// replaces the old checkpoint with a new one
@@ -84,6 +104,21 @@ namespace Game.Level {
 			Debug.Log("Refreshing checkpoint");
 			destroyCheckpoint();
 			placeCheckpoint();
+		}
+
+		// sets the checkpoint in the arena
+		public void placeCheckpoint() {
+			Vector3 location;
+			Game.Controller.getInstance ().terrainManager.cacheAssets();
+			do {
+				Vector2 locXZ = algorithm.runGeneticAlgorithm ();
+				float locX = locXZ.x;
+				float locZ = locXZ.y;
+				location = new Vector3(locX, 0f, locZ);
+			} while (Game.Controller.getInstance ().terrainManager.checkLocation(location) == false);
+
+			activeCheckpoint = (GameObject) Network.Instantiate (checkpointPrefab, location, Quaternion.identity, 0);
+			activeCheckpoint.GetComponent<CheckpointBehaviour>().mode = this;
 		}
 
 		// Destroys the checkpoint
@@ -97,26 +132,7 @@ namespace Game.Level {
 		}
 
 		public override void onTick() {
-			if (finished) {
-				return;
-			}
 
-			if (!Network.isServer) {
-				return;
-			}
-
-			// refresh the checkpoint if all but one players have reached it
-			if (activeCheckpoint != null) {
-				int cnt = activeCheckpoint.GetComponent<CheckpointBehaviour>().getReachedCount();
-				if (cnt > 0 && cnt >= (Network.connections.Length - 1)) {
-					networkView.RPC("onGameFinish", RPCMode.All);
-				}
-			}
-
-			// end the minigame if the winningscore is reached by the best player
-			if (Game.Controller.getInstance().scores.bestScore() >= 10) {
-				networkView.RPC("onGameFinish", RPCMode.All);
-			}
 		}
 
 		public void onTimerEnd() {
@@ -158,6 +174,8 @@ namespace Game.Level {
 		public override void reset() {
 			finished = false;
 			activeCheckpoint = null;
+
+			reached.Clear();
 
 			base.reset();
 		}
