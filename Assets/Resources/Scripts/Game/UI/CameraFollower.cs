@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 namespace Game.UI {
-	public class PlayerFollower : MonoBehaviour {
+	public class CameraFollower : MonoBehaviour {
 		public Transform target;
 		public Transform camera;
 		public float distance = 10.0f; //afstand van de target in x-z veld
