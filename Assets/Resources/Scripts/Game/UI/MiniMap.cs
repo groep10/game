@@ -156,7 +156,7 @@ namespace Game.UI {
 				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding, mapWidth);
 			} else if (radarLocation == radarLocationValues.topRight) {
 				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
-				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding + 10, mapWidth);
+				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, padding + 20, mapWidth);
 			} else if (radarLocation == radarLocationValues.bottomLeft) {
 				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, padding, mapWidth);
 				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
