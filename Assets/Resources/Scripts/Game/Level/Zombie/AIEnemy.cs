@@ -15,7 +15,8 @@ namespace Game.Level.Zombie {
 		private GameObject targ;
 		private int health = 100;
 		private bool dead = false;
-		private Vector3 pos, syncPos;
+		private Vector3 pos = new Vector3(0,10000,0);
+		private Vector3 syncPos = new Vector3 (0, 10000, 0);
 		private Quaternion rot, syncRot;
 
 		public ZombieMode mode;
@@ -77,6 +78,9 @@ namespace Game.Level.Zombie {
 				stream.Serialize(ref rot);
 				syncPos = pos;
 				syncRot = rot;
+				if(syncPos == new Vector3(0,0,0)){
+					syncPos = new Vector3(0,10000,0);
+				}
 			}
 		}
 

@@ -222,7 +222,7 @@ namespace Game {
 			if (networkView.isMine) {
 				float delta = Time.fixedDeltaTime;
 				if (rigidbody.velocity.magnitude < 10) {
-					torque = 80f;
+					torque = 120f;
 				} else {
 					torque = 50f;
 				}
