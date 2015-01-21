@@ -48,7 +48,7 @@ public class LevelTour : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-			if (Input.GetKey (KeyCode.AltGr)) {
+			if (Input.GetKey (KeyCode.Backspace)) {
 				eindTour ();
 			}
 			transform.LookAt(target); //Makes sure camera always looks at the right direction

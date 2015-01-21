@@ -12,7 +12,8 @@ namespace Game.Level.Race {
 		private List<NetworkViewID> playerOrder = new List<NetworkViewID>();
 
 		void OnTriggerEnter(Collider other) {
-
+			if(Network.isServer){
+				Debug.Log("checkpoint trigger entered");
 				GameObject obj = other.gameObject;
 				if (obj.tag == "Player") {
 					Debug.Log ("Player entered the Checkpoint trigger");
@@ -29,6 +30,7 @@ namespace Game.Level.Race {
 					}
 					*/
 				}
+			}
 		}
 
 		[RPC]
