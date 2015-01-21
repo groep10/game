@@ -16,7 +16,7 @@ namespace Game.UI {
 		/* ============================================== Variables ==================================== */
 
 		public GameObject prefab;
-		private int winningOverallScore = 3;
+		private int winningOverallScore = 1;
 
 		private Hashtable minigame = new Hashtable();
 		private Hashtable overall = new Hashtable();
@@ -103,7 +103,7 @@ namespace Game.UI {
 				}
 			}
 
-			while(index < 2 && index < Game.Controller.getInstance().getPlayers().Length){
+			while(index < 3 && index < Game.Controller.getInstance().getPlayers().Length){
 				winningScore--;
 				foreach(DictionaryEntry de in overall){
 					if((int) de.Value == winningScore){
