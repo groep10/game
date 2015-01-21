@@ -31,6 +31,8 @@ namespace Game.Level.Tron {
 				Debug.Log (GetComponent<PlayerInfo>().getUsername() + " hit line");
 				dead = true;
 				mode.networkView.RPC ("notifyDeath", RPCMode.All, GetComponent<PlayerInfo>().getUsername()); 
+				mode.networkView.RPC ("placeGravestone", RPCMode.All, GetComponent<PlayerInfo>().getUsername());
+
 			}
 		}
 
@@ -38,6 +40,7 @@ namespace Game.Level.Tron {
 			if(networkView.isMine){
 				if (dead) {
 					this.rigidbody.velocity = Vector3.zero;
+
 					return;
 				}
 				control.reversing = false;
