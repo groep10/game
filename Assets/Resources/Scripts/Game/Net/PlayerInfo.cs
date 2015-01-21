@@ -18,8 +18,7 @@ namespace Game.Net
         private string userid;
 
         void Awake() {
-            if (networkView.isMine)
-            {
+            if (networkView.isMine) {
                 username = AccountController.getInstance().getUser()["displayname"] as string;
                 userid = AccountController.getInstance().getUser()["id"] as string;
                 networkView.RPC("setInformation", RPCMode.AllBuffered, username, userid);
@@ -36,6 +35,13 @@ namespace Game.Net
             ScoreController scores = GameObject.Find("scores").GetComponent<ScoreController>();
             scores.initializeOverallScores();
             scores.updateOverallScores();
+
+			// TODO: solve properly.
+            if (networkView.isMine) {
+				Debug.Log ("send ready");
+
+				GameObject.FindObjectOfType<Game.Net.Manager>().networkView.RPC("onReady", RPCMode.All);
+            }
         }
 
         public string getUserId()
@@ -49,3 +55,4 @@ namespace Game.Net
         }
     }
 }
+

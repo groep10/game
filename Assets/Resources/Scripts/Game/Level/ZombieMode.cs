@@ -41,6 +41,8 @@ namespace Game.Level {
 
 			Game.Controller.getInstance ().enablePlayer();
 
+			Game.Controller.getInstance ().countdownmg.beginCountdownmg ();
+
 			if (Network.isServer) {
 				InvokeRepeating ("spawnEnemy", spawnTime, spawnTime);
 				Invoke("onTimerEnd", finishTimer);
@@ -93,6 +95,7 @@ namespace Game.Level {
 
 		private void onGameDone() {
 			finished = true;
+			Game.Controller.getInstance ().countdownmg.eindCountdown ();
 
 			CancelInvoke();
 

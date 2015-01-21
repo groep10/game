@@ -17,10 +17,6 @@ namespace Game.Level {
 
 		public static GeneticPlacement algorithm = new GeneticPlacement();
 
-		private List<GameObject> assets;
-		private GameObject[] placedAssets;
-		private int assetsInArena = 10;
-
 		public float checkpointMoveTimer = 30f;
 		public float finishTimer = 120f;
 
@@ -34,10 +30,6 @@ namespace Game.Level {
 			Game.Controller.getInstance().scores.initializeRaceScores();
 
 			if (Network.isServer) {
-				loadAssets();
-				for (int i = 0; i < assetsInArena; i++) {
-					placeAsset();
-				}
 				placeCheckpoint();
 			}
 
@@ -62,77 +54,14 @@ namespace Game.Level {
 		}
 
 		void starting() {
-			Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint! Be 1st to gain an advantage!");
+			Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the checkpoint!");
 			Game.Controller.getInstance ().enablePlayer();
+
+			Game.Controller.getInstance ().countdownmg.beginCountdownmg ();
 
 			if (Network.isServer) {
 				Invoke ("onTimerEnd", finishTimer);
 			}
-		}
-
-		// returns an ArrayList of all GameObjects with tag "ArenaAsset"
-		void loadAssets() {
-			assets = new List<GameObject>();
-			foreach (Object o in Resources.LoadAll("Prefabs/Game/Arena/ArenaAssets")) {
-				if (!(o is GameObject)) {
-					continue;
-				}
-				GameObject go = (GameObject) o;
-				if (go.tag == "ArenaAsset") {
-					assets.Add(go);
-				}
-			}
-		}
-
-		public void findPlacedAssets() {
-			placedAssets = GameObject.FindGameObjectsWithTag("ArenaAsset");
-		}
-
-		public void placeAsset() {
-			// randomise the location within x and z boundaries
-			findPlacedAssets ();
-			Vector3 location = findLocation();
-
-			float rotationY = Random.Range (0, 360);
-
-			// randomise the asset to be placed
-			int assetIndex = Random.Range(0, assets.Count);
-			GameObject asset = assets[assetIndex];
-
-			// instantiate the asset
-			GameObject currentAsset = (GameObject) Network.Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f), 0);
-			currentAsset.GetComponentInChildren<FadeBehaviour> ().setOnDone(() => {
-				placeAsset();
-			});
-		}
-
-		public Vector3 findLocation() {
-			float x = 0;
-			float z = 0;
-			Vector3 location = new Vector3(x, 0f, z);
-			bool fits = true;
-			do {
-				fits = true;
-				x = Random.Range (-500, 500);
-				z = Random.Range (-500, 500);
-				location = new Vector3(x,0f,z);
-				fits = checkLocation(location);
-			
-			} while (fits == false);
-			return location;
-
-		}
-
-		//checks if a new location is too close to any existing arena assets.
-		public bool checkLocation(Vector3 location){
-			foreach (GameObject go in placedAssets) {
-						Vector3 pos = go.transform.position;
-
-						if (Vector3.Distance(location,pos) < 25) {
-								return false;
-						}
-				}
-				return true;
 		}
 
 		// sets the checkpoint in the arena
@@ -143,8 +72,8 @@ namespace Game.Level {
 				float locX = locXZ.x;
 				float locZ = locXZ.y;
 				location = new Vector3(locX, 0f, locZ);
-			}while (checkLocation(location) == false);
-			
+			} while (Game.Controller.getInstance ().terrainManager.checkLocation(location) == false);
+
 
 			activeCheckpoint = (GameObject) Network.Instantiate (checkpointPrefab, location, Quaternion.identity, 0);
 			Invoke("refreshCheckpoint", checkpointMoveTimer);
@@ -185,7 +114,7 @@ namespace Game.Level {
 			}
 
 			// end the minigame if the winningscore is reached by the best player
-			if (Game.Controller.getInstance().scores.bestScore() >= 10){
+			if (Game.Controller.getInstance().scores.bestScore() >= 10) {
 				networkView.RPC("onGameFinish", RPCMode.All);
 			}
 		}
@@ -218,6 +147,8 @@ namespace Game.Level {
 
 		public override void endMode() {
 			destroyCheckpoint();
+
+			Game.Controller.getInstance ().countdownmg.eindCountdown ();
 
 			Debug.Log("Ending Race");
 
