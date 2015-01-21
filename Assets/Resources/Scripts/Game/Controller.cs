@@ -65,7 +65,15 @@ namespace Game {
 			}
 			Debug.Log("starting main");
 			activeMode = mainMode;
-			GameObject.Find ("Background music").audio.Play ();
+			bool isPlaying = GameObject.Find ("Background music").audio.isPlaying;
+			Debug.Log (isPlaying);
+			if (isPlaying) {
+						return;
+				}
+			else {
+				GameObject.Find ("Background music").audio.Play ();
+			}
+
 			activeMode.beginMode(() => {
 				if(Network.isServer) {
 					// Remove previous start games from buffer.
