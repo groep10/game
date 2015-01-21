@@ -42,9 +42,6 @@ namespace Game.Level {
 			Game.Controller.getInstance ().disablePlayer();
 
 			Game.Controller.getInstance ().leveltour.beginTour (() => {
-				Transform camera = Game.Controller.getInstance ().getActivePlayer ().transform.FindChild ("Camera1");
-				camera.gameObject.SetActive (true);
-
 				Game.Controller.getInstance ().countdown.beginCountdown ();
 				Game.Controller.getInstance ().explanation.setExplanation("Race to the top of the building! Reach the checkpoint to win!");
 				Invoke ("starting", 3);
@@ -53,6 +50,8 @@ namespace Game.Level {
 
 		void starting() {
 			Game.Controller.getInstance ().enablePlayer();
+
+			Game.Controller.getInstance ().countdownmg.beginCountdownmg ();
 
 			if (Network.isServer) {
 				Invoke("onGameEnd", finishTimer);
@@ -120,6 +119,8 @@ namespace Game.Level {
 		private void onGameDone() {
 			finished = true;
 
+			Game.Controller.getInstance ().countdownmg.eindCountdown ();
+			
 			foreach (GameObject plane in createdPlanes) {
 				plane.GetComponent<PlaneRenderer>().cleanupChildren();
 				Network.Destroy(plane);
