@@ -29,8 +29,15 @@ namespace Game.Menu {
 		{
 			if (createServer != null) {
                 createServer.onClick.AddListener(onCreateClick);
+				gameName.onEndEdit.AddListener(onCreateEndEdit);
 			}
             InvokeRepeating("requestList", 5f, 5f);
+		}
+
+		public void onCreateEndEdit(string action) {
+			if (Input.GetKeyDown(KeyCode.Return)) {
+				onCreateClick();
+			}
 		}
 
         void onCreateClick()
