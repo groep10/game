@@ -91,7 +91,7 @@ namespace Game.Level {
 				rank = 0;
 				reached.Clear();
 				moving = true;
-				Invoke('refreshCheckpoint', 1;
+				Invoke("refreshCheckpoint", 1);
 			}
 		}
 
