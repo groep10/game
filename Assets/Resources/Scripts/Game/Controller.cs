@@ -86,7 +86,7 @@ namespace Game {
 		public void serverStartMiniGame() {
 			if(Network.isClient) { return; }
 			if (activeMode != null) {
-				AccountController.getInstance().createMinigameGameScores(activeMode.getScores(), (res) => {
+				AccountController.getInstance().createMinigameScores(activeMode.getScores(), (res) => {
 					activeMode = null;
 					serverStartMiniGame();
 				});

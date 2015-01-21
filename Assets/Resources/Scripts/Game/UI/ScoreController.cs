@@ -384,8 +384,23 @@ namespace Game.UI {
 
 		void Update(){
 			if(bestOverallScore() >= winningOverallScore){
+				winningOverallScore = 1000; // disable
+
 				displayOverallRanking();
 				Game.Controller.getInstance().finishGame();
+				if(Network.isServer) {
+					GameObject[] playash = Game.Controller.getInstance ().getPlayers ();
+					Hashtable[] scores = new Hashtable[playash.Length];
+					for (int i = 0; i < playash.Length; i += 1) {
+						scores[i] = new Hashtable();
+						PlayerInfo pi = playash[i].GetComponent<PlayerInfo> ();
+						scores[i]["id"] = pi.getUserId();
+						scores[i]["score"] = overall[pi.getUsername()];
+					}
+					AccountController.getInstance().createGameScores(scores, (res) => {
+						Debug.Log("Scores submitted");
+					});
+				}
 			}
 		}
 

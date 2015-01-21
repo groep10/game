@@ -161,7 +161,7 @@ namespace Game.Web {
 			});
 		}
 
-		public void createMinigameGameScores(Hashtable[] scores, handleHash callback) {
+		public void createMinigameScores(Hashtable[] scores, handleHash callback) {
 			if (currentMinigameId <= 0) {
 				callback(null);
 				return;
@@ -174,6 +174,24 @@ namespace Game.Web {
 			Debug.Log(JSON.JsonEncode(scores));
 			
 			Http request = new Http("http://sot.meaglin.com/api.php?action=createminigamescores", form);
+			request.getJson((json) => {
+				callback(json);
+			});
+		}
+
+		public void createGameScores(Hashtable[] scores, handleHash callback) {
+			if (currentMinigameId <= 0) {
+				callback(null);
+				return;
+			}
+			WWWForm form = new WWWForm();
+			form.AddField("token", this.getAccessToken());
+			form.AddField("data", JSON.JsonEncode(scores));
+			form.AddField("gameid", currentMinigameId);
+
+			Debug.Log(JSON.JsonEncode(scores));
+			
+			Http request = new Http("http://sot.meaglin.com/api.php?action=creategamescores", form);
 			request.getJson((json) => {
 				callback(json);
 			});
