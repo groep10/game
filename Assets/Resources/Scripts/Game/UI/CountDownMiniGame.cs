@@ -10,7 +10,6 @@ namespace Game.UI {
 		public void beginCountdownmg () {
 			timeleft.enabled = true;
 			Invoke ("Countdownmg", 1);
-			
 		}
 		
 		void Countdownmg() {

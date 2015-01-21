@@ -4,10 +4,15 @@ using System.Collections;
 namespace Game.UI {
 	public class PlayerFollower : MonoBehaviour {
 		public Transform target;
+		public Transform camera;
 		public float distance = 10.0f; //afstand van de target in x-z veld
 		public float height = 5.0f; //hoeveel hoger de camera zit
 		public float heightDamping = 2.0f;
 		public float rotationDamping = 3.0f;
+
+		void Start() {
+			camera = Camera.main.transform;
+		}
 
 		void LateUpdate () {
 			if (!target) { //Check of er een target is
@@ -25,8 +30,8 @@ namespace Game.UI {
 
 
 			//Huidige locatie camera
-			float currentRotationAngle = transform.eulerAngles.y;
-			float currentHeight = transform.position.y;
+			float currentRotationAngle = camera.eulerAngles.y;
+			float currentHeight = camera.position.y;
 
 			// Met lerp interpoleren tussen huidige locatie en waar camera naartoe moet zodat beweging smooth is
 			currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
@@ -37,12 +42,12 @@ namespace Game.UI {
 
 			// positie camera goed zetten met berekende hoogte en rotatie en stuk naar achter plaatsen.
 			Vector3 pos = target.position;
-			transform.position = pos;
-			transform.position -= currentRotation * Vector3.forward * distance;
-			transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
+			camera.position = pos;
+			camera.position -= currentRotation * Vector3.forward * distance;
+			camera.position = new Vector3(camera.position.x, currentHeight, camera.position.z);
 
 			//Roteert de camera zodat de voorwaartse vector op target gericht is.
-			transform.LookAt (pos);
+			camera.LookAt (pos);
 		}
 	}
 }

@@ -28,7 +28,6 @@ namespace Game {
 
 		public Mode activeMode;
 
-
 		public GameObject[] getPlayers() {
 			return GameObject.FindGameObjectsWithTag("Player");
 		}
@@ -43,45 +42,31 @@ namespace Game {
 			return null;
 		}
 
-		public void serverStartGame() {
-			if(Network.isClient) { return; }
-			if (activeMode != null) {
-				AccountController.getInstance().createMinigameGameScores(activeMode.getScores(), (res) => {
-					activeMode = null;
-					serverStartGame();
-				});
-				return;
-			}
-			AccountController.getInstance().createMinigameGame(mainMode.getName(), (res) => {
-				networkView.RPC("startGame", RPCMode.AllBuffered);
-			});
+		public void initialzeGame() {
+
+			float rnd = Random.value;
+			setupGame(rnd); // Prevent contention issues.
+			terrainManager.placeAssets ();
+			networkView.RPC("setupGame", RPCMode.OthersBuffered, rnd);
 		}
 
 		[RPC]
-		public void startGame() {
-			if(Network.isServer) {
-				Network.RemoveRPCs(terrainManager.networkView.viewID);
-				terrainManager.networkView.RPC("updateTerrain", RPCMode.AllBuffered, Random.value);
+		public void setupGame(float rnd) {
+			AudioSource backgroundaudio = GameObject.Find ("Background music").audio;
+			if (!backgroundaudio.isPlaying) {
+				backgroundaudio.Play();
 			}
-			Debug.Log("starting main");
-			activeMode = mainMode;
-			bool isPlaying = GameObject.Find ("Background music").audio.isPlaying;
-			Debug.Log (isPlaying);
-			if (isPlaying) {
-						return;
-				}
-			else {
-				GameObject.Find ("Background music").audio.Play ();
-			}
+			terrainManager.updateTerrain(rnd);
+		}
 
-			activeMode.beginMode(() => {
-				if(Network.isServer) {
-					// Remove previous start games from buffer.
-					Network.RemoveRPCs(networkView.viewID);
+		public void serverBegin() {
+			serverStartMiniGame();
+			networkView.RPC("enableCamera", RPCMode.AllBuffered);
+		}
 
-					serverStartMiniGame();
-				}
-			});
+		[RPC]
+		public void enableCamera() {
+			getActivePlayer().GetComponent<PlayerFollower>().enabled = true;
 		}
 
 		public void serverStartMiniGame() {
@@ -104,7 +89,7 @@ namespace Game {
 		public void startMiniGame(int minigame) {
 			if(Network.isServer) {
 				Network.RemoveRPCs(terrainManager.networkView.viewID);
-				terrainManager.networkView.RPC("updateTerrain", RPCMode.AllBuffered, Random.value);
+				terrainManager.networkView.RPC("randomTextures", RPCMode.AllBuffered, Random.value);
 			}
 			Debug.Log("starting mini");
 			activeMode = miniModes[minigame];
@@ -113,11 +98,10 @@ namespace Game {
 					// Remove previous start games from buffer.
 					Network.RemoveRPCs(networkView.viewID);
 
-					serverStartGame();
+					serverStartMiniGame();
 				}
 			});
 		}
-
 
 		public void disablePlayer() {
 			GameObject active = getActivePlayer();

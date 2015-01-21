@@ -11,30 +11,39 @@ namespace Game.Net {
 		public GameObject menuObjects;
 
 		private int maxPlayers = 4;
+		private int readyPlayers = 0;
 		private Vector3 spawn = new Vector3(40, 1, 0);
 		private Vector3 offset = new Vector3(15, 0, 0);
 
 		// Spawn level on network and player
 		void OnServerInitialized(){
 			spawnPlayer();
-			Game.Controller.getInstance ().serverStartGame();
-			if(Network.connections.Length == maxPlayers){
-				Network.maxConnections = 0; 
-			}
-			// Network.Instantiate (level, levelSpawn, Quaternion.identity, 0);
+			Game.Controller.getInstance ().initialzeGame();
+			checkPlayerCount();
 		}
 		
+		void checkPlayerCount() {
+			if(Network.isClient){
+				return;
+			}
+
+			if (Network.connections.Length >= maxPlayers){
+				Network.maxConnections = 0;
+				Debug.Log("game is full close server");
+			}
+		}
+
 		void OnFailedToConnect(NetworkConnectionError error) {
 			if(error == NetworkConnectionError.TooManyConnectedPlayers){
-				menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false,"full");
+				menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false, "full");
 			}
 			else{
-				menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false,"error");
+				menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (false, "error");
 			}
 		}
 		
 		void OnConnectedToServer() {
-			menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (true,"");
+			menuObjects.GetComponentInChildren<ServerListController> ().connectionStatus (true, "");
 		}
 
 		// Remove player on disconnect
@@ -46,21 +55,12 @@ namespace Game.Net {
 		// Let new player spawn on connect
 		void OnPlayerConnected(NetworkPlayer player){
 			networkView.RPC ("spawning", player, Network.connections.Length);
-			if (Network.connections.Length == maxPlayers){
-				Network.maxConnections = 0; 
-				Debug.Log("game is full close server");
-			}
+			checkPlayerCount();
 		}
 		 
 		// Instantiate player1 on network
 		void spawnPlayer(){
 			Network.Instantiate(playerPrefab, spawn, Quaternion.identity, 0);
-			setCanvas ();
-		}
-
-		void setCanvas(){
-			CanvasController canvascontroller = GameObject.Find ("Canvas").GetComponent<CanvasController>();
-			canvascontroller.setCanvasCamera ();
 		}
 
 		public void setMaxPlayers(int max){
@@ -72,6 +72,19 @@ namespace Game.Net {
 		void spawning(int num){
 			spawn = spawn + offset * num;
 			spawnPlayer();
+		}
+
+		[RPC]
+		void onReady() {
+			Debug.Log("ready received");
+			if(Network.isClient) {
+				return;
+			}
+			readyPlayers++;
+			Debug.Log("ready " + readyPlayers + " " + maxPlayers);
+			if(readyPlayers >= maxPlayers) {
+				Game.Controller.getInstance ().serverBegin();
+			}
 		}
 	}
 }

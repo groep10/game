@@ -1,5 +1,8 @@
 using UnityEngine;
 
+using System.Collections;
+using System.Collections.Generic;
+
 namespace Game.Level {
 
 	public class TerrainManager : MonoBehaviour {
@@ -17,7 +20,7 @@ namespace Game.Level {
 		public Texture2D cliff;
 		public Texture2D rocks;
 		public Texture2D dirt;
-		
+
 		private Texture2D tex;
 		private Texture2D tex2;
 
@@ -33,7 +36,6 @@ namespace Game.Level {
 		}
 
 		// edits the terrain according to the radius that is set.
-		[RPC]
 		public void updateTerrain(float num) {
 			if (!Arena.enabled) {
 				Arena.enabled = true;
@@ -60,6 +62,7 @@ namespace Game.Level {
 			randomTextures(num);
 		}
 
+		[RPC]
 		public void randomTextures(float num) {
 			// assign 2 textures to terrain
 			SplatPrototype[] arenaTexture = new SplatPrototype[2];
@@ -117,6 +120,80 @@ namespace Game.Level {
 			tDataTo.baseMapResolution = tDataFrom.baseMapResolution;
 			tDataTo.size = tDataFrom.size;
 			// tDataTo.splatPrototypes = tDataFrom.splatPrototypes;
+		}
+
+
+		private List<GameObject> assets;
+		private GameObject[] placedAssets;
+		private int assetsInArena = 10;
+
+		public void placeAssets() {
+			loadAssets();
+			for (int i = 0; i < assetsInArena; i++) {
+				placeAsset();
+			}
+		}
+
+		// returns an ArrayList of all GameObjects with tag "ArenaAsset"
+		void loadAssets() {
+			assets = new List<GameObject>();
+			foreach (Object o in Resources.LoadAll("Prefabs/Game/Arena/ArenaAssets")) {
+				if (!(o is GameObject)) {
+					continue;
+				}
+				GameObject go = (GameObject) o;
+				if (go.tag == "ArenaAsset") {
+					assets.Add(go);
+				}
+			}
+		}
+
+		public void placeAsset() {
+			// randomise the location within x and z boundaries
+			placedAssets = GameObject.FindGameObjectsWithTag ("ArenaAsset");
+			Vector3 location = findLocation();
+
+			float rotationY = Random.Range (0, 360);
+
+			// randomise the asset to be placed
+			int assetIndex = Random.Range(0, assets.Count);
+			GameObject asset = assets[assetIndex];
+
+			// instantiate the asset
+			GameObject currentAsset = (GameObject) Network.Instantiate (asset, location, Quaternion.Euler(0f, rotationY, 0f), 0);
+			currentAsset.GetComponentInChildren<FadeBehaviour> ().setOnDone(() => {
+				placeAsset();
+			});
+		}
+
+		public Vector3 findLocation() {
+			float x = 0;
+			float z = 0;
+			Vector3 location = new Vector3(x, 0f, z);
+			bool fits = true;
+			int it = 0;
+			do {
+				fits = true;
+				x = Random.Range (-500, 500);
+				z = Random.Range (-500, 500);
+				location = new Vector3(x, 0f, z);
+				fits = checkLocation(location);
+				it++;
+			} while (fits == false && it < 100);
+			return location;
+
+		}
+
+		//checks if a new location is too close to any existing arena assets.
+		public bool checkLocation(Vector3 location) {
+			foreach (GameObject go in placedAssets) {
+				Vector3 pos = go.transform.position;
+
+				if (Vector3.Distance(location, pos) < 25) {
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 

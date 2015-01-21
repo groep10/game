@@ -119,6 +119,7 @@ namespace Game.Level {
 		}
 
 		private void onGameDone() {
+			Game.Controller.getInstance ().countdownmg.eindCountdown ();
 			finished = true;
 
 			TronLineRenderer[] rend = GameObject.FindObjectsOfType<TronLineRenderer> ();
