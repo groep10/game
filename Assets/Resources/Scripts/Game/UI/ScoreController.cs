@@ -93,13 +93,10 @@ namespace Game.UI {
 		/* ==================================== MINIGAMES ========================================= */
 
 		/* ------------------------------------ GENERAL FUNCTIONS --------------------------------- */
-		public void endMinigameScoreHandling() {
+		// returns the best minigame score currently in the game
+		public int bestScore(){
 			int numberOfPlayers = Game.Controller.getInstance().getPlayers().Length;
-
 			int[] playerscores = new int[numberOfPlayers];
-			string[] playernames = new string[numberOfPlayers];
-
-			// string playername = null;
 
 			int i = 0;
 			// fill the playerscores list and find the maximum value
@@ -107,7 +104,15 @@ namespace Game.UI {
 				playerscores[i] = (int) de.Value;
 				i++;
 			}
-			int max = Mathf.Max(playerscores);
+			return Mathf.Max(playerscores);
+		}
+
+		// returns the playernames of the best players in a minigame
+		private string[] bestPlayers(){
+			int numberOfPlayers = Game.Controller.getInstance().getPlayers().Length;
+			string[] playernames = new string[numberOfPlayers];
+
+			int max = bestScore();
 
 			int j = 0;
 			// find out which player(s) has/have the maximum score and won the zombiegame
@@ -117,6 +122,12 @@ namespace Game.UI {
 					j++;
 				}
 			}
+			return playernames;
+		}
+
+		// increases the overall score of the best players by 1
+		public void endMinigameScoreHandling() {
+			string[] playernames = bestPlayers();
 
 			// increase the overall score of the winner(s) by 1
 			foreach(string name in playernames){
@@ -127,60 +138,48 @@ namespace Game.UI {
 			}
 		}
 
-		public object getMinigameScore(String key) {
+		// returns the minigameScore of the given player
+		public object getMinigameScore(string key) {
 			return minigame [key];
 		}
 
-		public object getOveralScore(String key) {
+		// returns the overallScore of the given player
+		public object getOveralScore(string key) {
 			return overall [key];
 		}
 
 		/* ------------------------------------ RACING MINIGAME ----------------------------------- */
 
-		public int rank = 0;
+		public int checkpointScore;
 
 		// initializes the race minigame hashtable
 		public void initializeRaceScores() {
 			minigame.Clear();
-			rank = 0;
+
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
 			foreach (GameObject player in players) {
 				PlayerInfo inf = player.GetComponent<PlayerInfo>();
-				minigame[inf.getUsername()] = "not finished yet";
+				minigame[inf.getUsername()] = 0;
 			}
 			updateRaceScores();
+
+			checkpointScore = players.Length;
 		}
 
-		// Add player to the score line
+		// Resets the checkpointScore to the amount of players in the game
+		public void resetCheckpointScore(){
+			checkpointScore = Game.Controller.getInstance().getPlayers().Length;
+		}
+
+		// Add minigame score for the given playername
 		public void raceAddFinishedPlayer(string playername) {
-			rank++;
-
-			Debug.Log("Rank = " + rank);
-
-			string text;
-			switch (rank) {
-			case 1:
-				text = "1st";
-				break;
-			case 2:
-				text = "2nd";
-				break;
-			case 3:
-				text = "3rd";
-				break;
-			case 4:
-				text = "4th";
-				break;
-			default:
-				text = "not finished yet";
-				break;
-			}
-			minigame[playername] = text;
-
+			Debug.Log("adding player");
+			checkpointScore--;			
+			minigame[playername] = (int) getMinigameScore(playername) + checkpointScore;
 			updateRaceScores();
 		}
 
-		// Updates the Scores of all players
+		// Updates the scores of all players
 		public void updateRaceScores() {
 			resetMinigameScores();
 			addMinigameScore("Mode: race");
