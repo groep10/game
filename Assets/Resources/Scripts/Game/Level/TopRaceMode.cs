@@ -150,6 +150,7 @@ namespace Game.Level {
 
 		public override void reset() {
 			finished = false;
+			createdPlanes.Clear();
 
 			base.reset();
 		}
