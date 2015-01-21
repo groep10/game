@@ -50,7 +50,7 @@ namespace Game.Level.Tron {
 		}
 
 		void CreateMaterial (){
-			material = new Material (Shader.Find("Transparent/Diffuse"));
+			material = new Material (Shader.Find("Diffuse"));
 		}
 
 		public void setColor (int color) {
