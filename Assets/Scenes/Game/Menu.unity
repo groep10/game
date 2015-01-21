@@ -2926,7 +2926,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: .300000012
-  far clip plane: 1200
+  far clip plane: 12000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -11686,6 +11686,8 @@ GameObject:
   - 124: {fileID: 1739988717}
   - 92: {fileID: 1739988716}
   - 114: {fileID: 1739988719}
+  - 45: {fileID: 1739988720}
+  - 81: {fileID: 1739988715}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -11705,6 +11707,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 334253101}
   m_RootOrder: 0
+--- !u!81 &1739988715
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1739988713}
+  m_Enabled: 1
 --- !u!92 &1739988716
 Behaviour:
   m_ObjectHideFlags: 0
@@ -11771,6 +11780,14 @@ MonoBehaviour:
   maincamera: {fileID: 387800428}
   height: 3
   delta: 300
+--- !u!45 &1739988720
+Skybox:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1739988713}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: da976b1a4f7ebb949b0f71341e4f1821, type: 2}
 --- !u!1 &1769633861
 GameObject:
   m_ObjectHideFlags: 0
