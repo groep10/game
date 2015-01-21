@@ -150,7 +150,9 @@ namespace Game.Level {
 			Invoke("refreshCheckpoint", checkpointMoveTimer);
 		}
 
+		// replaces the old checkpoint with a new one
 		public void refreshCheckpoint() {
+			Debug.Log("Refreshing checkpoint");
 			destroyCheckpoint();
 			placeCheckpoint();
 		}
@@ -174,11 +176,17 @@ namespace Game.Level {
 				return;
 			}
 
+			// refresh the checkpoint if all but one players have reached it
 			if (activeCheckpoint != null) {
 				int cnt = activeCheckpoint.GetComponent<CheckpointBehaviour>().getReachedCount();
 				if (cnt > 0 && cnt >= (Network.connections.Length - 1)) {
-					networkView.RPC("onGameFinish",  RPCMode.All);
+					networkView.RPC("onGameFinish", RPCMode.All);
 				}
+			}
+
+			// end the minigame if the winningscore is reached by the best player
+			if (Game.Controller.getInstance().scores.bestScore() >= 10){
+				networkView.RPC("onGameFinish", RPCMode.All);
 			}
 		}
 
@@ -202,7 +210,7 @@ namespace Game.Level {
 				return;
 			}
 
-			Game.Controller.getInstance().scores.endRaceMode();
+			Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
 			finished = true;
 			Invoke("endMode", 5);
@@ -230,19 +238,9 @@ namespace Game.Level {
 				scores[i] = new Hashtable();
 				PlayerInfo pi = playash[i].GetComponent<PlayerInfo> ();
 				scores[i]["id"] = pi.getUserId();
-				scores[i]["score"] = fromPosition((string) Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername()));
+				scores[i]["score"] = Game.Controller.getInstance().scores.getMinigameScore(pi.getUsername());
 			}
 			return scores;
-		}
-
-		public int fromPosition(string pos) {
-			switch (pos) {
-			case "1st": return 1;
-			case "2nd": return 2;
-			case "3rd": return 3;
-			case "4th": return 4;
-			default: return 0;
-			}
 		}
 
 		public override string getName() {

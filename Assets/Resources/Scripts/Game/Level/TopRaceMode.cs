@@ -137,7 +137,7 @@ namespace Game.Level {
 			Game.Controller.getInstance().scores.endMinigameScoreHandling();
 
 			// Respawns the player on the ground
-			Game.Controller.getInstance().getActivePlayer().GetComponent<respawn>().resetPlayer();
+			Game.Controller.getInstance().getActivePlayer().GetComponent<Respawn>().resetPlayer();
 
 			Invoke("endMode", 5);
 		}
