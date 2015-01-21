@@ -16,7 +16,7 @@ namespace Game.UI {
 		/* ============================================== Variables ==================================== */
 
 		public GameObject prefab;
-		private int winningOverallScore = 1;
+		private int winningOverallScore = 3;
 
 		private Hashtable minigame = new Hashtable();
 		private Hashtable overall = new Hashtable();
