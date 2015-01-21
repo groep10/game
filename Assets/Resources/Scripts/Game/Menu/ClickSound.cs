@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ClickSound : MonoBehaviour {
+namespace Game.Menu {
+	public class ClickSound : MonoBehaviour {
 
-	public void playSound() {
-		audio.Play ();
+		public void playSound() {
+			audio.Play ();
+		}
 	}
 }
