@@ -20,7 +20,5 @@ namespace Game.Net {
 			syncSeed = seed;
 			transform.GetComponentInChildren<FencePlacement> ().onStart (syncSeed);
 		}
-
-
 	}
 }

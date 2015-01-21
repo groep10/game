@@ -33,18 +33,6 @@ namespace Game.Menu {
             InvokeRepeating("requestList", 5f, 5f);
 		}
 
-        //void onBecameVisible()
-        //{
-        //    Debug.Log("visible");
-            
-        //}
-
-        //void OnBecameInvisible()
-        //{
-        //    Debug.Log("invisible");
-        //    CancelInvoke();
-        //}
-
         void onCreateClick()
         {
 			string name = gameName.text;
