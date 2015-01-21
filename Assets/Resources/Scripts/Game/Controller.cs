@@ -15,9 +15,9 @@ namespace Game {
 		public ScoreController scores;
 		public MenuList minigameScores;
 		public MenuList overallScores;
-		public Text number1;
-		public Text number2;
-		public Text number3;
+		public FinalResultText number1;
+		public FinalResultText number2;
+		public FinalResultText number3;
 
 		[Header ("Modes")]
 		public BaseMode mainMode;
@@ -127,7 +127,6 @@ namespace Game {
 
 		// displays the final scare and ends the total game
 		private void endGame(){
-
 
 		}
 
