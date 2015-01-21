@@ -15,32 +15,41 @@ namespace Game.Level.Zombie {
 		private GameObject targ;
 		private int health = 100;
 		private bool dead = false;
+		private Vector3 pos, syncPos;
+		private Quaternion rot, syncRot;
 
 		public ZombieMode mode;
 
 		void Start() {
-			Targets = Game.Controller.getInstance ().getPlayers ();
+			if(Network.isServer){
+				Targets = Game.Controller.getInstance ().getPlayers ();
+			}
 		}﻿
 
 		void Update() {
-		
 			if(Network.isServer && dead) {
 				Network.Destroy(this.gameObject);
 				Network.RemoveRPCs(networkView.viewID);
 			}
-			currentDistance = int.MaxValue;
-			foreach (GameObject go in Targets) {
-				distance = Vector3.Distance(go.transform.position, transform.position);
-				if (distance < currentDistance) {
-					currentDistance = distance;
-					targ = go;
+			if(networkView.isMine){
+				currentDistance = int.MaxValue;
+				foreach (GameObject go in Targets) {
+					distance = Vector3.Distance(go.transform.position, transform.position);
+					if (distance < currentDistance) {
+						currentDistance = distance;
+						targ = go;
+					}
+				}
+				if (currentDistance < lookAtDistance) {
+					LookAt();
+				}
+				if (currentDistance < attackRange) {
+					AttackPlayer();
 				}
 			}
-			if (currentDistance < lookAtDistance) {
-				LookAt();
-			}
-			if (currentDistance < attackRange) {
-				AttackPlayer();
+			else{
+				transform.position = Vector3.Lerp(transform.position, syncPos, 0.25f);
+				transform.rotation = Quaternion.Slerp(transform.rotation, syncRot, 0.25f);
 			}
 		}
 
@@ -52,6 +61,23 @@ namespace Game.Level.Zombie {
 
 		void AttackPlayer() {
 			transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+		}
+
+		void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
+			//write your movements
+			if (stream.isWriting) {
+				pos = transform.position;
+				rot = transform.rotation;
+				stream.Serialize(ref pos);
+				stream.Serialize(ref rot);
+			}
+			//read other movements
+			else {
+				stream.Serialize(ref pos);
+				stream.Serialize(ref rot);
+				syncPos = pos;
+				syncRot = rot;
+			}
 		}
 
 		//RPC calls
