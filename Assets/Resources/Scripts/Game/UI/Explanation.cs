@@ -11,12 +11,17 @@ namespace Game.UI {
 		public void setExplanation(string explanation){
 			explanationText.enabled = true;
 			explanationText.text = explanation;
-
 			Invoke("endExplanation", 4);
 		}
 
+		// sets the explanation text without invoking endExplanation
+		public void setLongExplanation(string explanation){
+			explanationText.enabled = true;
+			explanationText.text = explanation;
+		}
+
 		// Resets the explanationText and sets it enabled to false
-		void endExplanation(){
+		public void endExplanation(){
 			explanationText.enabled = false;
 			explanationText.text = "";
 		}

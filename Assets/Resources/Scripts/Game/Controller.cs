@@ -64,6 +64,8 @@ namespace Game {
 				backgroundaudio.Play();
 			}
 			terrainManager.updateTerrain(rnd);
+
+			Game.Controller.getInstance().explanation.setLongExplanation("Waiting for other players...");
 		}
 
 		public void serverBegin() {
@@ -72,6 +74,7 @@ namespace Game {
 
 		[RPC]
 		public void begin() {
+			Game.Controller.getInstance().explanation.endExplanation();
 			Game.Controller.getInstance ().disablePlayer();
 
 			leveltour.beginTour (() => {
