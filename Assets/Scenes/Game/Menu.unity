@@ -2914,11 +2914,11 @@ Camera:
     width: 1
     height: 1
   near clip plane: .300000012
-  far clip plane: 12000
+  far clip plane: 1200
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3851,11 +3851,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 636869355}
   m_RootOrder: 7
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 559.299988, y: 340.299988}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: .5, y: .5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -19.9968262, y: 94.9997559}
+  m_SizeDelta: {x: 160, y: -690}
+  m_Pivot: {x: 1, y: .5}
 --- !u!114 &532373274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8368,7 +8368,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: 44}
+  m_AnchoredPosition: {x: -29, y: -55}
   m_SizeDelta: {x: 145, y: -505}
   m_Pivot: {x: 1, y: .5}
 --- !u!1 &1045567223
@@ -10025,8 +10025,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: .999999702
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11826,7 +11826,7 @@ MonoBehaviour:
   camera: {fileID: 1739988713}
   maincamera: {fileID: 387800428}
   height: 3
-  delta: 75
+  delta: 100
 --- !u!45 &1739988720
 Skybox:
   m_ObjectHideFlags: 0
@@ -12947,7 +12947,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 553603188}
   m_Direction: 2
   m_Value: 1
-  m_Size: .999999642
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

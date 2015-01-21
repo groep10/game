@@ -64,8 +64,10 @@ namespace Game {
 				backgroundaudio.Play();
 			}
 			terrainManager.updateTerrain(rnd);
-			Camera.main.transform.position = new Vector3(0, 100, 0);
-			Camera.main.transform.LookAt(Vector3.zero);
+			try {
+				Camera.main.transform.position = new Vector3(0, 100, 0);
+				Camera.main.transform.LookAt(Vector3.zero);
+			} catch(System.Exception e ){ }
 			Game.Controller.getInstance().explanation.setLongExplanation("Waiting for other players...");
 		}
 
