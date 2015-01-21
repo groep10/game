@@ -139,7 +139,7 @@ namespace Game.Level.Race {
 		public Vector2 runGeneticAlgorithm() {
 			List<Vector2> players = getPlayers();
 			if(players.Count < 2) {
-				return new Vector2(0, 0);
+				return new Vector2(Random.Range(-200, 200), Random.Range(-200, 200));
 			}
 
 			// run the actual GA

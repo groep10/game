@@ -148,9 +148,13 @@ namespace Game.Level {
 			}
 		}
 
+		public void cacheAssets() {
+			placedAssets = GameObject.FindGameObjectsWithTag ("ArenaAsset");
+		}
+
 		public void placeAsset() {
 			// randomise the location within x and z boundaries
-			placedAssets = GameObject.FindGameObjectsWithTag ("ArenaAsset");
+			cacheAssets();
 			Vector3 location = findLocation();
 
 			float rotationY = Random.Range (0, 360);
