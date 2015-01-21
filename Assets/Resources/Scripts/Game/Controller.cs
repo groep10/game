@@ -70,7 +70,7 @@ namespace Game {
 
 		[RPC]
 		public void enableCamera() {
-			getActivePlayer().GetComponent<PlayerFollower>().enabled = true;
+			getActivePlayer().GetComponent<CameraFollower>().enabled = true;
 		}
 
 		public void serverStartMiniGame() {
