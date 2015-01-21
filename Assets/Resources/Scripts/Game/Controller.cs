@@ -66,14 +66,19 @@ namespace Game {
 		}
 
 		public void serverBegin() {
-			serverStartMiniGame();
 			networkView.RPC("begin", RPCMode.AllBuffered);
 		}
 
 		[RPC]
 		public void begin() {
+			Game.Controller.getInstance ().disablePlayer();
+
 			leveltour.beginTour (() => {
+			
 				getActivePlayer().GetComponent<CameraFollower>().enabled = true;
+				if(Network.isServer) {
+					serverStartMiniGame();
+				}
 			});
 		}
 
