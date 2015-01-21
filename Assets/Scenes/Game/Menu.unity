@@ -2926,7 +2926,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: .300000012
-  far clip plane: 1200
+  far clip plane: 12000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -12882,8 +12882,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 553603189}
   m_HandleRect: {fileID: 553603188}
   m_Direction: 2
-  m_Value: 1
-  m_Size: .999999642
+  m_Value: 0
+  m_Size: .999999702
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
