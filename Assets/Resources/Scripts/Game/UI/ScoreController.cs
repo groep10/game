@@ -192,9 +192,11 @@ namespace Game.UI {
 
 			int max = bestScore();
 
-			int j = 0;
+			int j = 0;			
+
 			// find out which player(s) has/have the maximum score and won the zombiegame
 			foreach (DictionaryEntry de in minigame) {
+				playernames[j] = null;
 				if((int) de.Value == max) {
 					playernames[j] = (string)de.Key;
 					j++;
@@ -224,7 +226,11 @@ namespace Game.UI {
 			for(int i=0; i < winners.Length; i++){
 				text += winners[i];
 
-				if(i < winners.Length - 1){
+
+				if(i < winners.Length - 1 && winners[i+1] != null){
+					//Debug.Log("evaluate empty string: " + winners[i+1] != string.Empty);
+					//Debug.Log("evaluate null: " + winners[i+1] != null);
+					Debug.Log("debug test");
 					text += " & ";					
 				}
 			}
@@ -378,7 +384,6 @@ namespace Game.UI {
 
 		void Update(){
 			if(bestOverallScore() >= winningOverallScore){
-				Debug.Log("ending total game in 10 seconds");
 				displayOverallRanking();
 				Game.Controller.getInstance().finishGame();
 			}
