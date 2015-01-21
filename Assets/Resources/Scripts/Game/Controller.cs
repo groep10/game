@@ -32,6 +32,8 @@ namespace Game {
 
 		public Mode activeMode;
 
+		private int lastMode = -1;
+
 		public GameObject[] getPlayers() {
 			return GameObject.FindGameObjectsWithTag("Player");
 		}
@@ -64,13 +66,20 @@ namespace Game {
 		}
 
 		public void serverBegin() {
-			serverStartMiniGame();
-			networkView.RPC("enableCamera", RPCMode.AllBuffered);
+			networkView.RPC("begin", RPCMode.AllBuffered);
 		}
 
 		[RPC]
-		public void enableCamera() {
-			getActivePlayer().GetComponent<CameraFollower>().enabled = true;
+		public void begin() {
+			Game.Controller.getInstance ().disablePlayer();
+
+			leveltour.beginTour (() => {
+			
+				getActivePlayer().GetComponent<CameraFollower>().enabled = true;
+				if(Network.isServer) {
+					serverStartMiniGame();
+				}
+			});
 		}
 
 		public void serverStartMiniGame() {
@@ -83,7 +92,14 @@ namespace Game {
 				return;
 			}
 			// Server decides what minigame to play next.
-			int nextId = Random.Range(0, miniModes.Length);
+			int nextId = 0;
+			int itr = 0;
+			do {
+				nextId = Random.Range(0, miniModes.Length);
+				itr++;
+			} while(nextId == lastMode && itr < 100);
+
+			lastMode = nextId;
 			AccountController.getInstance().createMinigameGame(miniModes[nextId].getName(), (res) => {
 				networkView.RPC("startMiniGame", RPCMode.AllBuffered, nextId);
 			});
@@ -125,9 +141,15 @@ namespace Game {
 			active.rigidbody.constraints = RigidbodyConstraints.None;
 		}
 
+		public void finishGame(){
+			Invoke("endGame", 10);
+		}
+
 		// displays the final scare and ends the total game
 		private void endGame(){
-
+			Network.Disconnect();
+			MasterServer.UnregisterHost();
+			Application.LoadLevel("Menu");
 		}
 
 		void Update() {

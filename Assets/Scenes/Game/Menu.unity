@@ -11829,7 +11829,7 @@ MonoBehaviour:
   camera: {fileID: 1739988713}
   maincamera: {fileID: 387800428}
   height: 3
-  delta: 300
+  delta: 50
 --- !u!45 &1739988720
 Skybox:
   m_ObjectHideFlags: 0
