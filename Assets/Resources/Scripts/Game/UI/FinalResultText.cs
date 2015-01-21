@@ -13,5 +13,9 @@ namespace Game.UI {
 			resultText.text = result;
 		}
 
+		public void disableResultText(){
+			resultText.enabled = false;
+		}
+
 	}
 }

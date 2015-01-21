@@ -125,6 +125,12 @@ namespace Game {
 			active.rigidbody.constraints = RigidbodyConstraints.None;
 		}
 
+		// displays the final scare and ends the total game
+		private void endGame(){
+
+
+		}
+
 		void Update() {
 			if (activeMode != null && activeMode.isActive()) {
 				activeMode.onTick();
