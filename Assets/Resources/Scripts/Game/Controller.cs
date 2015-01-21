@@ -125,9 +125,15 @@ namespace Game {
 			active.rigidbody.constraints = RigidbodyConstraints.None;
 		}
 
+		public void finishGame(){
+			Invoke("endGame", 10);
+		}
+
 		// displays the final scare and ends the total game
 		private void endGame(){
-
+			Network.Disconnect();
+			MasterServer.UnregisterHost();
+			Application.LoadLevel("Menu");
 		}
 
 		void Update() {

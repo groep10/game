@@ -1652,7 +1652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100000, guid: 14b04e1f07cfaf14ba2b7e580db03ee6, type: 2}
-  checkpointScore: 0
+  winningOverallScore: 3
 --- !u!1 &253719340
 GameObject:
   m_ObjectHideFlags: 0
@@ -12993,8 +12993,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkpointPrefab: {fileID: 100002, guid: bc3390180e140604991c5ad3c9c3d71e, type: 2}
-  checkpointMoveTimer: 30
   finishTimer: 120
+  winScore: 10
 --- !u!4 &2052614327
 Transform:
   m_ObjectHideFlags: 0
