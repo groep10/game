@@ -1652,7 +1652,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100000, guid: 14b04e1f07cfaf14ba2b7e580db03ee6, type: 2}
-  winningOverallScore: 3
 --- !u!1 &253719340
 GameObject:
   m_ObjectHideFlags: 0
@@ -9845,7 +9844,7 @@ Animator:
   m_GameObject: {fileID: 1277186346}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8b4645eefc6ab8740b0a8490ea95f3b1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 194e2a65fbf3d4218a6226b01a4772fa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
