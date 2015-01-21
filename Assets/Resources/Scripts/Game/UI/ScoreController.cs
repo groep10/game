@@ -90,6 +90,81 @@ namespace Game.UI {
 			}
 		}
 
+		// returns the best three overall players by their names
+		public string[] findTopThree(){
+			string[] topThree = new string[3];
+			int index = 0;
+			int winningScore = bestOverallScore();
+
+			foreach(DictionaryEntry de in overall){
+				if((int) de.Value == winningScore){
+					topThree[index] = (string) de.Key;
+					index++;
+				}
+			}
+
+			while(index < 2 && index < Game.Controller.getInstance().getPlayers().Length){
+				winningScore--;
+				foreach(DictionaryEntry de in overall){
+					if((int) de.Value == winningScore){
+						topThree[index] = (string) de.Key;
+						index++;
+					}
+				}
+			}
+			return topThree;		
+		}
+
+		// returns the best overall score
+		private int bestOverallScore(){
+			int best = -1;
+
+			foreach (DictionaryEntry de in overall){
+				if((int) de.Value > best){
+					best = (int) de.Value;
+				}
+			}
+			return best;
+		}
+
+		// displays the best overall top three
+		public void displayOverallRanking(){
+			string[] topThree = findTopThree();
+			int size = topThree.Length;
+
+			switch(size)
+			{
+			case 1:
+				displayTopOne(topThree);
+				break;
+			case 2:
+				displayTopTwo(topThree);
+				break;
+			default:
+				displayTopThree(topThree);
+				break;
+			}
+		}
+
+		// displays the best player
+		private void displayTopOne(string[] topThree){
+			Game.Controller.getInstance().number1.setResultText("#1 " + topThree[0]);
+		}
+
+		// displays the best two players
+		private void displayTopTwo(string[] topThree){
+			Game.Controller.getInstance().number1.setResultText("#1 " + topThree[0]);
+			Game.Controller.getInstance().number2.setResultText("#2 " + topThree[1]);
+		}
+
+		// displays the best three players
+		private void displayTopThree(string[] topThree){
+			Game.Controller.getInstance().number1.setResultText("#1 " + topThree[0]);
+			Game.Controller.getInstance().number2.setResultText("#1 " + topThree[1]);
+			Game.Controller.getInstance().number3.setResultText("#1 " + topThree[2]);
+		}
+
+
 		/* ==================================== MINIGAMES ========================================= */
 
 		/* ------------------------------------ GENERAL FUNCTIONS --------------------------------- */

@@ -1209,9 +1209,9 @@ MonoBehaviour:
   scores: {fileID: 246629554}
   minigameScores: {fileID: 1941147233}
   overallScores: {fileID: 432083848}
-  number1: {fileID: 1463698163}
-  number2: {fileID: 1998159207}
-  number3: {fileID: 1853931645}
+  number1: {fileID: 1463698164}
+  number2: {fileID: 1998159206}
+  number3: {fileID: 1853931646}
   mainMode: {fileID: 2052614326}
   miniModes:
   - {fileID: 2052614326}
@@ -10028,8 +10028,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: .99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10407,7 +10407,7 @@ GameObject:
   - 114: {fileID: 1463698164}
   m_Layer: 0
   m_Name: Number1
-  m_TagString: ExplanationText
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12097,7 +12097,7 @@ GameObject:
   - 114: {fileID: 1853931646}
   m_Layer: 0
   m_Name: Number3
-  m_TagString: ExplanationText
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12742,7 +12742,7 @@ GameObject:
   - 114: {fileID: 1998159206}
   m_Layer: 0
   m_Name: Number2
-  m_TagString: ExplanationText
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12883,7 +12883,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 553603188}
   m_Direction: 2
   m_Value: 1
-  m_Size: .999999642
+  m_Size: .99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
