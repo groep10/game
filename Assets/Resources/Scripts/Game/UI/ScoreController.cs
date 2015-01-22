@@ -124,7 +124,7 @@ namespace Game.UI {
 					best = (int) de.Value;
 				}
 			}
-			Debug.Log("best overall score is: " + best);
+			// Debug.Log("best overall score is: " + best);
 			return best;
 		}
 
