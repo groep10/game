@@ -138,12 +138,13 @@ namespace Game.UI {
 		}
 
 		void setMapLocation () {
-			/*
+
 			float curWidth = Screen.currentResolution.width * mapSizePercent / 100.0f;
 			if(curWidth == mapWidth) {
 				return;
 			}
 			mapWidth = curWidth;
+			/*
 			float padding = size;
 
 			if (radarLocation == radarLocationValues.topLeft) {
