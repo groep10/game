@@ -89,6 +89,9 @@ namespace Game.Level {
 			if (alive <= 1){
 				return;
 			}
+			if (Network.isClient) {
+				return;
+			}
 			GameObject[] players = Game.Controller.getInstance().getPlayers();
 			foreach (GameObject go in players){
 				string name = go.GetComponent<PlayerInfo>().getUsername();
