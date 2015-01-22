@@ -118,10 +118,7 @@ namespace Game.UI {
 			gos = GameObject.FindGameObjectsWithTag (CheckPointTag);
 			foreach (GameObject go in gos) {
 				drawBlip(go, CheckPoint, true);
-
 			}
-
-
 		}
 
 		void DrawBlipsForEnemys () {
@@ -130,7 +127,6 @@ namespace Game.UI {
 			foreach (GameObject go in gos) {
 				drawBlip(go, Enemy, false);
 			}
-
 		}
 
 		void RemoveBlips() {
@@ -139,11 +135,10 @@ namespace Game.UI {
 			foreach (GameObject rect in rects) {
 				Destroy(rect);
 			}
-
-
 		}
 
 		void setMapLocation () {
+			/*
 			float curWidth = Screen.currentResolution.width * mapSizePercent / 100.0f;
 			if(curWidth == mapWidth) {
 				return;
@@ -164,7 +159,7 @@ namespace Game.UI {
 				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, padding, mapWidth);
 				veldTr.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, padding, mapWidth);
 			}
-
+			*/
 
 		}
 	}

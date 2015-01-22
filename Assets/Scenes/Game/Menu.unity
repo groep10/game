@@ -3832,6 +3832,7 @@ GameObject:
   - 222: {fileID: 532373276}
   - 114: {fileID: 532373275}
   - 114: {fileID: 532373274}
+  - 114: {fileID: 532373277}
   m_Layer: 0
   m_Name: CountDownMG
   m_TagString: Untagged
@@ -3900,6 +3901,27 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 532373272}
+--- !u!114 &532373277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 532373272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d24de4f680212419d2e78002d82d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edge1: 2
+  edge1_offset_pixels: 20
+  edge1_offset_percent: 12.5
+  edge1_size_pixels: 30
+  edge1_size_percent: 0
+  edge2: 1
+  edge2_offset_pixels: 10
+  edge2_offset_percent: 0
+  edge2_size_pixels: 160
+  edge2_size_percent: 0
 --- !u!1 &533254341
 GameObject:
   m_ObjectHideFlags: 0
@@ -4308,6 +4330,7 @@ GameObject:
   - 222: {fileID: 553521167}
   - 114: {fileID: 553521166}
   - 114: {fileID: 553521168}
+  - 114: {fileID: 553521169}
   m_Layer: 5
   m_Name: minimap
   m_TagString: Untagged
@@ -4387,6 +4410,27 @@ MonoBehaviour:
   rotationOffset: 180
   radarLocation: 1
   crimp: .349999994
+--- !u!114 &553521169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 553521164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d24de4f680212419d2e78002d82d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edge1: 2
+  edge1_offset_pixels: 10
+  edge1_offset_percent: 0
+  edge1_size_pixels: 0
+  edge1_size_percent: 12.5
+  edge2: 1
+  edge2_offset_pixels: 10
+  edge2_offset_percent: 0
+  edge2_size_pixels: 0
+  edge2_size_percent: 12.5
 --- !u!1 &553603187
 GameObject:
   m_ObjectHideFlags: 0
@@ -10025,8 +10069,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1676961921}
   m_HandleRect: {fileID: 1676961920}
   m_Direction: 2
-  m_Value: .75
-  m_Size: .999999881
+  m_Value: 0
+  m_Size: .999999702
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12946,7 +12990,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 553603189}
   m_HandleRect: {fileID: 553603188}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
